@@ -1,1 +1,1 @@
-export { default as ScatterChart } from '../charts/ScatterChart.svelte';
+export { default } from '../charts/ScatterChart.svelte';
