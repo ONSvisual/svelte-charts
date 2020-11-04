@@ -49,5 +49,9 @@
   },
   "dependencies": {
     "sirv-cli": "^1.0.0"
+  },
+  "main": "index.mjs",
+  "directories": {
+    "test": "test"
   }
 }
