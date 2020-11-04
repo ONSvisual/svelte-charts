@@ -1,5 +1,5 @@
 // Charts
-export { default as ScatterChart } from './components/ScatterChart.svelte';
+export { default as ScatterChart } from './charts/ScatterChart.svelte';
 
 // Shared components
 export { default as AxisX } from './charts/shared/AxisX.svelte';
