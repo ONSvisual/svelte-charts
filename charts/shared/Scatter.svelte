@@ -37,9 +37,9 @@
 		// Map intial points from data
 		points = $data.map(d => {
 			let point = [(($xGet(d) * xfactor * 2) / $width) - 1, -((($yGet(d) * yfactor * 2) / $height) - 1)];
-			let opacity = 0.6;
+			let opacity = 0.8;
 			if (selected) {
-				opacity = d[selected.col] == selected.value ? 1 : 0.015;
+				opacity = d[selected.col] == selected.value ? 1 : 0.02;
 			}
 			return [...point, opacity];
 		});
@@ -161,9 +161,9 @@ void main() {
 		// Map new points from data
 		points = $data.map(d => {
 			let point = [(($xGet(d) * xfactor * 2) / $width) - 1, -((($yGet(d) * yfactor * 2) / $height) - 1)];
-			let opacity = 0.6;
+			let opacity = 0.8;
 			if (selected) {
-				opacity = d[selected.col] == selected.value ? 1 : 0.015;
+				opacity = d[selected.col] == selected.value ? 1 : 0.02;
 			}
 			return [...point, opacity];
 		});
