@@ -9,7 +9,7 @@
 	import QuadTree from './shared/QuadTree.svelte';
 	
 	export let data;
-	export let diameter = 1;
+	export let diameter = 5;
 	export let colors = [[128, 128, 128]];
 	export let categories = null;
 	export let selected = null;
@@ -87,7 +87,7 @@
 				<div
 					class="tooltip"
 					style="top:{y+ 5}px;left:{x + 10}px;display: { visible ? 'block' : 'none' };"
-				>{found.lad_name} {found.lsoa_name}<br />{xKey}: {Number(found[xKey]).toFixed(2)}<br/>{yKey}: {Number(found[yKey]).toFixed(2)}<br/></div>
+				>{#if found.lad_name}{found.lad_name} {found.lsoa_name}<br />{/if}{xKey}: {Number(found[xKey]).toFixed(2)}<br/>{yKey}: {Number(found[yKey]).toFixed(2)}<br/></div>
 			</QuadTree>
 		</Html>
 	</LayerCake>
