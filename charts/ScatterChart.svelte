@@ -1,7 +1,7 @@
 <svelte:options accessors={true} />
 
 <script>
-	import { LayerCake, Svg, WebGL, Html } from 'layercake@3.1.1';
+	import { LayerCake, Svg, WebGL, Html } from 'layercake';
 
 	import Plot from './shared/Scatter.svelte';
 	import AxisX from './shared/AxisX.svelte';
