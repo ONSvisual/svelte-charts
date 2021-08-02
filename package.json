@@ -1,13 +1,13 @@
 {
   "name": "@onsvisual/svelte-charts",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Reusable chart templates for Svelte projects.",
   "module": "index.mjs",
   "svelte": "index.mjs",
   "files": [
     "index.mjs",
     "src",
-    "public"
+    "dist"
   ],
   "scripts": {
     "build": "rollup -c rollup.config.build.js",
