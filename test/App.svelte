@@ -102,17 +102,25 @@
 	}
 </script>
 
-<style>
-	:global(body) {
-		background-color: #222;
-		color: #ccc;
-	}
-	select {
-		max-width: 190px;
-	}
-</style>
+<section>
+	<div class="wrapper">
+<h1>ONS Charts Library</h1>
+<p>Below are a series of charts built with the Svelte javascript UI framework and the Layer Cake framework for building responsive charts and graphics. The charts are all responsive in that they fit to the size (width and height) of their html container element, and will resize automatically when the screen/window is resized. The charts below can be used in the following ways:</p>
+<ol>
+	<li>The charts and/or their sub-components (axes etc) can be imported into Svelte projects via NPM.</li>
+	<li>The charts also have compiled versions that can be embedded in plain ("vanilla") javascript projects.</li>
+	<li>This whole repository can be downloaded/cloned and hacked to create variations of the charts.</li> 
+</ol>
+<p>In all of the above use cases, each top-level chart component (eg. bar chart, scatter chart) is able to take a series of parameters (data, colours, etc) to  initialise and customise it. As far as possible these parameters are consistent across chart types, and generally there are default values for all parameters other than "data".</p>
+</div>
+</section>
 
-{#if data}
+<section>
+	<div class="wrapper">
+<div class="grid">
+	{#each [0,1,2] as item}
+	<div>
+		{#if data}
 X Axis
 <select bind:value={xKey}>
 	{#each Object.keys(datakeys) as key}
@@ -148,3 +156,47 @@ District
 <ScatterChart diameter={4} {data} {xKey} {yKey} {catKey} {colors} {categories} {selected} />
 {/if}
 {/if}
+	</div>
+	{/each}
+</div>
+</section>
+
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+	:global(body) {
+		font-family: "Open Sans", "Helvetica Neue", "Arial", sans-serif;
+	}
+
+	section {
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+	  background-position: center;
+	  background-repeat: no-repeat;
+	  background-size: cover;
+	  margin: 0;
+	  padding: 0;
+	}
+	.wrapper {
+		width: 100%;
+		max-width: 768px;
+		margin: 0 16;
+	}
+	.grid {
+		display: grid;
+		width: 100%;
+		grid-gap: 20px;
+		grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+		justify-content: stretch;
+	}
+	.grid > div {
+		min-height: 250px;
+	}
+	select {
+		max-width: 190px;
+	}
+</style>
