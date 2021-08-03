@@ -9,12 +9,17 @@
 	$: if ($data) {
 		if ($config.z) {
 			let grps = [];
+			let base = JSON.parse(JSON.stringify($data.filter(d => d[$config.z] == $config.zDomain[0])));
+			base.forEach(d => d[$config.y] = 0);
 			$config.zDomain.forEach(group => {
-				grps.push($data.filter(d => d[$config.z] == group));
+				let clone = JSON.parse(JSON.stringify($data.filter(d => d[$config.z] == group)));
+				clone.forEach((d, i) => {
+					d[$config.y] += base[i][$config.y];
+					base[i][$config.y] = d[$config.y];
+				});
+				grps.push(clone);
 			});
 			groups = grps;
-		} else {
-			groups = [$data];
 		}
 	}
 

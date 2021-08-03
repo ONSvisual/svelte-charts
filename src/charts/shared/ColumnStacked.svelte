@@ -1,26 +1,27 @@
 <script>
 	import { getContext } from 'svelte';
-	import { scaleOrdinal } from 'd3-scale';
+	import { stackData } from '../../js/utils';
 
-	const { data, xGet, yGet, zGet, xScale, custom } = getContext('LayerCake');
+	const { data, xGet, xScale, yGet, yScale, zGet, zDomain, config } = getContext('LayerCake');
 
-	$: columnHeight = d => {
-		const yVals = $yGet(d);
-		return yVals[0] - yVals[1];
+	$: groups = stackData($data, $zDomain, $config.y, $config.z);
+
+	$: columnHeight = (d, i, j) => {
+		return i == 0 ?  $yScale(0) - $yGet(d) : $yGet(groups[i - 1][j]) - $yGet(d);
 	};
 </script>
 
 <g class="column-group">
-	{#each $data as series, i}
-		{#each series as d}
+	{#each groups as group, i}
+	  {#each group as d, j}
 			<rect
-				class='group-rect'
-				data-id="{i}"
+				class='column-rect'
+				data-id="{j}"
 				x="{$xGet(d)}"
-				y="{$yGet(d)[1]}"
-				width={$xScale.bandwidth()}
-				height="{columnHeight(d)}"
-				fill={$zGet(series)}
+				y="{$yGet(d)}"
+				height="{columnHeight(d, i, j)}"
+				width="{$xScale.bandwidth()}"
+				fill={$zGet(d)}
 			></rect>
 		{/each}
 	{/each}

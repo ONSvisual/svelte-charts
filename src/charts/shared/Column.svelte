@@ -1,7 +1,13 @@
 <script>
 	import { getContext } from 'svelte';
+	import { groupData } from '../../js/utils';
 
-	const { data, xGet, yGet, yRange, xScale } = getContext('LayerCake');
+	const { data, xGet, xScale, yGet, yRange, zGet, zRange, zDomain, config } = getContext('LayerCake');
+
+	export let markerWidth = 2;
+
+	// Create a data series for each zKey (group)
+	$: groups = groupData($data, $zDomain, $config.z);
 
 	$: columnWidth = d => {
 		const vals = $xGet(d);
@@ -11,28 +17,32 @@
 	$: columnHeight = d => {
 		return $yRange[0] - $yGet(d);
 	};
-
-	/* --------------------------------------------
-	 * Default styles
-	 */
-	export let fill = '#00e047';
-	export let stroke = '';
-	export let strokeWidth = 0;
-
 </script>
 
 <g class="column-group">
-	{#each $data as d, i}
-		<rect
-			class='group-rect'
-			data-id="{i}"
-			x="{$xScale.bandwidth ? $xGet(d) : $xGet(d)[0]}"
-			y="{$yGet(d)}"
-			width="{$xScale.bandwidth ? $xScale.bandwidth() : columnWidth(d)}"
-			height="{columnHeight(d)}"
-			{fill}
-			{stroke}
-			stroke-width="{strokeWidth}"
-		/>
+	{#each groups as group, i}
+	  {#each group as d, j}
+		  {#if i == 0}
+		    <rect
+    			class='column-rect'
+		    	data-id="{j}"
+			    x="{$xScale.bandwidth ? $xGet(d) : $xGet(d)[0]}"
+			    y="{$yGet(d)}"
+    			width="{$xScale.bandwidth ? $xScale.bandwidth() : columnWidth(d)}"
+		    	height="{columnHeight(d)}"
+			    fill="{$config.z ? $zGet(d) : $zRange[0]}"
+		    />
+			{:else}
+			  <rect
+    			class='column-marker'
+		    	data-id="{j}"
+			    x="{$xScale.bandwidth ? $xGet(d) : $xGet(d)[0]}"
+			    y="{$yGet(d) - (markerWidth / 2)}"
+    			width="{$xScale.bandwidth ? $xScale.bandwidth() : columnWidth(d)}"
+		    	height="{markerWidth}"
+			    fill="{$zGet(d)}"
+		    />
+		  {/if}
+		{/each}
 	{/each}
 </g>

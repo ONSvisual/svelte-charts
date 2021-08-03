@@ -5,7 +5,7 @@ const { minify } = require("html-minifier");
 const production = process.argv[2] === 'true';
 
 const templatePath = './src/template.svelte';
-const outPath = 'public/index.html';
+const outPath = 'dist/index.html';
 
 const Template = require(templatePath).default;
 

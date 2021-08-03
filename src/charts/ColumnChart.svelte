@@ -2,12 +2,10 @@
 
 <script>
 	import { LayerCake, Svg } from 'layercake';
-	import { scaleOrdinal } from 'd3-scale';
+	import { scaleBand, scaleOrdinal } from 'd3-scale';
 
-	import Line from './shared/Line.svelte';
-	import Area from './shared/Area.svelte';
-	import LineStacked from './shared/LineStacked.svelte';
-	import AreaStacked from './shared/AreaStacked.svelte';
+	import Column from './shared/Column.svelte';
+	import ColumnStacked from './shared/ColumnStacked.svelte';
 	import AxisX from './shared/AxisX.svelte';
 	import AxisY from './shared/AxisY.svelte';
 
@@ -17,13 +15,8 @@
 	export let zKey = null;
   export let xAxis = true;
   export let yAxis = true;
-	export let xTicks = 4;
 	export let yTicks = 4;
-	export let snapTicks = true;
-  export let line = true;
-  export let area = true;
 	export let stacked = false;
-	export let areaOpacity = 1;
 	export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
 	export let colors = ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
 
@@ -32,14 +25,15 @@
 	function getTotals(data, keys) {
 		let arr = [];
 		keys.forEach(key => {
-			let vals = data.filter(d => d[xKey] == key).map(d => d[yKey]);
+			let vals = data.filter(d => d[yKey] == key).map(d => d[xKey]);
 			let sum = vals.reduce((acc, curr) => acc + curr);
 			arr.push(sum);
 		});
 		return arr;
 	}
 
-	$: yDomain = stacked && zKey ? [0, Math.max(...getTotals(data, data.map(d => d[xKey]).filter(distinct)))] : [0, Math.max(...data.map(d => d[yKey]))];
+	$: xDomain = data.map(d => d[xKey]).filter(distinct);
+	$: yDomain = stacked && yKey ? [0, Math.max(...getTotals(data, data.map(d => d[yKey]).filter(distinct)))] : [0, Math.max(...data.map(d => d[yKey]))];
 	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
 </script>
 
@@ -49,7 +43,9 @@
 		x={xKey}
 		y={yKey}
 		z={zKey}
+		{xDomain}
 		{yDomain}
+		xScale={scaleBand().paddingInner([0.05]).round(true)}
 		zScale={scaleOrdinal()}
 		{zDomain}
 		zRange={colors}
@@ -58,25 +54,16 @@
 	  <slot name="back"/>
 		<Svg>
       {#if xAxis}
-			  <AxisX ticks={xTicks} {snapTicks}/>
+			  <AxisX gridlines={false}/>
       {/if}
       {#if yAxis}
 			  <AxisY ticks={yTicks}/>
       {/if}
-      {#if area}
-			  {#if stacked && zKey}
-		      <AreaStacked opacity={areaOpacity}/>
-					{:else}
-					<Area opacity={areaOpacity}/>
-				{/if}
-      {/if}
-      {#if line}
-			  {#if stacked && zKey}
-			    <LineStacked/>
-				{:else}
-			    <Line/>
-				{/if}
-      {/if}
+			{#if stacked}
+		    <ColumnStacked/>
+			{:else}
+				<Column/>
+			{/if}
 		</Svg>
 	  <slot name="front"/>
 	</LayerCake>
