@@ -1,5 +1,7 @@
 // Charts
 export { default as LineChart } from './src/charts/LineChart.svelte';
+export { default as BarChart } from './src/charts/BarChart.svelte';
+export { default as ColumnChart } from './src/charts/ColumnChart.svelte';
 
 // Shared components
 // export { default as Annotations } from './src/charts/shared/Annotations.svelte';
