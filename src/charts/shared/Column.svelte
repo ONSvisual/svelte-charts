@@ -4,7 +4,8 @@
 
 	const { data, xGet, xScale, yGet, yRange, zGet, zRange, zDomain, config } = getContext('LayerCake');
 
-	export let markerWidth = 2;
+	export let comparison = true;
+	export let markerWidth = 2.5;
 
 	// Create a data series for each zKey (group)
 	$: groups = groupData($data, $zDomain, $config.z);
@@ -22,7 +23,7 @@
 <g class="column-group">
 	{#each groups as group, i}
 	  {#each group as d, j}
-		  {#if i == 0}
+		  {#if !comparison || i == 0}
 		    <rect
     			class='column-rect'
 		    	data-id="{j}"

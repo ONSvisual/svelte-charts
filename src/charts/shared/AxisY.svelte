@@ -46,7 +46,7 @@
 			<text
 				x='{xTick}'
 				y='{yTick + (isBandwidth ? $yScale.bandwidth() / 2 : 0)}'
-				dx='{isBandwidth ? -9 : dxTick}'
+				dx='{isBandwidth ? -4 : dxTick}'
 				dy='{isBandwidth ? 4 : dyTick}'
 				style="text-anchor:{isBandwidth ? 'end' : textAnchor};"
 			>{formatTick(tick)}</text>

@@ -3,6 +3,8 @@
 
 	const { data, xGet, yGet, zGet, config } = getContext('LayerCake');
 
+	export let lineWidth = 2.5;
+
 	let groups;
 
 	// Create a data series for each zKey
@@ -31,7 +33,12 @@
 
 <g class="line-group">
 	{#each groups as group}
-	<path class='path-line' d='{makePath(group)}' stroke={$config.z ? $zGet(group[0]) : $config.zRange[0]}></path>
+	  <path
+		  class="path-line"
+			d="{makePath(group)}"
+			stroke="{$config.z ? $zGet(group[0]) : $config.zRange[0]}"
+			stroke-width={lineWidth}
+		/>
 	{/each}
 </g>
 
@@ -40,7 +47,6 @@
 		fill: none;
 		stroke-linejoin: round;
 		stroke-linecap: round;
-		stroke-width: 2;
 	}
 </style>
 

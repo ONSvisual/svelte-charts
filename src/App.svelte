@@ -9,11 +9,11 @@
 <section>
 	<div class="wrapper">
     <h1>ONS Svelte Charts Library</h1>
-    <p>Below are a series of charts built using Layer Cake, a responsive charts/graphics framework for Svelte. The charts are all responsive in that they fit to the size (width and height) of their html container element, and will resize automatically when the screen/window is resized. The charts below can be used in the following ways:</p>
+    <p>Below are a series of charts built using <a href="https://layercake.graphics" target="_blank">Layer Cake</a>, a responsive charts/graphics framework for <a href="https://svelte.dev" target="_blank">Svelte</a>. The charts are all responsive in that they fit to the width of their html container element, and will resize automatically when the screen/window is resized. The charts below can be used in the following ways:</p>
     <ol>
-    	<li>The charts and/or their sub-components (axes etc) can be imported into Svelte projects via NPM.</li>
-    	<li>The charts also have compiled versions that can be embedded in plain ("vanilla") javascript projects.</li>
-    	<li>This whole repository can be downloaded/cloned and hacked to create variations of the charts.</li> 
+    	<li>The charts and/or their sub-components (axes etc) can be <strong>imported into Svelte projects</strong> via NPM.</li>
+    	<li>The charts also have compiled versions that can be <strong>embedded in "vanilla" javascript projects</strong>.</li>
+    	<li>This whole repository can be <strong>downloaded/cloned and hacked</strong> to create variations of the charts.</li> 
     </ol>
   </div>
 </section>
@@ -21,89 +21,68 @@
 <section>
 	<div class="grid">
 		<div>
-			<h2>Line chart with area</h2>
-			<div class="chart">
-				<LineChart data={data.filter(d => d.group == 'apples')} xKey="year" yKey="value" areaOpacity={0.3}/>
-			</div>
+			<LineChart data={data.filter(d => d.group == 'apples')} xKey="year" yKey="value" areaOpacity={0.3} title="Line chart with area" footer="Source: Fictitious data about fruit, 2020."/>
 		</div>
 		<div>
-			<h2>Multi-line chart</h2>
-			<div class="chart">
-				<LineChart data={data} xKey="year" yKey="value" zKey="group" area={false}/>
-			</div>
+			<LineChart data={data} xKey="year" yKey="value" zKey="group" area={false} title="Multi-line chart" footer="Source: Fictitious data about fruit, 2020." legend/>
 		</div>
 		<div>
-			<h2>Stacked area chart</h2>
-			<div class="chart">
-				<LineChart data={data} xKey="year" yKey="value" zKey="group" stacked={true} line={false}/>
-			</div>
+			<LineChart data={data} xKey="year" yKey="value" zKey="group" line={false} title="Stacked area chart" stacked legend/>
 		</div>
 		<div>
-			<h2>Stacked area chart with lines</h2>
-			<div class="chart">
-				<LineChart data={data} xKey="year" yKey="value" zKey="group" stacked={true} areaOpacity={0.3}/>
-			</div>
+			<LineChart data={data} xKey="year" yKey="value" zKey="group" areaOpacity={0.3} title="Stacked area chart with lines" stacked legend/>
 		</div>
 		<div>
-			<h2>Bar chart</h2>
-			<div class="chart">
-				<BarChart data={data.filter(d => d.group == 'apples')} xKey="value" yKey="year"/>
-				</div>
+			<BarChart data={data.filter(d => d.group == 'apples')} xKey="value" yKey="year" title="Bar chart"/>
 		</div>
 		<div>
-			<h2>Bar chart with comparison markers</h2>
-			<div class="chart">
-				<BarChart data={data} xKey="value" yKey="year" zKey="group"/>
-			</div>
+			<BarChart data={data} xKey="value" yKey="year" zKey="group" title="Bar chart with comparison markers" legend/>
 		</div>
 		<div>
-			<h2>Stacked bar chart</h2>
-			<div class="chart">
-				<BarChart data={data} xKey="value" yKey="year" zKey="group" stacked={true}/>
-			</div>
+			<BarChart data={data} xKey="value" yKey="year" zKey="group" title="Stacked bar chart" stacked legend/>
 		</div>
 		<div>
-			<h2>Column chart</h2>
-			<div class="chart">
-				<ColumnChart data={data.filter(d => d.group == 'apples')} xKey="year" yKey="value"/>
-			</div>
+			<BarChart data={data.filter(d => d.year == 2020)} xKey="value" yKey="group" zKey="group" comparison={false} title="Coloured bar chart"/>
 		</div>
 		<div>
-			<h2>Column chart with comparison markers</h2>
-			<div class="chart">
-				<ColumnChart data={data} xKey="year" yKey="value" zKey="group"/>
-			</div>
+			<ColumnChart data={data.filter(d => d.group == 'apples')} xKey="year" yKey="value" title="Column chart"/>
 		</div>
 		<div>
-			<h2>Stacked column chart</h2>
-			<div class="chart">
-				<ColumnChart data={data} xKey="year" yKey="value" zKey="group" stacked={true}/>
-			</div>
+			<ColumnChart data={data} xKey="year" yKey="value" zKey="group" title="Column chart with comparison markers" legend/>
+		</div>
+		<div>
+			<ColumnChart data={data} xKey="year" yKey="value" zKey="group" title="Stacked column chart" stacked legend/>
+		</div>
+		<div>
+			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" comparison={false} title="Coloured column chart"/>
 		</div>
 	</div>
 </section>
 
 <section>
 	<div class="wrapper">
-    <h2>Features</h2>
-    <p>In all of the above use cases, each top-level chart component (eg. bar chart, scatter chart) is able to take a series of parameters (data, colours, etc) to  initialise and customise it.</p>
-		<p>As far as possible these parameters are consistent across chart types, and generally there are sensible default values for all parameters other than "data".</p>
+    <h2>Current features</h2>
+    <p>In all use cases, each top-level chart component (eg. bar chart, scatter chart) is able to take a series of parameters (data, colours, title, etc) to  initialise and customise it.</p>
+		<p>As far as possible these parameters are consistent across chart types, and generally there are sensible default values for all parameters (eg. height = 250 pixels) other than "data", which always requires a Tidy Data array.</p>
 		<h2>Examples of usage</h2>
-		<p>You can see examples of how these charts can be used in a Svelte project in this REPL, and how they can be used in a plain/vanilla javascript project in <a href="https://codepen.io/bothness/pen/RwVJvav" target="_blank">this CodePen</a>.</p>
-		<h2>In progress</h2>
+		<p>You can see examples of how these charts can be used in a Svelte project in <a href="https://svelte.dev/repl/324b696de5304ceebbe0213511e7ed23?version=3.41.0" target="_blank">this REPL</a>, and how they can be used in a plain/vanilla javascript project in <a href="https://codepen.io/bothness/pen/RwVJvav" target="_blank">this CodePen</a>.</p>
+		<h2>Intended features</h2>
 		<p>It is the intention to translate all of the most useful charts from Layer Cake's examples into components, as well as a number of other custom charts (eg. spine charts). For each of the charts, it is the intention to support the following functionalities:</p>
 		<ul>
 			<li>Every chart type to support a standard Tidy Data format.</li>
-			<li>To include standard legend types that can be added to charts.</li>
-			<li>To include optional hover and click-to-select functionality on all relevant chart types with custom events.</li>
-			<li>To include options/methods for inline labelling and annotations.</li>
-			<li></li>
-			<li>To include optional prefixes and suffixes for axis labels.</li>
+			<li>Optional title, legend and footnote types that can be added to charts.</li>
+			<li>Optional hover and click-to-select functionality on all relevant chart types with custom events.</li>
+			<li>Options/methods for inline labels, tooltips and annotations.</li>
+			<li>Optional prefixes and suffixes for axis labels.</li>
 			<li>Colour by group (z parameter) with colors = [array], and colours for hovered and highlighted/selected data points.</li>
 			<li>Animated transitions when data or keys change (which can be enabled/disabled with animation = true/false).</li>
-			<li>To group chart similar charts in a logical way to improve ease of use and allow for custom combinations and animated transitions (eg. scatter + beeswarm or line + area).</li>
+			<li>To group similar charts in a logical way to improve ease of use and allow for custom combinations and animated transitions (eg. scatter + beeswarm or line + area).</li>
 			<li>Possibility to add custom LayerCake SVG/HTML/Canvas layers in front or behind standard layers of any chart.</li>
+			<li>Support for pre-rendering and progressive enhancement.</li>
 		</ul>
+		<h2>Acknowledgement</h2>
+		<p>These charts are largely based on the chart examples by <a href="https://twitter.com/mhkeller" target="
+			_blank">Michael Keller</a>, the author of the Layer Cake charts/graphics framework for Svelte.</p>
   </div>
 </section>
 
@@ -139,12 +118,5 @@
 	h2 {
 		font-size: 1.2em;
 		font-weight: bold;
-	}
-	.grid h2 {
-		margin-top: 0;
-		margin-bottom: 10px;
-	}
-	.chart {
-		height: 250px;
 	}
 </style>
