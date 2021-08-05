@@ -3,21 +3,17 @@
 	import { getContext } from 'svelte';
 	import { uniques } from 'layercake';
 
-	const { data, xGet, yGet, width, height } = getContext('LayerCake');
+	const { data, xGet, yGet, width, height, custom } = getContext('LayerCake');
 
-	function log (point) {
-		console.log(point, point.data);
+	let points = $custom.points;
+
+	$: pointsArray = Array.isArray($points) ? $points.map(d => [d.x, d.y]) : [];
+
+	function log (point, i) {
+		// hover function
 	}
 
-	$: points = $data.map(d => {
-		const point = [$xGet(d), $yGet(d)];
-		point.data = d;
-		return point;
-	});
-
-	$: uniquePoints = uniques(points, d => d.join(), false);
-
-	$: voronoi = Delaunay.from(points).voronoi([0, 0, $width, $height]);
+	$: voronoi = Delaunay.from(pointsArray).voronoi([0, 0, $width, $height]);
 
 </script>
 
@@ -33,6 +29,8 @@
 	}
 </style>
 
-{#each uniquePoints as point, i}
-	<path class="voronoi-cell" d={voronoi.renderCell(i)} on:mouseover="{log(point)}"></path>
+{#if pointsArray}
+{#each pointsArray as point, i}
+	<path class="voronoi-cell" d={voronoi.renderCell(i)} on:mouseover="{log(point, i)}"></path>
 {/each}
+{/if}

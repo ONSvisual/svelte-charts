@@ -1,11 +1,15 @@
 <script>
 	import { getContext } from 'svelte';
+	import { groupData } from '../../js/utils';
 
-	const { data, xGet, yGet, zGet, config } = getContext('LayerCake');
+	const { data, xGet, yGet, zGet, zDomain, config } = getContext('LayerCake');
 
 	export let lineWidth = 2.5;
 
 	let groups;
+
+	// Create a data series for each zKey (group)
+	$: groups = groupData($data, $zDomain, $config.z);
 
 	// Create a data series for each zKey
 	$: if ($data) {

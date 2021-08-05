@@ -1,58 +1,48 @@
 <svelte:options accessors={true} />
 
-<script>
+<script>	
 	import { LayerCake, Svg } from 'layercake';
-	import { scaleBand, scaleOrdinal } from 'd3-scale';
+	import { scaleOrdinal } from 'd3-scale';
   import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
 
-	import Bar from './shared/Bar.svelte';
+	import Scatter from './shared/Scatter.svg.svelte';
+	import Voronoi from './shared/Voronoi.svelte';
 	import AxisX from './shared/AxisX.svelte';
 	import AxisY from './shared/AxisY.svelte';
 	import Legend from './shared/Legend.svelte';
 	import Title from './shared/Title.svelte';
 	import Footer from './shared/Footer.svelte';
 
-  export let data;
+	export let data;
 	export let height = 250; // number of pixels or valid css height string
   export let animation = true;
   export let duration = 800;
 	export let xKey = 'x';
-	export let yKey = 'y';
+	export let yKey = null;
 	export let zKey = null;
+  export let rKey = null;
   export let xAxis = true;
   export let yAxis = true;
 	export let xTicks = 4;
+  export let yTicks = 4;
 	export let title = null;
 	export let footer = null;
 	export let legend = false;
 	export let snapTicks = false;
-	export let mode = 'default'; // options: 'default', 'comparison', 'marker', 'stacked'
-	export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
+  export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
+  export let buffer = 5;
 	export let colors = ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
-	export let markerWidth = 2.5;
+  export let r = 4;
 
 	const tweenOptions = {
 		duration: 0,
 		easing: cubicInOut
 	};
+  
+  const distinct = (d, i, arr) => arr.indexOf(d) ==  i;
 
-	const distinct = (d, i, arr) => arr.indexOf(d) ==  i;
-
-	function getTotals(data, keys) {
-		let arr = [];
-		keys.forEach(key => {
-			let vals = data.filter(d => d[yKey] == key).map(d => d[xKey]);
-			let sum = vals.reduce((a, b) => a + b, 0);
-			arr.push(sum);
-		});
-		console.log(data, keys, arr);
-		return arr;
-	}
-
-	$: xDomain = mode == 'stacked' && zKey ? [0, Math.max(...getTotals(data, data.map(d => d[yKey]).filter(distinct)))] : [0, Math.max(...data.map(d => d[xKey]))];
-	$: yDomain = data.map(d => d[yKey]).filter(distinct);
-	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
+  $: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
 </script>
 
 {#if title}
@@ -61,38 +51,42 @@
 <slot name="options"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }">
 	<LayerCake
-		{padding}
+    {padding}
 		x={xKey}
 		y={yKey}
-		z={zKey}
-		{xDomain}
-		{yDomain}
-		yScale={scaleBand().paddingInner([0.05]).round(true)}
-		zScale={scaleOrdinal()}
+    z={zKey}
+    r={rKey}
+    zScale={scaleOrdinal()}
 		{zDomain}
 		zRange={colors}
-		{data}
-		custom={{
-      points: tweened(null, tweenOptions),
+    rRange={Array.isArray(r) ? r : [r, r]}
+		data={data}
+    xPadding={[buffer, buffer]}
+    yPadding={yKey ? [buffer, buffer] : null}
+    custom={{
+      points: tweened(undefined, tweenOptions),
       animation,
       duration
     }}
 	>
-	  <slot name="back"/>
+    <slot name="back"/>
 		<Svg>
       {#if xAxis}
 			  <AxisX ticks={xTicks} {snapTicks}/>
       {/if}
-      {#if yAxis}
-			  <AxisY gridlines={false}/>
+      {#if yAxis && yKey}
+			  <AxisY ticks={yTicks}/>
       {/if}
-			<Bar {mode} {markerWidth}/>
+			<Scatter
+				{r}
+			/>
+      <Voronoi/>
 		</Svg>
 	  <slot name="front"/>
 	</LayerCake>
 </div>
 {#if legend && zDomain}
-  <Legend domain={zDomain} {colors} {markerWidth} horizontal={false} line={mode == 'barcode'} comparison={mode == 'comparison'}/>
+  <Legend domain={zDomain} {colors} markerLength={Array.isArray(r) ? r[0] * 2 : r * 2} round={true}/>
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>

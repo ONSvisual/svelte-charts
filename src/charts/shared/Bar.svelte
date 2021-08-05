@@ -1,40 +1,46 @@
 <script>
 	import { getContext } from 'svelte';
-	import { groupData } from '../../js/utils';
+	import { groupData, stackData } from '../../js/utils';
 
-	const { data, xGet, yGet, zGet, zRange, zDomain, xScale, yScale, config } = getContext('LayerCake');
+	const { data, xGet, yGet, zGet, zRange, zDomain, xScale, yScale, config, custom } = getContext('LayerCake');
 
-	export let comparison = true;
+	export let mode = 'default'; // options: 'default', 'comparison', 'marker'
 	export let markerWidth = 2.5;
 
+	let points = $custom.points;
+
 	// Create a data series for each zKey (group)
-	$: groups = groupData($data, $zDomain, $config.z);
+	$: groups = mode == 'stacked' ? stackData($data, $zDomain, $config.x, $config.z) : groupData($data, $zDomain, $config.z);
+	$: points.set(
+		groups.map((d, i) => d.map((e, j) => {
+			return {
+				x: mode == 'default' || ((mode == 'comparison' || mode == 'stacked') && i == 0) ? $xScale(0) :
+				  mode == 'stacked' ? $xGet(groups[i - 1][j]) :
+					$xGet(e) - (markerWidth / 2),
+				y: $yGet(e),
+				w: mode == 'default' || ((mode == 'comparison' || mode == 'stacked') && i == 0) ? $xGet(e) :
+				  mode == 'stacked' ? $xGet(e) - $xGet(groups[i - 1][j]) :
+					markerWidth,
+				h: $yScale.bandwidth()
+			}
+		})),
+		{duration: $custom.animation ? $custom.duration : 0}
+	);
+
 </script>
 
 <g class="bar-group">
-	{#each groups as group, i}
+	{#each $points as group, i}
 	  {#each group as d, j}
-		  {#if !comparison || i == 0}
-		    <rect
-			    class='bar-rect'
-			    data-id="{j}"
-			    x="{$xScale.range()[0]}"
-			    y="{$yGet(d)}"
-			    height={$yScale.bandwidth()}
-			    width="{$xGet(d)}"
-			    fill="{$config.z ? $zGet(d) : $zRange[0]}"
-		    ></rect>
-			{:else}
-			  <rect
-			    class='bar-marker'
-			    data-id="{j}"
-			    x="{$xGet(d) - (markerWidth / 2)}"
-			    y="{$yGet(d)}"
-			    height={$yScale.bandwidth()}
-			    width="{markerWidth}"
-			    fill="{$zGet(d)}"
-		    ></rect>
-			{/if}
+		  <rect
+			  class='bar-rect'
+			  data-id="{j}"
+			  x="{d.x}"
+			  y="{d.y}"
+			  height={d.h}
+			  width="{d.w}"
+			  fill="{$config.z ? $zGet(groups[i][j]) : $zRange[0]}"
+		  ></rect>
 	  {/each}
 	{/each}
 </g>

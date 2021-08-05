@@ -1,6 +1,4 @@
 /node_modules/
 /dist/build/
-/dist/index.html
-/dist/favicon.png
 
 .DS_Store

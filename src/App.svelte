@@ -2,8 +2,29 @@
 	import LineChart from './charts/LineChart.svelte';
 	import BarChart from './charts/BarChart.svelte';
 	import ColumnChart from './charts/ColumnChart.svelte';
+	import ScatterChart from './charts/ScatterChart.svelte';
 
 	import data from './data/data';
+	import dataScatter from './data/data-scatter';
+
+	// Chart options
+	let animation = true;
+	let barchart1 = {
+		animation: true,
+		options: ['apples', 'bananas', 'cherries', 'dates'],
+		selected: 'apples'
+	};
+	let barchart2 = {
+		animation: true,
+		options: ['stacked', 'comparison', 'barcode'],
+		selected: 'stacked'
+	};
+	let beeswarm = {
+		animation: true,
+		yKey: false,
+		zKey: false,
+		rKey: true
+	};
 </script>
 
 <section>
@@ -15,11 +36,56 @@
     	<li>The charts also have compiled versions that can be <strong>embedded in "vanilla" javascript projects</strong>.</li>
     	<li>This whole repository can be <strong>downloaded/cloned and hacked</strong> to create variations of the charts.</li> 
     </ol>
+		<div class="controls">
+			<label><input type="checkbox" bind:checked={animation}/> Animation enabled</label>
+		</div>
   </div>
 </section>
 
 <section>
 	<div class="grid">
+		<div>
+			<BarChart data={data.filter(d => d.group == barchart1.selected)} xKey="value" yKey="year" {animation} title="Single variable bar chart">
+				<div slot="options" class="controls small">
+					{#each barchart1.options as option}
+					  <label><input type="radio" bind:group={barchart1.selected} value={option}/> {option}</label>
+					{/each}
+				</div>
+			</BarChart>
+		</div>
+		<div>
+			<BarChart data={data} xKey="value" yKey="year" zKey="group" mode="{barchart2.selected}" {animation} title="Stacked / comparative bar chart" legend>
+				<div slot="options" class="controls small">
+					{#each barchart2.options as option}
+					  <label><input type="radio" bind:group={barchart2.selected} value={option}/> {option}</label>
+					{/each}
+				</div>
+			</BarChart>
+		</div>
+		<div>
+			<BarChart data={data.filter(d => d.year == 2020)} xKey="value" yKey="group" zKey="group" title="Coloured bar chart"/>
+		</div>
+		<div>
+			<ColumnChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" title="Single variable column chart">
+				<div slot="options" class="controls small">
+					{#each barchart1.options as option}
+					  <label><input type="radio" bind:group={barchart1.selected} value={option}/> {option}</label>
+					{/each}
+				</div>
+			</ColumnChart>
+		</div>
+		<div>
+			<ColumnChart data={data} xKey="year" yKey="value" zKey="group" mode="{barchart2.selected}" title="Stacked / comparative column chart" legend>
+				<div slot="options" class="controls small">
+					{#each barchart2.options as option}
+					  <label><input type="radio" bind:group={barchart2.selected} value={option}/> {option}</label>
+					{/each}
+				</div>
+			</ColumnChart>
+		</div>
+		<div>
+			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" comparison={false} title="Coloured column chart"/>
+		</div>
 		<div>
 			<LineChart data={data.filter(d => d.group == 'apples')} xKey="year" yKey="value" areaOpacity={0.3} title="Line chart with area" footer="Source: Fictitious data about fruit, 2020."/>
 		</div>
@@ -33,28 +99,16 @@
 			<LineChart data={data} xKey="year" yKey="value" zKey="group" areaOpacity={0.3} title="Stacked area chart with lines" stacked legend/>
 		</div>
 		<div>
-			<BarChart data={data.filter(d => d.group == 'apples')} xKey="value" yKey="year" title="Bar chart"/>
+			<ScatterChart data={dataScatter} xKey="year" yKey="value" zKey="group" rKey="alt" r={[3, 6]} animation={beeswarm.animation} title="Scatter chart with radius and colour" legend/>
 		</div>
 		<div>
-			<BarChart data={data} xKey="value" yKey="year" zKey="group" title="Bar chart with comparison markers" legend/>
-		</div>
-		<div>
-			<BarChart data={data} xKey="value" yKey="year" zKey="group" title="Stacked bar chart" stacked legend/>
-		</div>
-		<div>
-			<BarChart data={data.filter(d => d.year == 2020)} xKey="value" yKey="group" zKey="group" comparison={false} title="Coloured bar chart"/>
-		</div>
-		<div>
-			<ColumnChart data={data.filter(d => d.group == 'apples')} xKey="year" yKey="value" title="Column chart"/>
-		</div>
-		<div>
-			<ColumnChart data={data} xKey="year" yKey="value" zKey="group" title="Column chart with comparison markers" legend/>
-		</div>
-		<div>
-			<ColumnChart data={data} xKey="year" yKey="value" zKey="group" title="Stacked column chart" stacked legend/>
-		</div>
-		<div>
-			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" comparison={false} title="Coloured column chart"/>
+			<ScatterChart data={dataScatter} xKey="year" yKey={beeswarm.yKey ? "value" : null} zKey={beeswarm.zKey ? "group": null} rKey={beeswarm.rKey ? "alt" : null} r={[3, 6]} animation={animation} legend={beeswarm.zKey} title="Beeswarm/scatter plot with animation">
+				<div slot="options" class="controls small">
+					<label><input type="checkbox" bind:checked={beeswarm.yKey}/> Y variable</label>
+					<label><input type="checkbox" bind:checked={beeswarm.rKey}/> Radius</label>
+					<label><input type="checkbox" bind:checked={beeswarm.zKey}/> Colours</label>
+				</div>
+			</ScatterChart>
 		</div>
 	</div>
 </section>
@@ -118,5 +172,12 @@
 	h2 {
 		font-size: 1.2em;
 		font-weight: bold;
+	}
+	.controls > label {
+		display: inline;
+		margin-right: 8px;
+	}
+	.small {
+		font-size: .8em;
 	}
 </style>

@@ -5,6 +5,8 @@
   export let comparison = false; // true if chart uses bars + markers for comparison
   export let horizontal = true; // true if marker lines should be horizontal, false if vertical
   export let markerWidth = 2.5;
+  export let markerLength = 13;
+  export let round = false; // to represent round markers
 </script>
 
 {#if Array.isArray(domain) && Array.isArray(colors)}
@@ -13,7 +15,8 @@
       <li>
         <div
           class="bullet"
-          style="background-color: {colors[i]}; width: {!horizontal && (line || (comparison && i != 0)) ? markerWidth : 13}px; height: {horizontal && (line || (comparison && i != 0)) ? markerWidth : 13}px"
+          class:round
+          style="background-color: {colors[i]}; width: {!horizontal && (line || (comparison && i != 0)) ? markerWidth : markerLength}px; height: {horizontal && (line || (comparison && i != 0)) ? markerWidth : markerLength}px"
         />
         {label}
       </li>
@@ -37,4 +40,7 @@
 		display: inline-block;
     vertical-align: middle;
 	}
+  .round {
+    border-radius: 50%;
+  }
 </style>

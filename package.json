@@ -1,6 +1,6 @@
 {
   "name": "@onsvisual/svelte-charts",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Reusable chart templates for Svelte projects.",
   "homepage": "http://onsvisual.github.io/svelte-charts",
   "module": "index.mjs",
@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "clean-css": "^4.2.3",
+    "d3-delaunay": "^6.0.2",
     "d3-dsv": "latest",
     "d3-quadtree": "latest",
     "layercake": "latest",

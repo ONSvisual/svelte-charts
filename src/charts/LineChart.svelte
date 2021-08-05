@@ -11,6 +11,8 @@
 	import AxisX from './shared/AxisX.svelte';
 	import AxisY from './shared/AxisY.svelte';
 	import Legend from './shared/Legend.svelte';
+	import Title from './shared/Title.svelte';
+	import Footer from './shared/Footer.svelte';
 
   export let data;
 	export let height = 250; // number of pixels or valid css height string
@@ -50,8 +52,9 @@
 </script>
 
 {#if title}
-  <div class="title">{title}</div>
+  <Title>{title}</Title>
 {/if}
+<slot name="options"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }">
 	<LayerCake
 		{padding}
@@ -94,21 +97,11 @@
   <Legend domain={zDomain} {colors} {line} markerWidth={lineWidth}/>
 {/if}
 {#if footer}
-  <div class="footer">{footer}</div>
+  <Footer>{footer}</Footer>
 {/if}
 
 <style>
 	.chart-container {
 		width: 100%;
-	}
-	.title {
-		font-size: 1.1em;
-		font-weight: bold;
-		margin-bottom: 10px;
-	}
-	.footer {
-		font-size: .8em;
-		color: grey;
-		margin-top: 5px;
 	}
 </style>

@@ -6,13 +6,14 @@
 	export let gridlines = true;
 	export let tickMarks = false;
 	export let formatTick = d => d;
-	export let baseline = false;
 	export let snapTicks = false;
 	export let ticks = undefined;
 	export let xTick = undefined;
 	export let yTick = 16;
 	export let dxTick = 0;
 	export let dyTick = 0;
+	export let prefix = '';
+	export let suffix = '';
 
 	$: isBandwidth = typeof $xScale.bandwidth === 'function';
 
@@ -38,7 +39,7 @@
 
 <g class='axis x-axis' class:snapTicks>
 	{#each tickVals as tick, i}
-		<g class='tick tick-{ i }' transform='translate({$xScale(tick)},{$yRange[0]})'>
+		<g class='tick tick-{tick}' transform='translate({$xScale(tick)},{$yRange[0]})'>
 			{#if gridlines !== false}
 				<line class="gridline" y1='{$height * -1}' y2='0' x1='0' x2='0'></line>
 			{/if}
@@ -50,12 +51,9 @@
 				y='{yTick}'
 				dx='{dxTick}'
 				dy='{dyTick}'
-				text-anchor='{textAnchor(i)}'>{formatTick(tick)}</text>
+				text-anchor='{textAnchor(i)}'>{i == tickVals.length - 1 ? prefix + formatTick(tick) + suffix : formatTick(tick)}</text>
 		</g>
 	{/each}
-	{#if baseline === true}
-		<line class="baseline" y1='{$height + 0.5}' y2='{$height + 0.5}' x1='0' x2='{$width}'></line>
-	{/if}
 </g>
 
 <style>
@@ -74,7 +72,7 @@
 	}
 
 	.tick .tick-mark,
-	.baseline {
+	.tick.tick-0 line {
 		stroke-dasharray: 0;
 	}
 	/* This looks slightly better */

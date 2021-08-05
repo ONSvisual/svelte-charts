@@ -12,6 +12,8 @@
 	export let dxTick = 0;
 	export let dyTick = -4;
 	export let textAnchor = 'start';
+	export let prefix = '';
+	export let suffix = '';
 
 	$: isBandwidth = typeof $yScale.bandwidth === 'function';
 
@@ -49,7 +51,7 @@
 				dx='{isBandwidth ? -4 : dxTick}'
 				dy='{isBandwidth ? 4 : dyTick}'
 				style="text-anchor:{isBandwidth ? 'end' : textAnchor};"
-			>{formatTick(tick)}</text>
+			>{i == tickVals.length - 1 ? prefix + formatTick(tick) + suffix : formatTick(tick)}</text>
 		</g>
 	{/each}
 </g>
