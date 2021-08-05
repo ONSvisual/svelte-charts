@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 	import { groupData, stackData } from '../../js/utils';
 
-	const { data, xGet, xScale, yGet, yScale, yRange, zGet, zRange, zDomain, config, custom } = getContext('LayerCake');
+	const { data, xGet, xScale, yGet, yScale, zGet, zRange, zDomain, config, custom } = getContext('LayerCake');
 
 	export let mode = 'default'; // options: 'default', 'comparison', 'marker', 'stacked'
 	export let markerWidth = 2.5;

@@ -34,6 +34,7 @@
   export let buffer = 5;
 	export let colors = ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
   export let r = 4;
+	export let interactive = true;
 
 	const tweenOptions = {
 		duration: 0,
@@ -68,9 +69,11 @@
       animation,
       duration
     }}
+		let:width
 	>
+	  {#if width > 80} <!-- Hack to prevent rendering before xRange/yRange initialised -->
     <slot name="back"/>
-		<Svg>
+		<Svg pointerEvents={interactive}>
       {#if xAxis}
 			  <AxisX ticks={xTicks} {snapTicks}/>
       {/if}
@@ -83,6 +86,7 @@
       <Voronoi/>
 		</Svg>
 	  <slot name="front"/>
+		{/if}
 	</LayerCake>
 </div>
 {#if legend && zDomain}

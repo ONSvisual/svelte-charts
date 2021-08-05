@@ -66,7 +66,7 @@
 			<BarChart data={data.filter(d => d.year == 2020)} xKey="value" yKey="group" zKey="group" title="Coloured bar chart"/>
 		</div>
 		<div>
-			<ColumnChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" title="Single variable column chart">
+			<ColumnChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" {animation} title="Single variable column chart">
 				<div slot="options" class="controls small">
 					{#each barchart1.options as option}
 					  <label><input type="radio" bind:group={barchart1.selected} value={option}/> {option}</label>
@@ -75,7 +75,7 @@
 			</ColumnChart>
 		</div>
 		<div>
-			<ColumnChart data={data} xKey="year" yKey="value" zKey="group" mode="{barchart2.selected}" title="Stacked / comparative column chart" legend>
+			<ColumnChart data={data} xKey="year" yKey="value" zKey="group" mode="{barchart2.selected}" {animation} title="Stacked / comparative column chart" legend>
 				<div slot="options" class="controls small">
 					{#each barchart2.options as option}
 					  <label><input type="radio" bind:group={barchart2.selected} value={option}/> {option}</label>
