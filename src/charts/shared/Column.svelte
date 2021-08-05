@@ -41,31 +41,4 @@
 		  ></rect>
 	  {/each}
 	{/each}
-	{#if false}
-	{#each groups as group, i}
-	  {#each group as d, j}
-		  {#if mode == 'default' || (mode == 'comparison' && i == 0)}
-		    <rect
-    			class='column-rect'
-		    	data-id="{j}"
-			    x="{$xScale.bandwidth ? $xGet(d) : $xGet(d)[0]}"
-			    y="{$yGet(d)}"
-    			width="{$xScale.bandwidth ? $xScale.bandwidth() : columnWidth(d)}"
-		    	height="{columnHeight(d)}"
-			    fill="{$config.z ? $zGet(d) : $zRange[0]}"
-		    />
-			{:else}
-			  <rect
-    			class='column-marker'
-		    	data-id="{j}"
-			    x="{$xScale.bandwidth ? $xGet(d) : $xGet(d)[0]}"
-			    y="{$yGet(d) - (markerWidth / 2)}"
-    			width="{$xScale.bandwidth ? $xScale.bandwidth() : columnWidth(d)}"
-		    	height="{markerWidth}"
-			    fill="{$zGet(d)}"
-		    />
-		  {/if}
-		{/each}
-	{/each}
-	{/if}
 </g>
