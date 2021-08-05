@@ -16,7 +16,7 @@
 	};
 	let barchart2 = {
 		animation: true,
-		options: ['stacked', 'comparison', 'barcode'],
+		options: ['stacked', 'comparison', 'barcode', 'grouped'],
 		selected: 'stacked'
 	};
 	let beeswarm = {
@@ -84,7 +84,7 @@
 			</ColumnChart>
 		</div>
 		<div>
-			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" comparison={false} title="Coloured column chart"/>
+			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" title="Coloured column chart"/>
 		</div>
 		<div>
 			<LineChart data={data.filter(d => d.group == 'apples')} xKey="year" yKey="value" areaOpacity={0.3} title="Line chart with area" footer="Source: Fictitious data about fruit, 2020."/>

@@ -27,7 +27,6 @@
 </script>
 
 <g class="scatter-group">
-	{console.log(points)}
 	{#each $points as d, i}
 		<circle
 			cx={d.x}

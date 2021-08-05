@@ -80,9 +80,7 @@
       {#if yAxis && yKey}
 			  <AxisY ticks={yTicks}/>
       {/if}
-			<Scatter
-				{r}
-			/>
+			<Scatter/>
       <Voronoi/>
 		</Svg>
 	  <slot name="front"/>

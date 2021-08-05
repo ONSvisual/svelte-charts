@@ -27,7 +27,7 @@
 	export let footer = null;
 	export let legend = false;
 	export let snapTicks = false;
-	export let mode = 'default'; // options: 'default', 'comparison', 'marker', 'stacked'
+	export let mode = 'default'; // options: 'default', 'comparison', 'marker', 'stacked', 'grouped'
 	export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
 	export let colors = ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
 	export let markerWidth = 2.5;
@@ -48,7 +48,6 @@
 			let sum = vals.reduce((a, b) => a + b, 0);
 			arr.push(sum);
 		});
-		console.log(data, keys, arr);
 		return arr;
 	}
 
