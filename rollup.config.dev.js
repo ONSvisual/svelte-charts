@@ -43,9 +43,6 @@ export default {
 		}),
 		commonjs(),
 
-		// Copy the template over
-		execute(`node copy-template.js false`),
-
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
 		serve(),

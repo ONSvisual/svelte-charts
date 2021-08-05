@@ -82,9 +82,6 @@ export default [
 			}),
 			commonjs(),
 
-			// Copy the template over
-			execute(`node copy-template.js true`),
-
 			terser()
 
 		],
