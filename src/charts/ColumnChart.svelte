@@ -32,6 +32,10 @@
 	export let markerWidth = 2.5
 	export let spacing = 0.05 // proportion of bar width (1 = 100%)
 	export let interactive = true;
+	export let xPrefix = "";
+	export let xSuffix = "";
+	export let yPrefix = "";
+	export let ySuffix = "";
 
 	const tweenOptions = {
 		duration: 0,
@@ -83,10 +87,10 @@
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX gridlines={false}/>
+			  <AxisX gridlines={false} prefix={xPrefix} suffix={xSuffix}/>
       {/if}
       {#if yAxis}
-			  <AxisY ticks={yTicks}/>
+			  <AxisY ticks={yTicks} prefix={yPrefix} suffix={ySuffix}/>
       {/if}
 			<Column {mode} {markerWidth}/>
 		</Svg>

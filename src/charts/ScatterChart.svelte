@@ -35,6 +35,10 @@
 	export let colors = ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
   export let r = 4;
 	export let interactive = true;
+	export let xPrefix = "";
+	export let xSuffix = "";
+	export let yPrefix = "";
+	export let ySuffix = "";
 
 	const tweenOptions = {
 		duration: 0,
@@ -75,10 +79,10 @@
     <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} {snapTicks}/>
+			  <AxisX ticks={xTicks} {snapTicks} prefix={xPrefix} suffix={xSuffix}/>
       {/if}
       {#if yAxis && yKey}
-			  <AxisY ticks={yTicks}/>
+			  <AxisY ticks={yTicks} prefix={yPrefix} suffix={ySuffix}/>
       {/if}
 			<Scatter/>
       <Voronoi/>

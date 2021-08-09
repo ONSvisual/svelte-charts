@@ -13,6 +13,8 @@
 	// export let dxTick = 0;
 	// export let dyTick = -4;
 	// export let textAnchor = 'start';
+	export let prefix = '';
+	export let suffix = '';
 
 	$: isBandwidth = typeof $yScale.bandwidth === 'function';
 
@@ -43,7 +45,7 @@
 					left:{isBandwidth ? ($padding.left + xTick - 4) : 0}px;
 					transform: translate({isBandwidth ? '-100%' : 0}, {isBandwidth ? -50 - Math.floor($yScale.bandwidth() / -2) : '-100'}%);
 				'
-			>{formatTick(tick)}</div>
+			>{i == tickVals.length - 1 ? prefix + formatTick(tick) + suffix : formatTick(tick)}</div>
 		</div>
 	{/each}
 </div>

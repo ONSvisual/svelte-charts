@@ -11,6 +11,8 @@
 	export let ticks = undefined;
 	export let yTick = 7;
 	export let dyTick = 0;
+	export let prefix = '';
+	export let suffix = '';
 
 	$: isBandwidth = typeof $xScale.bandwidth === 'function';
 
@@ -35,7 +37,7 @@
 			style='left:{$xScale(tick) + (isBandwidth ? $xScale.bandwidth() / 2 : 0)}%;top:100%;'>
 			<div
 				class="text"
-				style='top:{(yTick + dyTick)}px;'>{formatTick(tick)}</div>
+				style='top:{(yTick + dyTick)}px;'>{i == tickVals.length - 1 ? prefix + formatTick(tick) + suffix : formatTick(tick)}</div>
 		</div>
 	{/each}
 	{#if baseline === true}

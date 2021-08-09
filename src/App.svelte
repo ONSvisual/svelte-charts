@@ -48,7 +48,7 @@
 <section>
 	<div class="grid">
 		<div>
-			<BarChart data={data.filter(d => d.group == barchart1.selected)} xKey="value" yKey="year" {animation} title="Single variable bar chart">
+			<BarChart data={data.filter(d => d.group == barchart1.selected)} xKey="value" yKey="year" {animation} title="Single variable bar chart" footer="Source: Fictitious data about fruit, 2020.">
 				<div slot="options" class="controls small">
 					{#each barchart1.options as option}
 					  <label><input type="radio" bind:group={barchart1.selected} value={option}/> {option}</label>
@@ -90,7 +90,7 @@
 			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" title="Coloured column chart"/>
 		</div>
 		<div>
-			<LineChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" areaOpacity={0.3} title="Line chart with area" footer="Source: Fictitious data about fruit, 2020." animation={animation} >
+			<LineChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" areaOpacity={0.3} title="Line chart with area" animation={animation} >
 				<div slot="options" class="controls small">
 					{#each barchart1.options as option}
 					  <label><input type="radio" bind:group={barchart1.selected} value={option}/> {option}</label>
