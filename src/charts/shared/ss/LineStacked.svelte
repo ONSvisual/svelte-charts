@@ -1,6 +1,6 @@
 <script>
 	import { getContext } from 'svelte';
-	import { stackData } from '../../js/utils';
+	import { stackData } from '../../../../js/utils';
 
 	const { data, xGet, yGet, zGet, zDomain, config } = getContext('LayerCake');
 

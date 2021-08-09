@@ -2,11 +2,11 @@
 export { default as LineChart } from './src/charts/LineChart.svelte';
 export { default as BarChart } from './src/charts/BarChart.svelte';
 export { default as ColumnChart } from './src/charts/ColumnChart.svelte';
+export { default as ScatterChart } from './src/charts/ScatterChart.svelte';
 
 // SHARED COMPONENTS
 // export { default as Annotations } from './src/charts/shared/Annotations.svelte';
 export { default as Area } from './src/charts/shared/Area.svelte';
-export { default as AreaStacked } from './src/charts/shared/AreaStacked.svelte';
 // export { default as ArrowheadDef } from './src/charts/shared/ArrowheadDef.svelte';
 // export { default as Arrows } from './src/charts/shared/Arrows.svelte';
 // export { default as AxisRadial } from './src/charts/shared/AxisRadial.svelte';

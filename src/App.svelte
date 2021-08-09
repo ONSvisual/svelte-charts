@@ -10,17 +10,20 @@
 	// Chart options
 	let animation = true;
 	let barchart1 = {
-		animation: true,
 		options: ['apples', 'bananas', 'cherries', 'dates'],
 		selected: 'apples'
 	};
 	let barchart2 = {
-		animation: true,
 		options: ['stacked', 'comparison', 'barcode', 'grouped'],
 		selected: 'stacked'
 	};
+	let linechart = {
+		stacked: true,
+		line: true,
+		area: true,
+		transparent: true
+	};
 	let beeswarm = {
-		animation: true,
 		yKey: false,
 		zKey: false,
 		rKey: true
@@ -87,16 +90,23 @@
 			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" title="Coloured column chart"/>
 		</div>
 		<div>
-			<LineChart data={data.filter(d => d.group == 'apples')} xKey="year" yKey="value" areaOpacity={0.3} title="Line chart with area" footer="Source: Fictitious data about fruit, 2020."/>
+			<LineChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" areaOpacity={0.3} title="Line chart with area" footer="Source: Fictitious data about fruit, 2020." animation={animation} >
+				<div slot="options" class="controls small">
+					{#each barchart1.options as option}
+					  <label><input type="radio" bind:group={barchart1.selected} value={option}/> {option}</label>
+					{/each}
+				</div>
+			</LineChart>
 		</div>
 		<div>
-			<LineChart data={data} xKey="year" yKey="value" zKey="group" area={false} title="Multi-line chart" footer="Source: Fictitious data about fruit, 2020." legend/>
-		</div>
-		<div>
-			<LineChart data={data} xKey="year" yKey="value" zKey="group" line={false} title="Stacked area chart" stacked legend/>
-		</div>
-		<div>
-			<LineChart data={data} xKey="year" yKey="value" zKey="group" areaOpacity={0.3} title="Stacked area chart with lines" stacked legend/>
+			<LineChart data={data} xKey="year" yKey="value" zKey="group" line={linechart.line} area={linechart.area} areaOpacity={linechart.transparent ? 0.3 : 1} title="Line/area chart with options" mode={linechart.stacked ? 'stacked' : 'default'} animation={animation} legend={linechart.line || linechart.area}>
+				<div slot="options" class="controls small">
+					<label><input type="checkbox" bind:checked={linechart.line}/> Show line</label>
+					<label><input type="checkbox" bind:checked={linechart.area}/> Show area</label>
+					<label><input type="checkbox" bind:checked={linechart.stacked}/> Stacked</label>
+					<label><input type="checkbox" bind:checked={linechart.transparent}/> Transparency</label>
+				</div>
+			</LineChart>
 		</div>
 		<div>
 			<ScatterChart data={dataScatter} xKey="year" yKey="value" zKey="group" rKey="alt" r={[3, 6]} animation={beeswarm.animation} title="Scatter chart with radius and colour" legend/>
