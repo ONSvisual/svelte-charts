@@ -175,9 +175,11 @@
 				</div>
 			</ScatterChart>
 		</div>
+		{#if false}
 		<div>
 			<MarkerChart data={dataScatter} xTicks={[3,4,5,6,7,8]} xKey="value" animation={animation} title="Breaks chart with markers" legend/>
 		</div>
+		{/if}
 	</div>
 </section>
 
