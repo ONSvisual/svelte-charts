@@ -5,7 +5,9 @@
 	import { scaleOrdinal } from 'd3-scale';
   import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
+	import { groupData, stackData } from '../js/utils';
 
+	import SetCoords from './shared/SetCoords.svelte';
 	import Line from './shared/Line.svelte';
 	import Area from './shared/Area.svelte';
 	import AxisX from './shared/AxisX.svelte';
@@ -21,6 +23,7 @@
 	export let xKey = 'x';
 	export let yKey = 'y';
 	export let zKey = null;
+	export let idKey = zKey;
   export let xAxis = true;
   export let yAxis = true;
 	export let xTicks = 4;
@@ -43,9 +46,10 @@
 	export let ySuffix = "";
 
 	const tweenOptions = {
-		duration: 0,
+		duration: duration,
 		easing: cubicInOut
 	};
+	const coords = tweened(undefined, tweenOptions);
 
 	const distinct = (d, i, arr) => arr.indexOf(d) ==  i;
 
@@ -61,6 +65,9 @@
 
 	$: yDomain = mode == 'stacked' && zKey ? [0, Math.max(...getTotals(data, data.map(d => d[xKey]).filter(distinct)))] : [0, Math.max(...data.map(d => d[yKey]))];
 	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
+
+	// Create a data series for each zKey (group)
+	$: groupedData = mode == 'stacked' ? stackData(data, zDomain, yKey, zKey) : groupData(data, zDomain, zKey);
 </script>
 
 {#if title}
@@ -77,15 +84,20 @@
 		zScale={scaleOrdinal()}
 		{zDomain}
 		zRange={colors}
-		{data}
+		data={groupedData}
+		flatData={data}
 		custom={{
-      points: tweened(null, tweenOptions),
+			type: 'line',
+			mode,
+			idKey,
+			coords,
       animation,
       duration
     }}
 		let:width
 	>
 	  {#if width > 80} <!-- Hack to prevent rendering before xRange/yRange initialised -->
+		<SetCoords/>
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}

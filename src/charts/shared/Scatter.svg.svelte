@@ -1,40 +1,32 @@
 <script>
 	import { getContext } from 'svelte';
-	import AccurateBeeswarm from '../../js/accurate-beeswarm';
 
-	const { data, xGet, y, yGet, yRange, z, zGet, zRange, r, rGet, rRange, custom } = getContext('LayerCake');
+	const { data, z, zGet, zRange, custom } = getContext('LayerCake');
 
-	export let stroke = 'black';
-	export let strokeWidth = 0;
-	export let padding = 1
+	export let hovered = null;
+	export let selected = null;
+	export let highlighted = [];
 
-	let points = $custom.points;
+	let coords = $custom.coords;
+	let idKey = $custom.idKey;
 
-	$: rVal = (d) => $r ? $rGet(d) : $rRange[0];
-
-	$: points.set(
-		$y ? $data.map(
-			d => ({x: $xGet(d), y: $yGet(d), r: rVal(d)})
-		) : new AccurateBeeswarm(
-		  $data,
-		  d => rVal(d),
-		  d => $xGet(d),
-		  padding,
-		  $yRange[0] / 2
-		).calculateYPositions(),
-		{duration: $custom.animation ? $custom.duration : 0}
-	);
+	let colorHover = $custom.colorHover ? $custom.colorHover : 'orange';
+	let colorSelect = $custom.colorSelect ? $custom.colorSelect : 'black';
+	let colorHighlight = $custom.colorHighlight ? $custom.colorHighlight : 'black';
+	let lineWidth = $custom.lineWidth ? $custom.lineWidth : 2;
 </script>
 
+{#if $coords}
 <g class="scatter-group">
-	{#each $points as d, i}
+	{#each $coords as d, i}
 		<circle
 			cx={d.x}
 			cy={d.y}
 			r={d.r}
 			fill="{$z ? $zGet($data[i]) : $zRange[0]}"
-			{stroke}
-			stroke-width={strokeWidth}
+			stroke="{$data[i][idKey] == hovered ? colorHover : $data[i][idKey] == selected ? colorSelect : colorHighlight}"
+			stroke-width="{$data[i][idKey] == hovered || $data[i][idKey] == selected || highlighted.includes($data[i][idKey]) ? lineWidth : 0}"
 		/>
 	{/each}
 </g>
+{/if}

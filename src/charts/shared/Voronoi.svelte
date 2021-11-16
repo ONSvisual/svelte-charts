@@ -1,19 +1,42 @@
 <script>
 	import { Delaunay } from 'd3-delaunay';
-	import { getContext } from 'svelte';
-	import { uniques } from 'layercake';
+	import { getContext, createEventDispatcher } from 'svelte';
 
-	const { data, xGet, yGet, width, height, custom } = getContext('LayerCake');
+	const { data, width, height, custom } = getContext('LayerCake');
+	const dispatch = createEventDispatcher();
 
-	let points = $custom.points;
+	export let hover = false;
+	export let hovered = null;
+	export let select = false;
+	export let selected = null;
 
-	$: pointsArray = Array.isArray($points) ? $points.map(d => [d.x, d.y]) : [];
+	let coords = $custom.coords;
+	let idKey = $custom.idKey;
 
-	function log (point, i) {
-		// hover function
+	function doHover(e, d) {
+		if (hover) {
+			hovered = d ? d[idKey] : null;
+			dispatch('hover', {
+				id: hovered,
+				data: d,
+				event: e
+			});
+		}
 	}
 
-	$: voronoi = Delaunay.from(pointsArray).voronoi([0, 0, $width, $height]);
+	function doSelect(e, d) {
+		if (select) {
+			selected = d ? d[idKey] : null;
+			dispatch('select', {
+				id: selected,
+				data: d,
+				event: e
+			});
+		}
+	}
+
+	$: coordsArray = Array.isArray($coords) ? $coords.map(d => [d.x, d.y]) : [];
+	$: voronoi = Delaunay.from(coordsArray).voronoi([0, 0, $width, $height]);
 
 </script>
 
@@ -23,14 +46,18 @@
 		stroke: none;
 		pointer-events: all;
 	}
-
-	.voronoi-cell:hover {
-		stroke: #000;
-	}
 </style>
 
-{#if pointsArray}
-{#each pointsArray as point, i}
-	<path class="voronoi-cell" d={voronoi.renderCell(i)} on:mouseover="{log(point, i)}"></path>
+{#if voronoi}
+{#each $data as d, i}
+	<path
+		class="voronoi-cell"
+		d={voronoi.renderCell(i)}
+		on:mouseover={e => doHover(e, $data[i])}
+		on:mouseleave={e => doHover(e, null)}
+		on:focus={e => doHover(e, $data[i])}
+		on:blur={e => doHover(e, null)}
+		on:click={e => doSelect(e, $data[i])}
+	/>
 {/each}
 {/if}

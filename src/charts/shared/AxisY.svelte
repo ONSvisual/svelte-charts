@@ -6,6 +6,9 @@
 	export let ticks = 4;
 	export let tickMarks = false;
 	export let gridlines = true;
+	export let tickDashed = false;
+	export let tickColor = '#bbb';
+	export let textColor = '#666';
 	export let formatTick = d => d;
 	export let xTick = 0;
 	export let yTick = 0;
@@ -34,6 +37,8 @@
 					x2='100%'
 					y1={yTick + (isBandwidth ? ($yScale.bandwidth() / 2) : 0)}
 					y2={yTick + (isBandwidth ? ($yScale.bandwidth() / 2) : 0)}
+					class:dashed={tickDashed}
+					style='stroke: {tickColor}'
 				></line>
 			{/if}
 			{#if tickMarks === true}
@@ -43,6 +48,7 @@
 					x2='{isBandwidth ? -6 : 6}'
 					y1={yTick + (isBandwidth ? ($yScale.bandwidth() / 2) : 0)}
 					y2={yTick + (isBandwidth ? ($yScale.bandwidth() / 2) : 0)}
+					style='stroke: {tickColor}'
 				></line>
 			{/if}
 			<text
@@ -50,8 +56,9 @@
 				y='{yTick + (isBandwidth ? $yScale.bandwidth() / 2 : 0)}'
 				dx='{isBandwidth ? -4 : dxTick}'
 				dy='{isBandwidth ? 4 : dyTick}'
-				style="text-anchor:{isBandwidth ? 'end' : textAnchor};"
-			>{i == tickVals.length - 1 ? prefix + formatTick(tick) + suffix : formatTick(tick)}</text>
+				style="text-anchor:{isBandwidth ? 'end' : textAnchor}; fill: {textColor}">
+					{i == tickVals.length - 1 ? prefix + formatTick(tick) + suffix : formatTick(tick)}
+				</text>
 		</g>
 	{/each}
 </g>
@@ -61,15 +68,8 @@
 		font-size: .8em;
 	}
 
-	.tick line {
-		stroke: #aaa;
-	}
-	.tick .gridline {
+	.dashed {
 		stroke-dasharray: 2;
-	}
-
-	.tick text {
-		fill: #666;
 	}
 
 	.tick.tick-0 line {

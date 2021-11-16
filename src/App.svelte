@@ -3,12 +3,19 @@
 	import BarChart from './charts/BarChart.svelte';
 	import ColumnChart from './charts/ColumnChart.svelte';
 	import ScatterChart from './charts/ScatterChart.svelte';
+	import MarkerChart from './charts/MarkerChart.svelte';
 
 	import data from './data/data';
 	import dataScatter from './data/data-scatter';
 
 	// Chart options
 	let animation = true;
+	let hover = true;
+	let hovered = null;
+	let hoveredScatter = null;
+	let select = true;
+	let selected = null;
+	let selectedScatter = null;
 	let barchart1 = {
 		options: ['apples', 'bananas', 'cherries', 'dates'],
 		selected: 'apples'
@@ -28,6 +35,11 @@
 		zKey: false,
 		rKey: true
 	};
+
+	const doHover = (e) => hovered = e.detail.id;
+	const doSelect = (e) => selected = e.detail.id;
+	const doHoverScatter = (e) => hoveredScatter = e.detail.id;
+	const doSelectScatter = (e) => selectedScatter = e.detail.id;
 </script>
 
 <section>
@@ -41,6 +53,8 @@
     </ol>
 		<div class="controls">
 			<label><input type="checkbox" bind:checked={animation}/> Animation enabled</label>
+			<label><input type="checkbox" bind:checked={hover}/> Hover events enabled</label>
+			<label><input type="checkbox" bind:checked={select}/> Select events enabled</label>
 		</div>
   </div>
 </section>
@@ -48,7 +62,14 @@
 <section>
 	<div class="grid">
 		<div>
-			<BarChart data={data.filter(d => d.group == barchart1.selected)} xKey="value" yKey="year" {animation} title="Single variable bar chart" footer="Source: Fictitious data about fruit, 2020.">
+			<BarChart
+			  data={data.filter(d => d.group == barchart1.selected)}
+				xKey="value" yKey="year"
+				title="Single variable bar chart"
+				footer="Source: Fictitious data about fruit, 2020."
+				{hover} {hovered} on:hover={doHover}
+				{select} {selected} on:select={doSelect}
+				{animation}>
 				<div slot="options" class="controls small">
 					{#each barchart1.options as option}
 					  <label><input type="radio" bind:group={barchart1.selected} value={option}/> {option}</label>
@@ -57,7 +78,14 @@
 			</BarChart>
 		</div>
 		<div>
-			<BarChart data={data} xKey="value" yKey="year" zKey="group" mode="{barchart2.selected}" {animation} title="Stacked / comparative bar chart" legend>
+			<BarChart
+				data={data}
+				xKey="value" yKey="year" zKey="group"
+				title="Stacked / comparative bar chart"
+				mode="{barchart2.selected}"
+				{hover} {hovered} on:hover={doHover}
+				{select} {selected} on:select={doSelect}
+				{animation} legend>
 				<div slot="options" class="controls small">
 					{#each barchart2.options as option}
 					  <label><input type="radio" bind:group={barchart2.selected} value={option}/> {option}</label>
@@ -69,7 +97,13 @@
 			<BarChart data={data.filter(d => d.year == 2020)} xKey="value" yKey="group" zKey="group" title="Coloured bar chart"/>
 		</div>
 		<div>
-			<ColumnChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" {animation} title="Single variable column chart">
+			<ColumnChart
+				data={data.filter(d => d.group == barchart1.selected)}
+				xKey="year" yKey="value"
+				title="Single variable column chart"
+				{hover} {hovered} on:hover={doHover}
+				{select} {selected} on:select={doSelect}
+				{animation}>
 				<div slot="options" class="controls small">
 					{#each barchart1.options as option}
 					  <label><input type="radio" bind:group={barchart1.selected} value={option}/> {option}</label>
@@ -78,7 +112,14 @@
 			</ColumnChart>
 		</div>
 		<div>
-			<ColumnChart data={data} xKey="year" yKey="value" zKey="group" mode="{barchart2.selected}" {animation} title="Stacked / comparative column chart" legend>
+			<ColumnChart
+				data={data}
+				xKey="year" yKey="value" zKey="group"
+				mode="{barchart2.selected}"
+				title="Stacked / comparative column chart"
+				{hover} {hovered} on:hover={doHover}
+				{select} {selected} on:select={doSelect}
+				{animation} legend>
 				<div slot="options" class="controls small">
 					{#each barchart2.options as option}
 					  <label><input type="radio" bind:group={barchart2.selected} value={option}/> {option}</label>
@@ -109,16 +150,33 @@
 			</LineChart>
 		</div>
 		<div>
-			<ScatterChart data={dataScatter} xKey="year" yKey="value" zKey="group" rKey="alt" r={[3, 6]} animation={beeswarm.animation} title="Scatter chart with radius and colour" legend/>
+			<ScatterChart
+				data={dataScatter}
+				xKey="year" yKey="value" zKey="group" rKey="alt"
+				r={[3, 6]}
+				title="Scatter chart with radius and colour"
+				{hover} hovered={hoveredScatter} on:hover={doHoverScatter}
+				{select} selected={selectedScatter} on:select={doSelectScatter}
+				legend/>
 		</div>
 		<div>
-			<ScatterChart data={dataScatter} xKey="year" yKey={beeswarm.yKey ? "value" : null} zKey={beeswarm.zKey ? "group": null} rKey={beeswarm.rKey ? "alt" : null} r={[3, 6]} animation={animation} legend={beeswarm.zKey} title="Beeswarm/scatter plot with animation">
+			<ScatterChart
+				data={dataScatter}
+				xKey="year" yKey={beeswarm.yKey ? "value" : null} zKey={beeswarm.zKey ? "group": null} rKey={beeswarm.rKey ? "alt" : null}
+				r={[3, 6]} animation={animation}
+				title="Beeswarm/scatter plot with animation"
+				{hover} hovered={hoveredScatter} on:hover={doHoverScatter}
+				{select} selected={selectedScatter} on:select={doSelectScatter}
+				legend={beeswarm.zKey}>
 				<div slot="options" class="controls small">
 					<label><input type="checkbox" bind:checked={beeswarm.yKey}/> Y variable</label>
 					<label><input type="checkbox" bind:checked={beeswarm.rKey}/> Radius</label>
 					<label><input type="checkbox" bind:checked={beeswarm.zKey}/> Colours</label>
 				</div>
 			</ScatterChart>
+		</div>
+		<div>
+			<MarkerChart data={dataScatter} xTicks={[3,4,5,6,7,8]} xKey="value" animation={animation} title="Breaks chart with markers" legend/>
 		</div>
 	</div>
 </section>

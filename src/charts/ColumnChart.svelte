@@ -5,7 +5,9 @@
 	import { scaleBand, scaleOrdinal } from 'd3-scale';
   import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
+	import { groupData, stackData } from '../js/utils';
 
+	import SetCoords from './shared/SetCoords.svelte';
 	import Column from './shared/Column.svelte';
 	import AxisX from './shared/AxisX.svelte';
 	import AxisY from './shared/AxisY.svelte';
@@ -20,6 +22,7 @@
 	export let xKey = 'x';
 	export let yKey = 'y';
 	export let zKey = null;
+	export let idKey = xKey;
   export let xAxis = true;
   export let yAxis = true;
 	export let yTicks = 4;
@@ -36,11 +39,20 @@
 	export let xSuffix = "";
 	export let yPrefix = "";
 	export let ySuffix = "";
+	export let hover = false;
+	export let hovered = null;
+	export let colorHover = 'orange';
+	export let select = false;
+	export let selected = null;
+	export let colorSelect = 'black';
+	export let highlighted = [];
+	export let colorHighlight = 'black';
 
 	const tweenOptions = {
-		duration: 0,
+		duration: duration,
 		easing: cubicInOut
 	};
+	const coords = tweened(undefined, tweenOptions);
 
 	const distinct = (d, i, arr) => arr.indexOf(d) ==  i;
 
@@ -57,6 +69,9 @@
 	$: xDomain = data.map(d => d[xKey]).filter(distinct);
 	$: yDomain = mode == 'stacked' && yKey ? [0, Math.max(...getTotals(data, data.map(d => d[xKey]).filter(distinct)))] : [0, Math.max(...data.map(d => d[yKey]))];
 	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
+
+	// Create a data series for each zKey (group)
+	$: groupedData = mode == 'stacked' ? stackData(data, zDomain, yKey, zKey) : groupData(data, zDomain, zKey);
 </script>
 
 {#if title}
@@ -75,15 +90,24 @@
 		xScale={scaleBand().paddingInner([spacing]).round(true)}
 		zScale={scaleOrdinal()}
 		zRange={colors}
-		{data}
+		data={groupedData}
+		flatData={data}
 		custom={{
-      points: tweened(null, tweenOptions),
+			type: 'column',
+			mode,
+			idKey,
+      coords,
+			markerWidth,
+			colorSelect,
+			colorHover,
+			colorHighlight,
       animation,
       duration
     }}
 		let:width
 	>
 	  {#if width > 80} <!-- Hack to prevent rendering before xRange/yRange initialised -->
+		<SetCoords/>
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
@@ -92,7 +116,7 @@
       {#if yAxis}
 			  <AxisY ticks={yTicks} prefix={yPrefix} suffix={ySuffix}/>
       {/if}
-			<Column {mode} {markerWidth}/>
+			<Column {select} {selected} {hover} {hovered} {highlighted} on:hover on:select/>
 		</Svg>
 	  <slot name="front"/>
 		{/if}

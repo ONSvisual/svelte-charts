@@ -6,6 +6,7 @@
   import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
 
+	import SetCoords from './shared/SetCoords.svelte';
 	import Scatter from './shared/Scatter.svg.svelte';
 	import Voronoi from './shared/Voronoi.svelte';
 	import AxisX from './shared/AxisX.svelte';
@@ -22,10 +23,14 @@
 	export let yKey = null;
 	export let zKey = null;
   export let rKey = null;
+	export let idKey = xKey;
   export let xAxis = true;
   export let yAxis = true;
 	export let xTicks = 4;
   export let yTicks = 4;
+	export let textColor = '#666';
+	export let tickColor = '#ccc';
+	export let tickDashed = false;
 	export let title = null;
 	export let footer = null;
 	export let legend = false;
@@ -39,11 +44,20 @@
 	export let xSuffix = "";
 	export let yPrefix = "";
 	export let ySuffix = "";
+	export let hover = false;
+	export let hovered = null;
+	export let colorHover = 'orange';
+	export let select = false;
+	export let selected = null;
+	export let colorSelect = 'black';
+	export let highlighted = [];
+	export let colorHighlight = 'black';
 
 	const tweenOptions = {
-		duration: 0,
+		duration: duration,
 		easing: cubicInOut
 	};
+	const coords = tweened(undefined, tweenOptions);
   
   const distinct = (d, i, arr) => arr.indexOf(d) ==  i;
 
@@ -69,23 +83,30 @@
     xPadding={[buffer, buffer]}
     yPadding={yKey ? [buffer, buffer] : null}
     custom={{
-      points: tweened(undefined, tweenOptions),
+			type: 'scatter',
+			idKey,
+      coords,
+			colorSelect,
+			colorHover,
+			colorHighlight,
+			padding: 1,
       animation,
       duration
     }}
 		let:width
 	>
 	  {#if width > 80} <!-- Hack to prevent rendering before xRange/yRange initialised -->
+		<SetCoords/>
     <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} {snapTicks} prefix={xPrefix} suffix={xSuffix}/>
+			  <AxisX ticks={xTicks} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
       {/if}
       {#if yAxis && yKey}
-			  <AxisY ticks={yTicks} prefix={yPrefix} suffix={ySuffix}/>
+			  <AxisY ticks={yTicks} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
       {/if}
-			<Scatter/>
-      <Voronoi/>
+			<Scatter {selected} {hovered} {highlighted}/>
+      <Voronoi {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
 		</Svg>
 	  <slot name="front"/>
 		{/if}
