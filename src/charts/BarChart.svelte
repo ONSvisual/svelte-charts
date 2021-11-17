@@ -23,6 +23,8 @@
 	export let yKey = 'y';
 	export let zKey = null;
 	export let idKey = yKey;
+	export let xMax = null;
+	export let xMin = 0;
   export let xAxis = true;
   export let yAxis = true;
 	export let xTicks = 4;
@@ -70,7 +72,20 @@
 		return arr;
 	}
 
-	$: xDomain = mode == 'stacked' && zKey ? [0, Math.max(...getTotals(data, data.map(d => d[yKey]).filter(distinct)))] : [0, Math.max(...data.map(d => d[xKey]))];
+	// Functions to update xDomain
+	const xDomSet = (data, mode, xKey, xMax) => xMax ? [xMin, xMax] : mode == 'stacked' && zKey ? [xMin, Math.max(...getTotals(data, data.map(d => d[yKey]).filter(distinct)))] : [xMin, Math.max(...data.map(d => d[xKey]))];
+	function xDomUpdate(data, mode, xKey, xMax) {
+		let newXDom = xDomSet(data, mode, xKey, xMax);
+		if (newXDom[0] != xDom[0] || newXDom[1] != xDom[1]) {
+			xDomain.set(newXDom);
+			xDom = newXDom;
+		}
+	}
+	let xDom = xDomSet(data, mode, xKey, xMax);
+	const xDomain = tweened(xDom, tweenOptions);
+	$: xDomUpdate(data, mode, xKey, xMax);
+
+	// Functions to update yDomain & zDomain
 	$: yDomain = data.map(d => d[yKey]).filter(distinct);
 	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
 
@@ -88,7 +103,7 @@
 		x={xKey}
 		y={yKey}
 		z={zKey}
-		{xDomain}
+		xDomain={$xDomain}
 		{yDomain}
 		yScale={scaleBand().paddingInner([spacing]).round(true)}
 		zScale={scaleOrdinal()}

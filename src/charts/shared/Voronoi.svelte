@@ -2,7 +2,7 @@
 	import { Delaunay } from 'd3-delaunay';
 	import { getContext, createEventDispatcher } from 'svelte';
 
-	const { data, width, height, custom } = getContext('LayerCake');
+	const { data, width, height, custom, xScale, yScale } = getContext('LayerCake');
 	const dispatch = createEventDispatcher();
 
 	export let hover = false;
@@ -35,7 +35,7 @@
 		}
 	}
 
-	$: coordsArray = Array.isArray($coords) ? $coords.map(d => [d.x, d.y]) : [];
+	$: coordsArray = Array.isArray($coords) ? $coords.map(d => [$xScale(d.x), $yScale(d.y)]) : [];
 	$: voronoi = Delaunay.from(coordsArray).voronoi([0, 0, $width, $height]);
 
 </script>

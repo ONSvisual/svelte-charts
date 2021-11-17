@@ -24,6 +24,10 @@
 	export let zKey = null;
   export let rKey = null;
 	export let idKey = xKey;
+	export let xMax = null;
+	export let xMin = null;
+	export let yMax = null;
+	export let yMin = null;
   export let xAxis = true;
   export let yAxis = true;
 	export let xTicks = 4;
@@ -61,6 +65,31 @@
   
   const distinct = (d, i, arr) => arr.indexOf(d) ==  i;
 
+	function domGet(data, key, min, max) {
+		let vals = data.map(d => d[key]);
+		return [min ? min : vals[0] ? Math.min(...vals) : -1, max ? max : vals[0] ? Math.max(...vals) : 1];
+	}
+	function xDomUpdate(data, key, min, max) {
+		let newDom = domGet(data, key, min, max);
+		if (newDom[0] != xDom[0] || newDom[1] != xDom[1]) {
+			xDomain.set(newDom);
+			xDom = newDom;
+		}
+	}
+	function yDomUpdate(data, key, min, max) {
+		let newDom = key ? domGet(data, key, min, max) : yDom;
+		if (newDom[0] != yDom[0] || newDom[1] != yDom[1]) {
+			yDomain.set(newDom);
+			yDom = newDom;
+		}
+	}
+	let xDom = domGet(data, xKey, xMin, xMax);
+	const xDomain = tweened(xDom, tweenOptions);
+	let yDom = domGet(data, yKey, yMin, yMax);
+	const yDomain = tweened(yDom, tweenOptions);
+
+	$: xDomUpdate(data, xKey, xMin, xMax);
+	$: yDomUpdate(data, yKey, yMin, yMax);
   $: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
 </script>
 
@@ -76,6 +105,8 @@
     z={zKey}
     r={rKey}
     zScale={scaleOrdinal()}
+		xDomain={$xDomain}
+		yDomain={$yDomain}
 		{zDomain}
 		zRange={colors}
     rRange={Array.isArray(r) ? r : [r, r]}

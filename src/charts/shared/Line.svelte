@@ -1,7 +1,7 @@
 <script>
 	import { getContext } from 'svelte';
 
-	const { data, zGet, config, custom } = getContext('LayerCake');
+	const { data, xScale, yScale, zGet, config, custom } = getContext('LayerCake');
 
 	export let lineWidth = 2.5;
 	
@@ -12,7 +12,7 @@
 	const makePath = (group) => {
 		let path = 'M' + group
 		.map(d => {
-			return d.x + ',' + d.y;
+			return $xScale(d.x) + ',' + $yScale(d.y);
 		})
 		.join('L');
 		return path;

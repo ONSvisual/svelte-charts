@@ -1,7 +1,7 @@
 <script>
 	import { getContext } from 'svelte';
 
-	const { data, z, zGet, zRange, custom } = getContext('LayerCake');
+	const { data, z, xScale, yScale, zGet, zRange, custom } = getContext('LayerCake');
 
 	export let hovered = null;
 	export let selected = null;
@@ -20,8 +20,8 @@
 <g class="scatter-group">
 	{#each $coords as d, i}
 		<circle
-			cx={d.x}
-			cy={d.y}
+			cx={$xScale(d.x)}
+			cy={$yScale(d.y)}
 			r={d.r}
 			fill="{$z ? $zGet($data[i]) : $zRange[0]}"
 			stroke="{$data[i][idKey] == hovered ? colorHover : $data[i][idKey] == selected ? colorSelect : colorHighlight}"

@@ -1,7 +1,7 @@
 <script>
 	import { getContext, createEventDispatcher } from 'svelte';
 
-	const { data, zGet, zRange, config, custom } = getContext('LayerCake');
+	const { data, yScale, zGet, zRange, config, custom } = getContext('LayerCake');
 	const dispatch = createEventDispatcher();
 
 	export let hover = false;
@@ -17,6 +17,8 @@
 	let colorSelect = $custom.colorSelect ? $custom.colorSelect : 'black';
 	let colorHighlight = $custom.colorHighlight ? $custom.colorHighlight : 'black';
 	let lineWidth = $custom.lineWidth ? $custom.lineWidth : 2;
+	let markerWidth = $custom.markerWidth ? $custom.markerWidth : 2.5;
+	$: mode = $custom.mode ? $custom.mode : 'default';
 
 	function doHover(e, d) {
 		if (hover) {
@@ -49,8 +51,8 @@
 				class='column-rect'
 				data-id="{j}"
 				x="{d.x}"
-				y="{d.y}"
-				height={d.h}
+				y="{mode == 'barcode' || (mode == 'comparison' && i > 0) ? $yScale(d.y) - (markerWidth / 2) : $yScale(d.y)}"
+				height={(mode == 'barcode' || (mode == 'comparison' && i > 0)) && $yScale(0) - $yScale(d.h) < markerWidth ? markerWidth : $yScale(0) - $yScale(d.h)}
 				width="{d.w}"
 				stroke="{$data[i][j][idKey] == hovered ? colorHover : $data[i][j][idKey] == selected ? colorSelect : colorHighlight}"
 				stroke-width="{$data[i][j][idKey] == hovered || $data[i][j][idKey] == selected || highlighted.includes($data[i][j][idKey]) ? lineWidth : 0}"

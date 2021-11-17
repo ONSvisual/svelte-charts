@@ -23,6 +23,8 @@
 	export let yKey = 'y';
 	export let zKey = null;
 	export let idKey = xKey;
+	export let yMax = null;
+	export let yMin = 0;
   export let xAxis = true;
   export let yAxis = true;
 	export let yTicks = 4;
@@ -66,8 +68,21 @@
 		return arr;
 	}
 
+	// Functions to animate yDomain
+	const yDomSet = (data, mode, yKey, yMax) => yMax ? [yMin, yMax] : mode == 'stacked' && yKey ? [yMin, Math.max(...getTotals(data, data.map(d => d[xKey]).filter(distinct)))] : [yMin, Math.max(...data.map(d => d[yKey]))];
+	function yDomUpdate(data, mode, yKey, yMax) {
+		let newYDom = yDomSet(data, mode, yKey, yMax);
+		if (newYDom[0] != yDom[0] || newYDom[1] != yDom[1]) {
+			yDomain.set(newYDom);
+			yDom = newYDom;
+		}
+	}
+	let yDom = yDomSet(data, mode, yKey, yMax);
+	const yDomain = tweened(yDom, tweenOptions);
+	$: yDomUpdate(data, mode, yKey, yMax);
+
+	// Functions to update xDomain & zDomain
 	$: xDomain = data.map(d => d[xKey]).filter(distinct);
-	$: yDomain = mode == 'stacked' && yKey ? [0, Math.max(...getTotals(data, data.map(d => d[xKey]).filter(distinct)))] : [0, Math.max(...data.map(d => d[yKey]))];
 	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
 
 	// Create a data series for each zKey (group)
@@ -85,7 +100,7 @@
 		y={yKey}
 		z={zKey}
 		{xDomain}
-		{yDomain}
+		yDomain={$yDomain}
 		{zDomain}
 		xScale={scaleBand().paddingInner([spacing]).round(true)}
 		zScale={scaleOrdinal()}
