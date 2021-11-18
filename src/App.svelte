@@ -63,6 +63,7 @@
 	<div class="grid">
 		<div>
 			<BarChart
+			xScale="log"
 			  data={data.filter(d => d.group == barchart1.selected)}
 				xKey="value" yKey="year"
 				title="Single variable bar chart"

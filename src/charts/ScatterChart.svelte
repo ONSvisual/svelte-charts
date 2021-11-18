@@ -2,7 +2,7 @@
 
 <script>	
 	import { LayerCake, Svg } from 'layercake';
-	import { scaleOrdinal } from 'd3-scale';
+	import { scaleOrdinal, scaleLinear, scaleSymlog } from 'd3-scale';
   import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
 
@@ -24,6 +24,8 @@
 	export let zKey = null;
   export let rKey = null;
 	export let idKey = xKey;
+	export let xScale = 'linear';
+	export let yScale = 'linear';
 	export let xMax = null;
 	export let xMin = null;
 	export let yMax = null;
@@ -104,6 +106,8 @@
 		y={yKey}
     z={zKey}
     r={rKey}
+		xScale={xScale == 'log' ? scaleSymlog() : scaleLinear()}
+		yScale={yScale == 'log' ? scaleSymlog() : scaleLinear()}
     zScale={scaleOrdinal()}
 		xDomain={$xDomain}
 		yDomain={$yDomain}

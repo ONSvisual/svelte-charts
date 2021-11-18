@@ -53,8 +53,7 @@
 {#if $coords}
 <g class="line-group">
 	{#each $coords as group, i}
-	{console.log(group, $data[i])}
-	<path
+		<path
 		  class="path-hover"
 			d="{makePath(group)}"
 			on:mouseover={e => doHover(e, $data[i])}
@@ -67,14 +66,14 @@
 		  class="path-line"
 			d="{makePath(group)}"
 			stroke="{
-				hover && $data[i][0][idKey] == hovered ? colorHover :
-				select && $data[i][0][idKey] == selected ? colorSelect :
-				highlighted.includes($data[i][0][idKey]) ? colorHighlight :
+				idKey && $data[i][0][idKey] == hovered ? colorHover :
+				idKey && $data[i][0][idKey] == selected ? colorSelect :
+				idKey && highlighted.includes($data[i][0][idKey]) ? colorHighlight :
 				$config.z ? $zGet($data[i][0]) : $config.zRange[0]}"
 			stroke-width="{
-				hover && $data[i][0][idKey] == hovered ||
-				select && $data[i][0][idKey] == selected ||
-				highlighted.includes($data[i][0][idKey]) ? lineWidth + 1.5 :
+				idKey && $data[i][0][idKey] == hovered ||
+				idKey && $data[i][0][idKey] == selected ||
+				idKey && highlighted.includes($data[i][0][idKey]) ? lineWidth + 1.5 :
 				lineWidth
 			}"
 		/>
