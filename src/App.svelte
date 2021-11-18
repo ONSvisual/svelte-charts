@@ -140,7 +140,12 @@
 			</LineChart>
 		</div>
 		<div>
-			<LineChart data={data} xKey="year" yKey="value" zKey="group" line={linechart.line} area={linechart.area} areaOpacity={linechart.transparent ? 0.3 : 1} title="Line/area chart with options" mode={linechart.stacked ? 'stacked' : 'default'} animation={animation} legend={linechart.line || linechart.area}>
+			<LineChart
+				data={data}
+				xKey="year" yKey="value" zKey="group"
+				line={linechart.line} area={linechart.area} areaOpacity={linechart.transparent ? 0.3 : 1}
+				title="Line/area chart with options" mode={linechart.stacked ? 'stacked' : 'default'}
+				{animation} legend={linechart.line || linechart.area}>
 				<div slot="options" class="controls small">
 					<label><input type="checkbox" bind:checked={linechart.line}/> Show line</label>
 					<label><input type="checkbox" bind:checked={linechart.area}/> Show area</label>
@@ -148,6 +153,16 @@
 					<label><input type="checkbox" bind:checked={linechart.transparent}/> Transparency</label>
 				</div>
 			</LineChart>
+		</div>
+		<div>
+			<LineChart
+				data={data}
+				xKey="year" yKey="value" zKey="group"
+				color="grey" lineWidth={1}
+				area={false}
+				title="Line chart with hover and select"
+				{animation} legend
+				{hover} {select}/>
 		</div>
 		<div>
 			<ScatterChart

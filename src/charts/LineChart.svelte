@@ -39,13 +39,22 @@
 	export let mode = 'default';
 	export let areaOpacity = 1;
 	export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
-	export let colors = ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
+	export let color = null;
+	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
 	export let lineWidth = 2.5;
 	export let interactive = true;
 	export let xPrefix = "";
 	export let xSuffix = "";
 	export let yPrefix = "";
 	export let ySuffix = "";
+	export let hover = false;
+	export let hovered = null;
+	export let colorHover = 'orange';
+	export let select = false;
+	export let selected = null;
+	export let colorSelect = '#206095';
+	export let highlighted = [];
+	export let colorHighlight = '#206095';
 
 	const tweenOptions = {
 		duration: duration,
@@ -106,6 +115,9 @@
 			mode,
 			idKey,
 			coords,
+			colorSelect,
+			colorHover,
+			colorHighlight,
       animation,
       duration
     }}
@@ -125,7 +137,7 @@
 			  <Area {mode} opacity={areaOpacity}/>
       {/if}
       {#if line}
-			  <Line {mode} {lineWidth}/>
+			  <Line {mode} {lineWidth} {select} {selected} {hover} {hovered} {highlighted} on:hover on:select/>
       {/if}
 		</Svg>
 	  <slot name="front"/>
