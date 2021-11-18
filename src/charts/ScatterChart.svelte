@@ -26,6 +26,8 @@
 	export let idKey = xKey;
 	export let xScale = 'linear';
 	export let yScale = 'linear';
+	export let xFormatTick = d => d;
+	export let yFormatTick = d => d;
 	export let xMax = null;
 	export let xMin = null;
 	export let yMax = null;
@@ -135,10 +137,10 @@
     <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
       {/if}
       {#if yAxis && yKey}
-			  <AxisY ticks={yTicks} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
+			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
       {/if}
 			<Scatter {selected} {hovered} {highlighted}/>
       <Voronoi {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>

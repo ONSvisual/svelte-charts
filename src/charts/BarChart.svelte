@@ -24,6 +24,7 @@
 	export let zKey = null;
 	export let idKey = yKey;
 	export let xScale = 'linear';
+	export let xFormatTick = d => d;
 	export let xMax = null;
 	export let xMin = 0;
   export let xAxis = true;
@@ -132,7 +133,7 @@
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
       {/if}
       {#if yAxis}
 			  <AxisY gridlines={false} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>

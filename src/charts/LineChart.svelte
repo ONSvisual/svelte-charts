@@ -25,6 +25,7 @@
 	export let zKey = null;
 	export let idKey = zKey;
 	export let yScale = 'linear';
+	export let yFormatTick = d => d;
 	export let yMax = null;
 	export let yMin = 0;
   export let xAxis = true;
@@ -133,7 +134,7 @@
 			  <AxisX ticks={xTicks} {snapTicks} prefix={xPrefix} suffix={xSuffix}/>
       {/if}
       {#if yAxis}
-			  <AxisY ticks={yTicks} prefix={yPrefix} suffix={ySuffix}/>
+			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix}/>
       {/if}
       {#if area}
 			  <Area {mode} opacity={areaOpacity}/>

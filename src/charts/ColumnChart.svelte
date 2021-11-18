@@ -24,6 +24,7 @@
 	export let zKey = null;
 	export let idKey = xKey;
 	export let yScale = 'linear';
+	export let yFormatTick = d => d;
 	export let yMax = null;
 	export let yMin = 0;
   export let xAxis = true;
@@ -131,7 +132,7 @@
 			  <AxisX gridlines={false} prefix={xPrefix} suffix={xSuffix}/>
       {/if}
       {#if yAxis}
-			  <AxisY ticks={yTicks} prefix={yPrefix} suffix={ySuffix}/>
+			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix}/>
       {/if}
 			<Column {select} {selected} {hover} {hovered} {highlighted} on:hover on:select/>
 		</Svg>
