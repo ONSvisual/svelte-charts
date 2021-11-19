@@ -15,6 +15,7 @@
 	import Legend from './shared/Legend.svelte';
 	import Title from './shared/Title.svelte';
 	import Footer from './shared/Footer.svelte';
+	import Labels from './shared/Labels.svelte';
 
   export let data;
 	export let height = 250; // number of pixels or valid css height string
@@ -24,6 +25,7 @@
 	export let yKey = 'y';
 	export let zKey = null;
 	export let idKey = zKey;
+	export let labelKey = idKey;
 	export let yScale = 'linear';
 	export let yFormatTick = d => d;
 	export let yMax = null;
@@ -35,6 +37,7 @@
 	export let title = null;
 	export let footer = null;
 	export let legend = false;
+	export let labels = false;
 	export let snapTicks = true;
   export let line = true;
   export let area = true;
@@ -117,6 +120,7 @@
 			type: 'line',
 			mode,
 			idKey,
+			labelKey,
 			coords,
 			colorSelect,
 			colorHover,
@@ -140,8 +144,12 @@
 			  <Area {mode} opacity={areaOpacity}/>
       {/if}
       {#if line}
-			  <Line {mode} {lineWidth} {select} {selected} {hover} {hovered} {highlighted} on:hover on:select/>
+			  <Line {lineWidth} {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
       {/if}
+			{#if labels}
+				<Labels {hovered} {selected}/>
+			{/if}
+			<slot name="svg"/>
 		</Svg>
 	  <slot name="front"/>
 		{/if}

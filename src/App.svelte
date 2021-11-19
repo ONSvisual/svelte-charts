@@ -63,7 +63,6 @@
 	<div class="grid">
 		<div>
 			<BarChart
-			xScale="log"
 			  data={data.filter(d => d.group == barchart1.selected)}
 				xKey="value" yKey="year"
 				title="Single variable bar chart"
@@ -161,8 +160,9 @@
 				xKey="year" yKey="value" zKey="group"
 				color="grey" lineWidth={1}
 				area={false}
-				title="Line chart with hover and select"
-				{animation} legend
+				title="Line chart with hover, select and labels"
+				padding={{ top: 0, bottom: 20, left: 35, right: 60 }}
+				{animation} legend labels
 				{hover} {select}/>
 		</div>
 		<div>
@@ -170,10 +170,10 @@
 				data={dataScatter}
 				xKey="year" yKey="value" zKey="group" rKey="alt"
 				r={[3, 6]}
-				title="Scatter chart with radius and colour"
+				title="Scatter chart with radius, colour, hover, select and labels"
 				{hover} hovered={hoveredScatter} on:hover={doHoverScatter}
 				{select} selected={selectedScatter} on:select={doSelectScatter}
-				legend/>
+				legend labels/>
 		</div>
 		<div>
 			<ScatterChart
@@ -181,8 +181,6 @@
 				xKey="year" yKey={beeswarm.yKey ? "value" : null} zKey={beeswarm.zKey ? "group": null} rKey={beeswarm.rKey ? "alt" : null}
 				r={[3, 6]} animation={animation}
 				title="Beeswarm/scatter plot with animation"
-				{hover} hovered={hoveredScatter} on:hover={doHoverScatter}
-				{select} selected={selectedScatter} on:select={doSelectScatter}
 				legend={beeswarm.zKey}>
 				<div slot="options" class="controls small">
 					<label><input type="checkbox" bind:checked={beeswarm.yKey}/> Y variable</label>

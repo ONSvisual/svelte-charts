@@ -14,6 +14,7 @@
 	import Legend from './shared/Legend.svelte';
 	import Title from './shared/Title.svelte';
 	import Footer from './shared/Footer.svelte';
+	import Labels from './shared/Labels.svelte';
 
 	export let data;
 	export let height = 250; // number of pixels or valid css height string
@@ -24,6 +25,7 @@
 	export let zKey = null;
   export let rKey = null;
 	export let idKey = xKey;
+	export let labelKey = idKey;
 	export let xScale = 'linear';
 	export let yScale = 'linear';
 	export let xFormatTick = d => d;
@@ -42,6 +44,7 @@
 	export let title = null;
 	export let footer = null;
 	export let legend = false;
+	export let labels = false;
 	export let snapTicks = false;
   export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
   export let buffer = 5;
@@ -123,6 +126,7 @@
     custom={{
 			type: 'scatter',
 			idKey,
+			labelKey,
       coords,
 			colorSelect,
 			colorHover,
@@ -144,7 +148,13 @@
 			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
       {/if}
 			<Scatter {selected} {hovered} {highlighted}/>
-      <Voronoi {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
+			{#if select || hover}
+				<Voronoi {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
+			{/if}
+			{#if labels}
+				<Labels {hovered} {selected}/>
+			{/if}
+			<slot name="svg"/>
 		</Svg>
 	  <slot name="front"/>
 		{/if}

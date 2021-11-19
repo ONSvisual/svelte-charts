@@ -49,6 +49,7 @@
 </style>
 
 {#if voronoi}
+<g class="voronoi-group">
 {#each $data as d, i}
 	<path
 		class="voronoi-cell"
@@ -60,4 +61,5 @@
 		on:click={e => doSelect(e, $data[i])}
 	/>
 {/each}
+</g>
 {/if}
