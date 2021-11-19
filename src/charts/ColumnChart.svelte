@@ -35,7 +35,8 @@
 	export let legend = false;
 	export let mode = 'default'; // options: 'default', 'comparison', 'marker', 'stacked', 'grouped'
 	export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
-	export let colors = ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
+	export let color = null;
+	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
 	export let markerWidth = 2.5
 	export let spacing = 0.05 // proportion of bar width (1 = 100%)
 	export let interactive = true;

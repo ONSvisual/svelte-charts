@@ -45,8 +45,9 @@
 	export let snapTicks = false;
   export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
   export let buffer = 5;
-	export let colors = ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
-  export let r = 4;
+	export let color = null;
+	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
+	export let r = 4;
 	export let interactive = true;
 	export let xPrefix = "";
 	export let xSuffix = "";
