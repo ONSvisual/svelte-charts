@@ -67,31 +67,45 @@
 		  class="path-line"
 			d="{makePath(group)}"
 			stroke="{
-				idKey && $data[i][0][idKey] == hovered ? colorHover :
-				idKey && $data[i][0][idKey] == selected ? colorSelect :
-				idKey && highlighted.includes($data[i][0][idKey]) ? colorHighlight :
 				$config.z ? $zGet($data[i][0]) : $config.zRange[0]}"
 			stroke-width="{
-				idKey && $data[i][0][idKey] == hovered ||
-				idKey && $data[i][0][idKey] == selected ||
-				idKey && highlighted.includes($data[i][0][idKey]) ? lineWidth + 1.5 :
 				lineWidth
 			}"
 		/>
 	{/each}
+	
+	{#if idKey && (hover || selected || highlighted[0])}
+	{#each $coords as group, i}
+		{#if [hovered, selected, ...highlighted].includes($data[i][0][idKey]) }
+	  <path
+		  class="path-overlay"
+			d="{makePath(group)}"
+			stroke="{
+				$data[i][0][idKey] == hovered ? colorHover :
+				$data[i][0][idKey] == selected ? colorSelect :
+				colorHighlight
+			}"
+			stroke-width="{
+				lineWidth + 1.5
+			}"
+		/>
+		{/if}
+	{/each}
+	{/if}
 </g>
 {/if}
 
 <style>
-	.path-hover {
-		fill: none;
-		stroke: rgba(255,255,255,0);
-		stroke-width: 7;
-	}
-	.path-line {
+	path {
 		fill: none;
 		stroke-linejoin: round;
 		stroke-linecap: round;
+	}
+	.path-hover {
+		stroke: rgba(255,255,255,0);
+		stroke-width: 7;
+	}
+	.path-line, .path-overlay {
 		pointer-events: none;
 	}
 </style>

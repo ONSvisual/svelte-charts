@@ -64,6 +64,7 @@
 	export let colorSelect = 'black';
 	export let highlighted = [];
 	export let colorHighlight = 'black';
+	export let overlayFill = false;
 
 	const tweenOptions = {
 		duration: duration,
@@ -147,7 +148,7 @@
       {#if yAxis && yKey}
 			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
       {/if}
-			<Scatter {selected} {hovered} {highlighted}/>
+			<Scatter {selected} {hovered} {highlighted} {overlayFill}/>
 			{#if select || hover}
 				<Voronoi {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
 			{/if}

@@ -1,7 +1,7 @@
 <svelte:options accessors={true} />
 
 <script>
-	import { LayerCake, Svg, Html } from 'layercake';
+	import { LayerCake, Svg } from 'layercake';
 	import { scaleBand, scaleOrdinal, scaleLinear, scaleSymlog } from 'd3-scale';
   import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
@@ -56,6 +56,7 @@
 	export let colorSelect = 'black';
 	export let highlighted = [];
 	export let colorHighlight = 'black';
+	export let overlayFill = false;
 
 	const tweenOptions = {
 		duration: duration,
@@ -139,12 +140,9 @@
       {#if yAxis}
 			  <AxisY gridlines={false} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
       {/if}
-			<Bar {select} {selected} {hover} {hovered} {highlighted} on:hover on:select/>
+			<Bar {select} {selected} {hover} {hovered} {highlighted} on:hover on:select {overlayFill}/>
 			<slot name="svg"/>
 		</Svg>
-		<Html>
-			<slot name="html"/>
-		</Html>
 	  <slot name="front"/>
 		{/if}
 	</LayerCake>

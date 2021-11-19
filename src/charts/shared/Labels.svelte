@@ -26,8 +26,9 @@
 <g class="label-group">
 	{#if $coords[0] && $coords[0].x}
 	{#each $coords as d, i}
-		{#if $data[i][idKey] == hovered || $data[i][idKey] == selected}
+		{#if [hovered, selected].includes($data[i][idKey])}
 		<text
+			class="label"
 			transform="translate(5,-5)"
 			filter="url(#bgfill)"
 			fill="#333"
@@ -39,8 +40,9 @@
 	{/each}
 	{:else if $coords[0] && $coords[0][0] && $coords[0][0].x}
 	{#each $coords as d, i}
-		{#if $data[i][0][idKey] == hovered || $data[i][0][idKey] == selected}
+		{#if [hovered, selected].includes($data[i][0][idKey])}
 		<text
+			class="label"
 			transform="translate(2,3)"
 			filter="url(#bgfill)"
 			fill="#333"
@@ -53,3 +55,9 @@
 	{/if}
 </g>
 {/if}
+
+<style>
+	.label {
+		font-size: 0.8em;
+	}
+</style>

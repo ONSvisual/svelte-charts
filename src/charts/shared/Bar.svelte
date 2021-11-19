@@ -9,6 +9,7 @@
 	export let select = false;
 	export let selected = null;
 	export let highlighted = [];
+	export let overlayFill = false;
 
 	let coords = $custom.coords;
 	let idKey = $custom.idKey;
@@ -56,7 +57,7 @@
 			  width="{(mode == 'barcode' || (mode == 'comparison' && i > 0)) && $xScale(d.w) < markerWidth ? markerWidth : $xScale(d.w)}"
 				stroke="{$data[i][j][idKey] == hovered ? colorHover : $data[i][j][idKey] == selected ? colorSelect : colorHighlight}"
 				stroke-width="{$data[i][j][idKey] == hovered || $data[i][j][idKey] == selected || highlighted.includes($data[i][j][idKey]) ? lineWidth : 0}"
-			  fill="{$config.z ? $zGet($data[i][j]) : $zRange[0]}"
+			  fill="{overlayFill && $data[i][j][idKey] == selected ? colorSelect : overlayFill && highlighted.includes($data[i][j][idKey]) ? colorHighlight : $config.z ? $zGet($data[i][j]) : $zRange[0]}"
 				on:mouseover={e => doHover(e, $data[i][j])}
 				on:mouseleave={e => doHover(e, null)}
 				on:focus={e => doHover(e, $data[i][j])}
