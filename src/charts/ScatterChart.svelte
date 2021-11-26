@@ -88,7 +88,7 @@
 	function yDomUpdate(data, key, min, max) {
 		let newDom = key ? domGet(data, key, min, max) : yDom;
 		if (newDom[0] != yDom[0] || newDom[1] != yDom[1]) {
-			yDomain.set(newDom);
+			yDomain.set(newDom, {duration: animation ? duration : 0});
 			yDom = newDom;
 		}
 	}

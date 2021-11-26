@@ -81,7 +81,7 @@
 	function xDomUpdate(data, mode, xKey, xMax) {
 		let newXDom = xDomSet(data, mode, xKey, xMax);
 		if (newXDom[0] != xDom[0] || newXDom[1] != xDom[1]) {
-			xDomain.set(newXDom);
+			xDomain.set(newXDom, {duration: animation ? duration : 0});
 			xDom = newXDom;
 		}
 	}

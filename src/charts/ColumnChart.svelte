@@ -77,7 +77,7 @@
 	function yDomUpdate(data, mode, yKey, yMax) {
 		let newYDom = yDomSet(data, mode, yKey, yMax);
 		if (newYDom[0] != yDom[0] || newYDom[1] != yDom[1]) {
-			yDomain.set(newYDom);
+			yDomain.set(newYDom, {duration: animation ? duration : 0});
 			yDom = newYDom;
 		}
 	}
