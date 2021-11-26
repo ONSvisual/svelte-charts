@@ -35,7 +35,6 @@
 				data: d,
 				event: e
 			});
-			console.log(e, d);
 		}
 	}
 
