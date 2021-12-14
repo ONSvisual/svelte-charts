@@ -19,34 +19,60 @@
 
     let newcoords;
     if (type == 'bar') {
-      newcoords = data.map((d, i) => d.map((e, j) => {
-			  return {
-				  x: mode == 'default' || mode =='grouped' || ((mode == 'comparison' || mode == 'stacked') && i == 0) ? 0 :
-				    mode == 'stacked' ? x(data[i - 1][j]) :
-					  x(e),
-				  y: mode == 'grouped' ? $yGet(e) + (i * (1 / data.length) * $yScale.bandwidth()) : $yGet(e),
-				  w: mode == 'default' || mode =='grouped' || ((mode == 'comparison' || mode == 'stacked') && i == 0) ? x(e) :
-				    mode == 'stacked' ? x(e) - x(data[i - 1][j]) :
-					  0,
-				  h: mode == 'grouped' ? $yScale.bandwidth() / data.length : $yScale.bandwidth()
-			  }
-		  }));
+			let xpos = [];
+			let xneg = [];
+      newcoords = data.map((d, i) => {
+				return d.map((e, j) => {
+					if (!xpos[j]) xpos[j] = 0;
+					if (!xneg[j]) xneg[j] = 0;
+					let x0 = mode == 'default' || mode =='grouped' || (mode == 'comparison' && i == 0) ? 0 :
+							mode == 'stacked' && x(e) >= 0 ? xpos[j] :
+							mode == 'stacked' ? xneg[j] :
+							x(e);
+					let x1 = mode == 'default' || mode =='grouped' || (mode == 'comparison' && i == 0) ? x(e) :
+							mode == 'stacked' && x(e) >= 0 ? xpos[j] + x(e) :
+							mode == 'stacked' ? xneg[j] + x(e) :
+							x(e);
+					if (x(e) >= 0) {
+						xpos[j] += x(e);
+					} else {
+						xneg[j] += x(e);
+					}
+					let y0 = mode == 'grouped' ? $yGet(e) + (i * ($yScale.bandwidth() / data.length)) : $yGet(e);
+					let y1 = mode == 'grouped' ? y0 + ($yScale.bandwidth() / data.length) : y0 + $yScale.bandwidth();
+					return {x0, x1, y0, y1};
+				})
+			});
     } else if (type == 'column') {
-      newcoords = data.map((d, i) => d.map((e, j) => {
-        return {
-			    x: mode == 'grouped' && $xScale.bandwidth ? $xGet(e) + (i * (1 / data.length) * $xScale.bandwidth()) :
-			      mode == 'grouped' ? $xGet(e)[0] + (i * (1 / data.length) * Math.max(0, ($xGet(e)[1] - $xGet(e)[0]))) :
-			      $xScale.bandwidth ? $xGet(e) : $xGet(e)[0],
-			    y: y(e),
-				  w: mode == 'grouped' && $xScale.bandwidth ? $xScale.bandwidth() / data.length :
-		        mode == 'grouped' ? Math.max(0, ($xGet(e)[1] - $xGet(e)[0])) / data.length :
-			      $xScale.bandwidth ? $xScale.bandwidth() :
-			      Math.max(0, ($xGet(e)[1] - $xGet(e)[0])),
-				  h: mode == 'default' || mode == 'grouped' || ((mode == 'comparison' || mode == 'stacked') && i == 0) ? y(e) :
-				    mode == 'stacked' ? y(e) - y(data[i - 1][j]) :
-				    0
-		    }
-	    }));
+			let ypos = [];
+			let yneg = [];
+      newcoords = data.map((d, i) => {
+				return d.map((e, j) => {
+					if (!ypos[j]) ypos[j] = 0;
+					if (!yneg[j]) yneg[j] = 0;
+					let x0 = mode == 'grouped' && $xScale.bandwidth ? $xGet(e) + (i * (1 / data.length) * $xScale.bandwidth()) :
+							mode == 'grouped' ? $xGet(e)[0] + (i * (1 / data.length) * Math.max(0, ($xGet(e)[1] - $xGet(e)[0]))) :
+							$xScale.bandwidth ? $xGet(e) : $xGet(e)[0];
+					let x1 = mode == 'grouped' && $xScale.bandwidth ? x0 + ($xScale.bandwidth() / data.length) :
+							mode == 'grouped' ? x0 + (Math.max(0, ($xGet(e)[1] - $xGet(e)[0])) / data.length) :
+							$xScale.bandwidth ? x0 + $xScale.bandwidth() :
+							x0 + Math.max(0, ($xGet(e)[1] - $xGet(e)[0]));
+					let y0 = mode == 'default' || mode =='grouped' || (mode == 'comparison' && i == 0) ? 0 :
+							mode == 'stacked' && y(e) >= 0 ? ypos[j] :
+							mode == 'stacked' ? yneg[j] :
+							y(e);
+					let y1 = mode == 'default' || mode =='grouped' || (mode == 'comparison' && i == 0) ? y(e) :
+							mode == 'stacked' && y(e) >= 0 ? ypos[j] + y(e) :
+							mode == 'stacked' ? yneg[j] + y(e) :
+							y(e);
+					if (y(e) >= 0) {
+						ypos[j] += y(e);
+					} else {
+						yneg[j] += y(e);
+					}
+					return {x0, x1, y0, y1};
+				})
+			});
     } else if (type == 'scatter') {
       let rVal = (d) => r ? $rGet(d) : $rRange[0];
       newcoords = y ? data.map(

@@ -1,8 +1,8 @@
 <script>
 	import { getContext, createEventDispatcher } from 'svelte';
 	
-	const { data, xScale, zGet, zRange, config, custom } = getContext('LayerCake');
-	const dispatch = createEventDispatcher();
+	const { data, xScale, zGet, xDomain, zRange, config, custom } = getContext('LayerCake');
+	const dispatch = createEventDispatcher()
 
 	export let hover = false;
 	export let hovered = null;
@@ -20,6 +20,11 @@
 	let lineWidth = $custom.lineWidth ? $custom.lineWidth : 2;
 	let markerWidth = $custom.markerWidth ? $custom.markerWidth : 2.5;
 	$: mode = $custom.mode ? $custom.mode : 'default';
+
+	$: makePoints = (x0, x1, y0, y1) => {
+		x1 = Math.abs(x1 - x0) < markerWidth ? x0 + markerWidth : x1;
+		return `${x0},${y0} ${x0},${y1} ${x1},${y1} ${x1},${y0}`;
+	};
 
 	function doHover(e, d) {
 		if (hover) {
@@ -48,13 +53,11 @@
 <g class="bar-group">
 	{#each $coords as group, i}
 	  {#each group as d, j}
-		  <rect
+		  <polygon
 			  class='bar-rect'
 			  data-id="{j}"
-			  x="{mode == 'barcode' || (mode == 'comparison' && i > 0) ? $xScale(d.x) - (markerWidth / 2) : $xScale(d.x)}"
-			  y="{d.y}"
-			  height={d.h}
-			  width="{(mode == 'barcode' || (mode == 'comparison' && i > 0)) && $xScale(d.w) < markerWidth ? markerWidth : $xScale(d.w)}"
+				transform="translate({mode == 'barcode' || (mode == 'comparison' && i > 0) ? -markerWidth / 2 : 0} 0)"
+			  points="{makePoints($xScale(d.x0), $xScale(d.x1), d.y0, d.y1)}"
 				stroke="{$data[i][j][idKey] == hovered ? colorHover : $data[i][j][idKey] == selected ? colorSelect : colorHighlight}"
 				stroke-width="{$data[i][j][idKey] == hovered || $data[i][j][idKey] == selected || highlighted.includes($data[i][j][idKey]) ? lineWidth : 0}"
 			  fill="{overlayFill && $data[i][j][idKey] == selected ? colorSelect : overlayFill && highlighted.includes($data[i][j][idKey]) ? colorHighlight : $config.z ? $zGet($data[i][j]) : $zRange[0]}"

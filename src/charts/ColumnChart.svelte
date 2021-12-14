@@ -26,7 +26,7 @@
 	export let yScale = 'linear';
 	export let yFormatTick = d => d;
 	export let yMax = null;
-	export let yMin = 0;
+	export let yMin = null;
   export let xAxis = true;
   export let yAxis = true;
 	export let yTicks = 4;
@@ -65,15 +65,25 @@
 	function getTotals(data, keys) {
 		let arr = [];
 		keys.forEach(key => {
+			let pos = 0;
+			let neg = 0;
 			let vals = data.filter(d => d[xKey] == key).map(d => d[yKey]);
-			let sum = vals.reduce((a, b) => a + b, 0);
-			arr.push(sum);
+			vals.forEach(d => {
+				if (d >= 0) { pos += d } else { neg += d }; 
+			});
+			if (pos != 0) arr.push(pos);
+			if (neg != 0) arr.push(neg);
 		});
 		return arr;
 	}
 
 	// Functions to animate yDomain
-	const yDomSet = (data, mode, yKey, yMax) => yMax ? [yMin, yMax] : mode == 'stacked' && yKey ? [yMin, Math.max(...getTotals(data, data.map(d => d[xKey]).filter(distinct)))] : [yMin, Math.max(...data.map(d => d[yKey]))];
+	function yDomSet(data, mode, yKey, yMax) {
+		let vals = mode == 'stacked' && zKey ? getTotals(data, data.map(d => d[xKey]).filter(distinct)) : data.map(d => d[yKey]);
+		let min = yMin ? yMin : Math.min(...vals) > 0 ? 0 : Math.min(...vals);
+		let max = yMax ? yMax : Math.max(...vals) < 0 ? 0 : Math.max(...vals);
+		return [min, max];
+	}
 	function yDomUpdate(data, mode, yKey, yMax) {
 		let newYDom = yDomSet(data, mode, yKey, yMax);
 		if (newYDom[0] != yDom[0] || newYDom[1] != yDom[1]) {
@@ -90,7 +100,7 @@
 	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
 
 	// Create a data series for each zKey (group)
-	$: groupedData = mode == 'stacked' ? stackData(data, zDomain, yKey, zKey) : groupData(data, zDomain, zKey);
+	$: groupedData = groupData(data, zDomain, zKey);
 </script>
 
 {#if title}

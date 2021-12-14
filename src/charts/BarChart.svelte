@@ -26,7 +26,7 @@
 	export let xScale = 'linear';
 	export let xFormatTick = d => d;
 	export let xMax = null;
-	export let xMin = 0;
+	export let xMin = null;
   export let xAxis = true;
   export let yAxis = true;
 	export let xTicks = 4;
@@ -69,15 +69,25 @@
 	function getTotals(data, keys) {
 		let arr = [];
 		keys.forEach(key => {
+			let pos = 0;
+			let neg = 0;
 			let vals = data.filter(d => d[yKey] == key).map(d => d[xKey]);
-			let sum = vals.reduce((a, b) => a + b, 0);
-			arr.push(sum);
+			vals.forEach(d => {
+				if (d >= 0) { pos += d } else { neg += d }; 
+			});
+			if (pos != 0) arr.push(pos);
+			if (neg != 0) arr.push(neg);
 		});
 		return arr;
 	}
 
 	// Functions to update xDomain
-	const xDomSet = (data, mode, xKey, xMax) => xMax ? [xMin, xMax] : mode == 'stacked' && zKey ? [xMin, Math.max(...getTotals(data, data.map(d => d[yKey]).filter(distinct)))] : [xMin, Math.max(...data.map(d => d[xKey]))];
+	function xDomSet(data, mode, xKey, xMax) {
+		let vals = mode == 'stacked' && zKey ? getTotals(data, data.map(d => d[yKey]).filter(distinct)) : data.map(d => d[xKey]);
+		let min = xMin ? xMin : Math.min(...vals) > 0 ? 0 : Math.min(...vals);
+		let max = xMax ? xMax : Math.max(...vals) < 0 ? 0 : Math.max(...vals);
+		return [min, max];
+	}
 	function xDomUpdate(data, mode, xKey, xMax) {
 		let newXDom = xDomSet(data, mode, xKey, xMax);
 		if (newXDom[0] != xDom[0] || newXDom[1] != xDom[1]) {
@@ -94,7 +104,7 @@
 	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
 
 	// Create a data series for each zKey (group)
-	$: groupedData = mode == 'stacked' ? stackData(data, zDomain, xKey, zKey) : groupData(data, zDomain, zKey);
+	$: groupedData = groupData(data, zDomain, zKey);
 </script>
 
 {#if title}
