@@ -4,6 +4,7 @@
 	import ColumnChart from './charts/ColumnChart.svelte';
 	import ScatterChart from './charts/ScatterChart.svelte';
 	import MarkerChart from './charts/MarkerChart.svelte';
+	import DotPlotChart from './charts/DotPlotChart.svelte';
 
 	import data from './data/data';
 	import dataScatter from './data/data-scatter';
@@ -188,6 +189,16 @@
 					<label><input type="checkbox" bind:checked={beeswarm.zKey}/> Colours</label>
 				</div>
 			</ScatterChart>
+		</div>
+		<div>
+			<DotPlotChart
+				data={data}
+				xKey="value" yKey="year" zKey="group"
+				title="Dot plot chart"
+				{hover} {hovered} on:hover={doHover}
+				{select} {selected} on:select={doSelect}
+				{animation} legend>
+			</DotPlotChart>
 		</div>
 		{#if false}
 		<div>
