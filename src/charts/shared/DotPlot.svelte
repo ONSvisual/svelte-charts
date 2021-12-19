@@ -45,18 +45,20 @@
 	{/each}
 
 	{#if idKey && (hovered || selected || highlighted[0])}
-	{#each $coords as d, i}
-		{#if [hovered, selected, ...highlighted].includes($data[i][idKey])}
-		<circle
-			class
-			cx={$xScale(d.x)}
-			cy={$yScale(d.y)}
-			r={d.r}
-			fill="{overlayFill && $data[i][idKey] == selected ? colorSelect : overlayFill & highlighted.includes($data[i][idKey]) ? colorHighlight : 'none'}"
-			stroke="{$data[i][idKey] == hovered ? colorHover : $data[i][idKey] == selected ? colorSelect : colorHighlight}"
-			stroke-width="{$data[i][idKey] == hovered || $data[i][idKey] == selected || highlighted.includes($data[i][idKey]) ? lineWidth : 0}"
-		/>
-		{/if}
+	{#each $coords as group, i}
+		{#each group as d, j}
+			{#if [...highlighted, selected, hovered].includes($data[i][idKey])}
+			<circle
+				class
+				cx={$xScale(d.x)}
+				cy={$yScale(d.y)}
+				r={radius}
+				fill="{overlayFill && $data[i][j][idKey] == selected ? colorSelect : overlayFill & highlighted.includes($data[i][j][idKey]) ? colorHighlight : 'none'}"
+				stroke="{$data[i][j][idKey] == hovered ? colorHover : $data[i][j][idKey] == selected ? colorSelect : colorHighlight}"
+				stroke-width="{$data[i][j][idKey] == hovered || $data[i][j][idKey] == selected || highlighted.includes($data[i][j][idKey]) ? lineWidth : 0}"
+			/>
+			{/if}
+		{/each}
 	{/each}
 	{/if}
 </g>

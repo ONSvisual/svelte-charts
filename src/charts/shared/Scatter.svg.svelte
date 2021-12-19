@@ -31,7 +31,7 @@
 
 	{#if idKey && (hovered || selected || highlighted[0])}
 	{#each $coords as d, i}
-		{#if [hovered, selected, ...highlighted].includes($data[i][idKey])}
+		{#if [...highlighted, selected, hovered].includes($data[i][idKey])}
 		<circle
 			class
 			cx={$xScale(d.x)}
