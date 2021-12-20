@@ -5,7 +5,7 @@
 	import { scaleBand, scaleOrdinal, scaleLinear, scaleSymlog } from 'd3-scale';
   import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
-	import { groupData, stackData } from '../js/utils';
+	import { groupData } from '../js/utils';
 
 	import SetCoords from './shared/SetCoords.svelte';
 	import Bar from './shared/Bar.svelte';
@@ -14,6 +14,7 @@
 	import Legend from './shared/Legend.svelte';
 	import Title from './shared/Title.svelte';
 	import Footer from './shared/Footer.svelte';
+	import Export from './shared/Export.svelte';
 
   export let data;
 	export let height = 250; // number of pixels or valid css height string
@@ -57,6 +58,9 @@
 	export let highlighted = [];
 	export let colorHighlight = 'black';
 	export let overlayFill = false;
+	export let output = null;
+
+	let el; // Chart DOM element
 
 	const tweenOptions = {
 		duration: duration,
@@ -107,6 +111,7 @@
 	$: groupedData = groupData(data, zDomain, zKey);
 </script>
 
+<div bind:this={el}>
 {#if title}
   <Title>{title}</Title>
 {/if}
@@ -162,6 +167,10 @@
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>
+{/if}
+</div>
+{#if output}
+	<Export {el} {data} keys={[idKey, yKey, zKey, xKey]} {title} {output}/>
 {/if}
 
 <style>

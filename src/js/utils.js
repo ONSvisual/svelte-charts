@@ -1,3 +1,5 @@
+import html2canvas from 'html2canvas';
+
 export function groupData(data, domain, key) {
   let groups = [];
   if (key) {
@@ -23,4 +25,35 @@ export function stackData(data, domain, valKey, grpKey) {
     groups.push(clone);
   });
   return groups;
+}
+
+export function getCSV(data, keys = [], filename) {
+  let str = '';
+  let newkeys = [];
+  keys.forEach(key => {
+    if (key && !newkeys.includes(key)) {
+      newkeys.push(key);
+    }
+  });
+  str += newkeys.join(',') + '\n';
+  data.forEach(d => {
+    str += newkeys.map(key => d[key]).join(',') + '\n';
+  });
+  let content = 'data:text/csv;charset=utf-8,' + encodeURI(str);
+  download(content, filename + '.csv');
+}
+
+export function getPNG(target, filename) {
+  html2canvas(target)
+  .then(canvas => {
+    let content = canvas.toDataURL();
+    download(content, filename + '.png');
+  });
+}
+
+function download(content, filename) {
+  var a = document.createElement('a');
+  a.href = content;
+  a.download = filename;
+  a.click();
 }

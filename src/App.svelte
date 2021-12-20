@@ -95,7 +95,7 @@
 			</BarChart>
 		</div>
 		<div>
-			<BarChart data={data.filter(d => d.year == 2020)} xKey="value" yKey="group" zKey="group" title="Coloured bar chart"/>
+			<BarChart data={data.filter(d => d.year == 2020)} xKey="value" yKey="group" zKey="group" title="Coloured bar chart with export options" output={{csv: true, png: true}}/>
 		</div>
 		<div>
 			<ColumnChart
@@ -129,7 +129,7 @@
 			</ColumnChart>
 		</div>
 		<div>
-			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" title="Coloured column chart"/>
+			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" title="Coloured column chart with export options" output={{csv: true, png: true}}/>
 		</div>
 		<div>
 			<LineChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" areaOpacity={0.3} title="Line chart with area" animation={animation} >
