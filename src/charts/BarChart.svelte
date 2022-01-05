@@ -18,6 +18,7 @@
 
   export let data;
 	export let height = 250; // number of pixels or valid css height string
+	export let ssr = false;
   export let animation = true;
   export let duration = 800;
 	export let xKey = 'x';
@@ -119,6 +120,7 @@
 <div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }">
 	<LayerCake
 		{padding}
+		{ssr}
 		x={xKey}
 		y={yKey}
 		z={zKey}
