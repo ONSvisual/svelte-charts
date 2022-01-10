@@ -1,10 +1,6 @@
 {
   "name": "@onsvisual/svelte-charts",
-<<<<<<< HEAD
   "version": "0.1.31",
-=======
-  "version": "0.1.30",
->>>>>>> dd517bbee377391bc949838e32527c0c4f9fbfb4
   "description": "Reusable chart templates for Svelte projects.",
   "homepage": "http://onsvisual.github.io/svelte-charts",
   "module": "index.mjs",
