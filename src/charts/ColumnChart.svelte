@@ -102,7 +102,7 @@
 
 	// Functions to update xDomain & zDomain
 	$: xDomain = data.map(d => d[xKey]).filter(distinct);
-	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
+	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct).sort((a, b) => a.localeCompare(b)) : null;
 
 	// Create a data series for each zKey (group)
 	$: groupedData = groupData(data, zDomain, zKey);

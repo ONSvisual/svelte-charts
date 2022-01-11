@@ -5,6 +5,7 @@
 
 	export let hovered = null;
 	export let selected = null;
+	export let content = null;
 	
 	let coords = $custom.coords;
 	let idKey = $custom.idKey;
@@ -48,7 +49,7 @@
 			fill="#333"
 		  x={$xScale(d[d.length - 1].x)}
 			y={$yScale(d[d.length - 1].y)}>
-			{$data[i][0][labelKey]}
+			{content ? content : $data[i][0][labelKey]}
 		</text>
 		{/if}
 	{/each}

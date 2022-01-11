@@ -94,7 +94,7 @@
 	$: yDomUpdate(data, mode, yKey, yMax);
 	
 	// Function to update zDomain
-	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
+	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct).sort((a, b) => a.localeCompare(b)) : null;
 
 	// Create a data series for each zKey (group)
 	$: groupedData = mode == 'stacked' ? stackData(data, zDomain, yKey, zKey) : groupData(data, zDomain, zKey);

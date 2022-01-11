@@ -46,6 +46,7 @@
 	export let footer = null;
 	export let legend = false;
 	export let labels = false;
+	export let labelContent = null;
 	export let snapTicks = false;
   export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
   export let buffer = 5;
@@ -100,7 +101,7 @@
 
 	$: xDomUpdate(data, xKey, xMin, xMax);
 	$: yDomUpdate(data, yKey, yMin, yMax);
-  $: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
+  $: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct).sort((a, b) => a.localeCompare(b)) : null;
 </script>
 
 {#if title}
@@ -155,7 +156,7 @@
 				<Voronoi {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
 			{/if}
 			{#if labels}
-				<Labels {hovered} {selected}/>
+				<Labels {hovered} {selected} content={labelContent}/>
 			{/if}
 			<slot name="svg"/>
 		</Svg>
