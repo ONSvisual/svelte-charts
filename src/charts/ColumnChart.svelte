@@ -124,7 +124,7 @@
 		yDomain={$yDomain}
 		{zDomain}
 		xScale={scaleBand().paddingInner([spacing]).round(true)}
-		yScale={yScale == 'log' ? scaleSymlog() : scaleLinear()}
+		yScale={typeof yScale == 'function' ? yScale() : yScale == 'log' ? scaleSymlog() : scaleLinear()}
 		zScale={scaleOrdinal()}
 		zRange={colors}
 		data={groupedData}

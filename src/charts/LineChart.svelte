@@ -112,7 +112,7 @@
 		y={yKey}
 		z={zKey}
 		yDomain={$yDomain}
-		yScale={yScale == 'log' ? scaleSymlog() : scaleLinear()}
+		yScale={typeof yScale == 'function' ? yScale() : yScale == 'log' ? scaleSymlog() : scaleLinear()}
 		zScale={scaleOrdinal()}
 		{zDomain}
 		zRange={colors}

@@ -126,7 +126,7 @@
 		z={zKey}
 		xDomain={$xDomain}
 		{yDomain}
-		xScale={xScale == 'log' ? scaleSymlog() : scaleLinear()}
+		xScale={typeof xScale == 'function' ? xScale() : xScale == 'log' ? scaleSymlog() : scaleLinear()}
 		yScale={scaleBand().paddingInner([spacing]).round(true)}
 		zScale={scaleOrdinal()}
 		{zDomain}

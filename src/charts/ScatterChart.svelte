@@ -115,8 +115,8 @@
 		y={yKey}
     z={zKey}
     r={rKey}
-		xScale={xScale == 'log' ? scaleSymlog() : scaleLinear()}
-		yScale={yScale == 'log' ? scaleSymlog() : scaleLinear()}
+		xScale={typeof xScale == 'function' ? xScale() : xScale == 'log' ? scaleSymlog() : scaleLinear()}
+		yScale={typeof yScale == 'function' ? yScale() : yScale == 'log' ? scaleSymlog() : scaleLinear()}
     zScale={scaleOrdinal()}
 		xDomain={$xDomain}
 		yDomain={$yDomain}
