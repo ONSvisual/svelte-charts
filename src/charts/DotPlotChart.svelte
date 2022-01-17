@@ -14,10 +14,13 @@
 	import Legend from './shared/Legend.svelte';
 	import Title from './shared/Title.svelte';
 	import Footer from './shared/Footer.svelte';
+	import Export from './shared/Export.svelte';
 
   export let data;
-	export let height = 250; // number of pixels or valid css height string
+	export let height = 300; // number of pixels or valid css height string
 	export let ssr = false;
+	export let ssrWidth = 300; // for SSR only. Must be a number
+	export let ssrHeight = typeof height == 'number' ? height : 300; // for SSR only. Number, or calculated from 'height'
   export let animation = true;
   export let duration = 800;
 	export let xKey = 'x';
@@ -43,8 +46,8 @@
 	export let color = null; // Option to set a single colour
 	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
   export let radius = 6;
-	export let lineWidth = radius * 2;
-  export let lineColor = 'lightgrey';
+	export let lineWidth = 2.5;
+  export let lineColor = 'darkgrey';
 	export let interactive = true;
 	export let xPrefix = "";
 	export let xSuffix = "";
@@ -59,6 +62,9 @@
 	export let highlighted = []; // Array of idKeys to highlight multiple items
 	export let colorHighlight = 'black';
 	export let overlayFill = false;
+	export let output = null;
+
+	let el; // Chart DOM element
 
 	const tweenOptions = {
 		duration: duration,
@@ -94,6 +100,7 @@
 	$: groupedData = groupData(data, yDomain, yKey);
 </script>
 
+<div bind:this={el}>
 {#if title}
   <Title>{title}</Title>
 {/if}
@@ -102,6 +109,8 @@
 	<LayerCake
 		{padding}
 		{ssr}
+		height={ssr ? ssrHeight : null}
+		width={ssr ? ssrWidth : null}
 		x={xKey}
 		y={yKey}
 		z={zKey}
@@ -128,9 +137,7 @@
       animation,
       duration
     }}
-		let:width
 	>
-	  {#if width > 80} <!-- Hack to prevent rendering before xRange/yRange initialised -->
 	  <SetCoords/>
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
@@ -144,7 +151,6 @@
 			<slot name="svg"/>
 		</Svg>
 	  <slot name="front"/>
-		{/if}
 	</LayerCake>
 </div>
 {#if false && legend && zDomain}
@@ -152,6 +158,10 @@
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>
+{/if}
+</div>
+{#if output}
+	<Export {el} {data} keys={[idKey, xKey, zKey, yKey]} {title} {output}/>
 {/if}
 
 <style>

@@ -15,10 +15,13 @@
 	import Title from './shared/Title.svelte';
 	import Footer from './shared/Footer.svelte';
 	import Labels from './shared/Labels.svelte';
+	import Export from './shared/Export.svelte';
 
 	export let data;
-	export let height = 250; // number of pixels or valid css height string
+	export let height = 300; // number of pixels or valid css height string
 	export let ssr = false;
+	export let ssrWidth = 300; // for SSR only. Must be a number
+	export let ssrHeight = typeof height == 'number' ? height : 300; // for SSR only. Number, or calculated from 'height'
   export let animation = true;
   export let duration = 800;
 	export let xKey = 'x';
@@ -67,6 +70,9 @@
 	export let highlighted = [];
 	export let colorHighlight = 'black';
 	export let overlayFill = false;
+	export let output = null;
+
+	let el; // Chart DOM element
 
 	const tweenOptions = {
 		duration: duration,
@@ -104,6 +110,7 @@
   $: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct).sort((a, b) => a.localeCompare(b)) : null;
 </script>
 
+<div bind:this={el}>
 {#if title}
   <Title>{title}</Title>
 {/if}
@@ -112,6 +119,8 @@
 	<LayerCake
     {padding}
 		{ssr}
+		height={ssr ? ssrHeight : null}
+		width={ssr ? ssrWidth : null}
 		x={xKey}
 		y={yKey}
     z={zKey}
@@ -139,10 +148,8 @@
       animation,
       duration
     }}
-		let:width
 	>
-	  {#if width > 80} <!-- Hack to prevent rendering before xRange/yRange initialised -->
-		<SetCoords/>
+	  <SetCoords/>
     <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
@@ -161,7 +168,6 @@
 			<slot name="svg"/>
 		</Svg>
 	  <slot name="front"/>
-		{/if}
 	</LayerCake>
 </div>
 {#if legend && zDomain}
@@ -169,6 +175,10 @@
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>
+{/if}
+</div>
+{#if output}
+	<Export {el} {data} keys={[idKey, xKey, zKey, yKey]} {title} {output}/>
 {/if}
 
 <style>

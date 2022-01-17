@@ -17,8 +17,10 @@
 	import Export from './shared/Export.svelte';
 
   export let data;
-	export let height = 250; // number of pixels or valid css height string
+	export let height = 300; // number of pixels or valid css height string
 	export let ssr = false;
+	export let ssrWidth = 300; // for SSR only. Must be a number
+	export let ssrHeight = typeof height == 'number' ? height : 300; // for SSR only. Number, or calculated from 'height'
   export let animation = true;
   export let duration = 800;
 	export let xKey = 'x';
@@ -117,6 +119,8 @@
 	<LayerCake
 		{padding}
 		{ssr}
+		height={ssr ? ssrHeight : null}
+		width={ssr ? ssrWidth : null}
 		x={xKey}
 		y={yKey}
 		z={zKey}
@@ -141,9 +145,7 @@
       animation,
       duration
     }}
-		let:width
 	>
-	  {#if width > 80} <!-- Hack to prevent rendering before xRange/yRange initialised -->
 		<SetCoords/>
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
@@ -157,7 +159,6 @@
 			<slot name="svg"/>
 		</Svg>
 	  <slot name="front"/>
-		{/if}
 	</LayerCake>
 </div>
 {#if legend && zDomain}

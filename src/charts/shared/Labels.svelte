@@ -35,7 +35,7 @@
 			fill="#333"
 		  x={$xScale(d.x)}
 			y={$yScale(d.y)}>
-			{$data[i][labelKey]}
+			{content ? content : $data[i][labelKey]}
 		</text>
 		{/if}
 	{/each}
