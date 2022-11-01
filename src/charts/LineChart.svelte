@@ -38,6 +38,7 @@
   export let yAxis = true;
 	export let xTicks = 4;
 	export let yTicks = 4;
+	export let zDomain = null;
 	export let title = null;
 	export let footer = null;
 	export let legend = false;
@@ -100,10 +101,12 @@
 	$: yDomUpdate(data, mode, yKey, yMax);
 	
 	// Function to update zDomain
-	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct).sort((a, b) => a.localeCompare(b)) : null;
+	$: _zDomain = Array.isArray(zDomain) ? zDomain :
+		zKey && typeof zDomain === "function" ? data.map(d => d[zKey]).filter(distinct).sort(zDomain) : 
+		zKey ? data.map(d => d[zKey]).filter(distinct) : null;
 
 	// Create a data series for each zKey (group)
-	$: groupedData = mode == 'stacked' ? stackData(data, zDomain, yKey, zKey) : groupData(data, zDomain, zKey);
+	$: groupedData = mode == 'stacked' ? stackData(data, _zDomain, yKey, zKey) : groupData(data, _zDomain, zKey);
 </script>
 
 <div bind:this={el}>
@@ -123,7 +126,7 @@
 		yDomain={$yDomain}
 		yScale={typeof yScale == 'function' ? yScale() : yScale == 'log' ? scaleSymlog() : scaleLinear()}
 		zScale={scaleOrdinal()}
-		{zDomain}
+		zDomain={_zDomain}
 		zRange={colors}
 		data={groupedData}
 		flatData={data}
@@ -163,8 +166,8 @@
 	  <slot name="front"/>
 	</LayerCake>
 </div>
-{#if legend && zDomain}
-  <Legend domain={zDomain} {colors} {line} markerWidth={lineWidth}/>
+{#if legend && _zDomain}
+  <Legend domain={_zDomain} {colors} {line} markerWidth={lineWidth}/>
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>

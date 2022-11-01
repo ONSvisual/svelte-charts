@@ -20,6 +20,7 @@
 	export let xKey = 'x';
 	export let zKey = null;
   export let xAxis = true;
+	export let zDomain = null;
 	export let title = null;
 	export let footer = null;
 	export let snapTicks = false;
@@ -38,7 +39,9 @@
 	const distinct = (d, i, arr) => arr.indexOf(d) ==  i;
 
 	$: xDomain = [xTicks[0], xTicks[xTicks.length - 1]];
-	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct) : null;
+	$: _zDomain = Array.isArray(zDomain) ? zDomain :
+		zKey && typeof zDomain === "function" ? data.map(d => d[zKey]).filter(distinct).sort(zDomain) : 
+		zKey ? data.map(d => d[zKey]).filter(distinct) : null;
   $: intData = data.map(d => ({...d, y: 0}));
 </script>
 
@@ -56,7 +59,7 @@
 		yDomain={[0]}
 		yScale={scaleBand()}
 		zScale={scaleOrdinal()}
-		{zDomain}
+		zDomain={_zDomain}
 		zRange={colors}
 		data={intData}
 		custom={{

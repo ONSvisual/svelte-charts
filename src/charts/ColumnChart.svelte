@@ -34,6 +34,7 @@
   export let xAxis = true;
   export let yAxis = true;
 	export let yTicks = 4;
+	export let zDomain = null;
 	export let title = null;
 	export let footer = null;
 	export let legend = false;
@@ -104,10 +105,12 @@
 
 	// Functions to update xDomain & zDomain
 	$: xDomain = data.map(d => d[xKey]).filter(distinct);
-	$: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct).sort((a, b) => a.localeCompare(b)) : null;
-
+	$: _zDomain = Array.isArray(zDomain) ? zDomain :
+		zKey && typeof zDomain === "function" ? data.map(d => d[zKey]).filter(distinct).sort(zDomain) : 
+		zKey ? data.map(d => d[zKey]).filter(distinct) : null;
+	
 	// Create a data series for each zKey (group)
-	$: groupedData = groupData(data, zDomain, zKey);
+	$: groupedData = groupData(data, _zDomain, zKey);
 </script>
 
 <div bind:this={el}>
@@ -126,7 +129,7 @@
 		z={zKey}
 		{xDomain}
 		yDomain={$yDomain}
-		{zDomain}
+		zDomain={_zDomain}
 		xScale={scaleBand().paddingInner([spacing]).round(true)}
 		yScale={typeof yScale == 'function' ? yScale() : yScale == 'log' ? scaleSymlog() : scaleLinear()}
 		zScale={scaleOrdinal()}
@@ -161,8 +164,8 @@
 	  <slot name="front"/>
 	</LayerCake>
 </div>
-{#if legend && zDomain}
-  <Legend domain={zDomain} {colors} {markerWidth} line={mode == 'barcode'} comparison={mode == 'comparison'}/>
+{#if legend && _zDomain}
+  <Legend domain={_zDomain} {colors} {markerWidth} line={mode == 'barcode'} comparison={mode == 'comparison'}/>
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>

@@ -42,6 +42,7 @@
   export let yAxis = true;
 	export let xTicks = 4;
   export let yTicks = 4;
+	export let zDomain = null;
 	export let textColor = '#666';
 	export let tickColor = '#ccc';
 	export let tickDashed = false;
@@ -107,7 +108,9 @@
 
 	$: xDomUpdate(data, xKey, xMin, xMax);
 	$: yDomUpdate(data, yKey, yMin, yMax);
-  $: zDomain = zKey ? data.map(d => d[zKey]).filter(distinct).sort((a, b) => a.localeCompare(b)) : null;
+  $: _zDomain = Array.isArray(zDomain) ? zDomain :
+		zKey && typeof zDomain === "function" ? data.map(d => d[zKey]).filter(distinct).sort(zDomain) : 
+		zKey ? data.map(d => d[zKey]).filter(distinct) : null;
 </script>
 
 <div bind:this={el}>
@@ -130,7 +133,7 @@
     zScale={scaleOrdinal()}
 		xDomain={$xDomain}
 		yDomain={$yDomain}
-		{zDomain}
+		zDomain={_zDomain}
 		zRange={colors}
     rRange={Array.isArray(r) ? r : [r, r]}
 		data={data}
@@ -170,8 +173,8 @@
 	  <slot name="front"/>
 	</LayerCake>
 </div>
-{#if legend && zDomain}
-  <Legend domain={zDomain} {colors} markerLength={Array.isArray(r) ? r[0] * 2 : r * 2} round={true}/>
+{#if legend && _zDomain}
+  <Legend domain={_zDomain} {colors} markerLength={Array.isArray(r) ? r[0] * 2 : r * 2} round={true}/>
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>
