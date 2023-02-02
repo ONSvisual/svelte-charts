@@ -2,8 +2,8 @@
 
 <script>
 	import { LayerCake, Svg } from 'layercake';
-	import { scaleOrdinal, scaleLinear, scaleSymlog } from 'd3-scale';
-  import { tweened } from 'svelte/motion';
+	import { scaleOrdinal, scaleLinear, scaleSymlog, scaleTime } from 'd3-scale';
+ 	import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
 	import { groupData, stackData } from '../js/utils';
 
@@ -18,24 +18,26 @@
 	import Labels from './shared/Labels.svelte';
 	import Export from './shared/Export.svelte';
 
-  export let data;
+  	export let data;
 	export let height = 300; // number of pixels or valid css height string
 	export let ssr = false;
 	export let ssrWidth = 300; // for SSR only. Must be a number
 	export let ssrHeight = typeof height == 'number' ? height : 300; // for SSR only. Number, or calculated from 'height'
-  export let animation = true;
-  export let duration = 800;
+	export let animation = true;
+	export let duration = 800;
 	export let xKey = 'x';
 	export let yKey = 'y';
 	export let zKey = null;
 	export let idKey = zKey;
 	export let labelKey = idKey;
+	export let xScale;
 	export let yScale = 'linear';
 	export let yFormatTick = d => d;
+	export let xFormatTick = d => d;
 	export let yMax = null;
 	export let yMin = 0;
-  export let xAxis = true;
-  export let yAxis = true;
+	export let xAxis = true;
+	export let yAxis = true;
 	export let xTicks = 4;
 	export let yTicks = 4;
 	export let zDomain = null;
@@ -44,8 +46,8 @@
 	export let legend = false;
 	export let labels = false;
 	export let snapTicks = true;
-  export let line = true;
-  export let area = true;
+	export let line = true;
+	export let area = true;
 	export let mode = 'default';
 	export let areaOpacity = 1;
 	export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
@@ -76,6 +78,7 @@
 	const coords = tweened(undefined, tweenOptions);
 
 	const distinct = (d, i, arr) => arr.indexOf(d) ==  i;
+	const distinctTime = (d, i, arr) => arr.map(e=>e.getTime).indexOf(d.getTime())
 
 	function getTotals(data, keys) {
 		let arr = [];
@@ -95,9 +98,14 @@
 			yDomain.set(newYDom, {duration: animation ? duration : 0});
 			yDom = newYDom;
 		}
+	
+
 	}
 	let yDom = yDomSet(data, mode, yKey, yMax);
 	const yDomain = tweened(yDom, tweenOptions);
+
+
+
 	$: yDomUpdate(data, mode, yKey, yMax);
 	
 	// Function to update zDomain
@@ -124,6 +132,7 @@
 		y={yKey}
 		z={zKey}
 		yDomain={$yDomain}
+		xScale={typeof xScale == 'function' ? xScale() : xScale == 'time' ? scaleTime() : scaleLinear()}
 		yScale={typeof yScale == 'function' ? yScale() : yScale == 'log' ? scaleSymlog() : scaleLinear()}
 		zScale={scaleOrdinal()}
 		zDomain={_zDomain}
@@ -147,7 +156,7 @@
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} {snapTicks} prefix={xPrefix} suffix={xSuffix}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix}/>
       {/if}
       {#if yAxis}
 			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix}/>

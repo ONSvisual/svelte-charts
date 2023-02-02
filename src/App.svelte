@@ -8,6 +8,9 @@
 
 	import data from './data/data';
 	import dataScatter from './data/data-scatter';
+	import dataTime from './data/data-time';
+
+	import {timeFormat} from 'd3-time-format';
 
 	// Chart options
 	let animation = true;
@@ -166,6 +169,21 @@
 				{animation} legend labels
 				{hover} {select}/>
 		</div>
+
+		<div>
+			<LineChart
+			data={dataTime}
+			xKey="year" yKey="value" zKey="group"
+			color="grey" lineWidth={1}
+			area={false}
+			xScale="time"
+			xFormatTick={d=>timeFormat('%b %y')(d)}
+			title="Line chart with time data"
+			padding={{ top: 0, bottom: 20, left: 35, right: 60 }}
+			{animation} legend labels
+			{hover} {select}/>
+		</div>
+		
 		<div>
 			<ScatterChart
 				data={dataScatter}
