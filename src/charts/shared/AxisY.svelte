@@ -17,6 +17,7 @@
 	export let textAnchor = 'start';
 	export let prefix = '';
 	export let suffix = '';
+	export let ysnapTicks = false;
 
 	$: isBandwidth = typeof $yScale.bandwidth === 'function';
 
@@ -28,12 +29,13 @@
 					$yScale.ticks(ticks);
 </script>
 
-<g class='axis y-axis' transform='translate({-$padding.left}, 0)'>
+<g class='axis y-axis' transform='translate({ysnapTicks ? 0 : -$padding.left}, 0)'>
 	{#each tickVals as tick, i}
 		<g class='tick tick-{tick}' transform='translate({$xRange[0] + (isBandwidth ? $padding.left : 0)}, {$yScale(tick)})'>
 			{#if gridlines !== false}
 				<line
 					class="gridline"
+					
 					x2='100%'
 					y1={yTick + (isBandwidth ? ($yScale.bandwidth() / 2) : 0)}
 					y2={yTick + (isBandwidth ? ($yScale.bandwidth() / 2) : 0)}
@@ -55,9 +57,9 @@
 				x='{xTick}'
 				y='{yTick + (isBandwidth ? $yScale.bandwidth() / 2 : 0)}'
 				dx='{isBandwidth ? -4 : dxTick}'
-				dy='{isBandwidth ? 4 : dyTick}'
-				style="text-anchor:{isBandwidth ? 'end' : textAnchor}; fill: {textColor}">
-					{i == tickVals.length - 1 ? prefix + formatTick(tick) + suffix : formatTick(tick)}
+				dy='{isBandwidth ? 4 : ysnapTicks ? 4 : dyTick}'
+				style="text-anchor:{isBandwidth ? 'end' : ysnapTicks ? 'end' : textAnchor}; fill: {textColor}">
+					{prefix + formatTick(tick) + suffix}
 				</text>
 		</g>
 	{/each}

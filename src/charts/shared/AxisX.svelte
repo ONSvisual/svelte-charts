@@ -9,7 +9,7 @@
 	export let tickColor = '#bbb';
 	export let textColor = '#666';
 	export let formatTick = d => d;
-	export let snapTicks = false;
+	export let xsnapTicks = false;
 	export let ticks = undefined;
 	export let xTick = undefined;
 	export let yTick = 16;
@@ -28,7 +28,7 @@
 					$xScale.ticks(ticks);
 
 	function textAnchor(i) {
-		if (snapTicks === true) {
+		if (xsnapTicks === true) {
 			if (i === 0) {
 				return 'start';
 			}
@@ -40,7 +40,7 @@
 	}
 </script>
 
-<g class='axis x-axis' class:snapTicks>
+<g class='axis x-axis' class:xsnapTicks>
 	{#each tickVals as tick, i}
 		<g class='tick tick-{tick}' transform='translate({$xScale(tick)},{$yRange[0]})'>
 			{#if gridlines !== false}
@@ -76,10 +76,10 @@
 		stroke-dasharray: 2;
 	}
 	/* This looks slightly better */
-	.axis.snapTicks .tick:last-child text {
+	.axis.xsnapTicks .tick:last-child text {
 		transform: translateX(3px);
 	}
-	.axis.snapTicks .tick.tick-0 text {
+	.axis.xsnapTicks .tick.tick-0 text {
 		transform: translateX(-3px);
 	}
 </style>

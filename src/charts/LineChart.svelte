@@ -45,7 +45,8 @@
 	export let footer = null;
 	export let legend = false;
 	export let labels = false;
-	export let snapTicks = true;
+	export let xsnapTicks = true;
+	export let ysnapTicks = false;
 	export let line = true;
 	export let area = true;
 	export let mode = 'default';
@@ -78,7 +79,6 @@
 	const coords = tweened(undefined, tweenOptions);
 
 	const distinct = (d, i, arr) => arr.indexOf(d) ==  i;
-	const distinctTime = (d, i, arr) => arr.map(e=>e.getTime).indexOf(d.getTime())
 
 	function getTotals(data, keys) {
 		let arr = [];
@@ -156,10 +156,10 @@
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {xsnapTicks} prefix={xPrefix} suffix={xSuffix}/>
       {/if}
       {#if yAxis}
-			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix}/>
+			  <AxisY ticks={yTicks} formatTick={yFormatTick} {ysnapTicks} prefix={yPrefix} suffix={ySuffix}/>
       {/if}
       {#if area}
 			  <Area {mode} opacity={areaOpacity}/>

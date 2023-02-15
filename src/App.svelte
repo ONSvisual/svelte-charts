@@ -177,9 +177,12 @@
 			color="grey" lineWidth={1}
 			area={false}
 			xScale="time"
+			xsnapTicks=true
+			ysnapTicks=true
+			yPrefix="£"
 			xFormatTick={d=>timeFormat('%b %y')(d)}
 			title="Line chart with time data"
-			padding={{ top: 0, bottom: 20, left: 35, right: 60 }}
+			padding={{ top: 0, bottom: 20, left: 45, right: 60 }}
 			{animation} legend labels
 			{hover} {select}/>
 		</div>
