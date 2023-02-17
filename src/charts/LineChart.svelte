@@ -175,6 +175,7 @@
 	  <slot name="front"/>
 	</LayerCake>
 </div>
+<slot name="legend"/>
 {#if legend && _zDomain}
   <Legend domain={_zDomain} {colors} {line} markerWidth={lineWidth}/>
 {/if}

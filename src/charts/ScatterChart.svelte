@@ -173,6 +173,7 @@
 	  <slot name="front"/>
 	</LayerCake>
 </div>
+<slot name="legend"/>
 {#if legend && _zDomain}
   <Legend domain={_zDomain} {colors} markerLength={Array.isArray(r) ? r[0] * 2 : r * 2} round={true}/>
 {/if}

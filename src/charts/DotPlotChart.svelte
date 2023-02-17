@@ -156,6 +156,7 @@
 	  <slot name="front"/>
 	</LayerCake>
 </div>
+<slot name="legend"/>
 {#if false && legend && _zDomain}
   <Legend domain={_zDomain} {colors} horizontal={false} line={mode == 'barcode'} comparison={mode == 'comparison'}/>
 {/if}

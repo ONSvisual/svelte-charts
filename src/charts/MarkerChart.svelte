@@ -82,6 +82,7 @@
 		{/if}
 	</LayerCake>
 </div>
+<slot name="legend"/>
 {#if footer}
   <Footer>{footer}</Footer>
 {/if}
