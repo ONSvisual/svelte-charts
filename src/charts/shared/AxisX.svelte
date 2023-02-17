@@ -42,7 +42,7 @@
 
 <g class='axis x-axis' class:snapTicks>
 	{#each tickVals as tick, i}
-		<g class='tick tick-{tick}' transform='translate({$xScale(tick)},{$yRange[0]})'>
+		<g class='tick tick-{tick}' transform='translate({$xScale(tick)},{Math.max(...$yRange)})'>
 			{#if gridlines !== false}
 				<line class="gridline" class:dashed={tickDashed} y1='{$height * -1}' y2='0' x1='0' x2='0' style='stroke: {tickColor}'></line>
 			{/if}
