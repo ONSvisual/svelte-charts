@@ -1,6 +1,6 @@
 {
   "name": "@onsvisual/svelte-charts",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Reusable chart templates for Svelte projects.",
   "homepage": "http://onsvisual.github.io/svelte-charts",
   "module": "index.mjs",
@@ -37,7 +37,7 @@
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-dsv": "^2.0.0",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "debounce": "^1.2.1",
     "gh-pages": "^3.2.3",
     "html-minifier": "^4.0.0",
@@ -48,7 +48,7 @@
     "rollup-plugin-svelte": "^7.1.0",
     "rollup-plugin-terser": "^7.0.2",
     "sirv-cli": "^1.0.0",
-    "svelte": "^3.32.2"
+    "svelte": "^3.55.1"
   },
   "dependencies": {
     "clean-css": "^4.2.3",
