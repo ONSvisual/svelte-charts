@@ -22,6 +22,7 @@
   export let xAxis = true;
 	export let zDomain = null;
 	export let title = null;
+	export let alt = null;
 	export let footer = null;
 	export let snapTicks = false;
 	export let padding = { top: 0, bottom: 0, left: 0, right: 0 };
@@ -48,8 +49,11 @@
 {#if title}
   <Title>{title}</Title>
 {/if}
+{#if alt}
+	<h5 class="visuallyhidden">{alt}</h5>
+{/if}
 <slot name="options"/>
-<div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }">
+<div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }" aria-hidden="true">
 	<LayerCake
 		{padding}
 		x={xKey}
@@ -90,5 +94,15 @@
 <style>
 	.chart-container {
 		width: 100%;
+	}
+	.visuallyhidden {
+		position: absolute; 
+		width: 1px; 
+		height: 1px; 
+		margin: -1px; 
+		padding: 0; 
+		overflow: hidden;
+		clip: rect(0,0,0,0);  
+		border: 0;
 	}
 </style>

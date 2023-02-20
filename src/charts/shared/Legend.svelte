@@ -10,7 +10,7 @@
 </script>
 
 {#if Array.isArray(domain) && Array.isArray(colors)}
-  <ul class="legend">
+  <ul class="legend" aria-hidden="true">
     {#each domain as label, i}
       <li>
         <div

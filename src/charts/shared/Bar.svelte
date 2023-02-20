@@ -53,6 +53,7 @@
 <g class="bar-group">
 	{#each $coords as group, i}
 	  {#each group as d, j}
+		  <!-- svelte-ignore a11y-click-events-have-key-events -->
 		  <polygon
 			  class='bar-rect'
 			  data-id="{j}"
@@ -61,11 +62,11 @@
 				stroke="{$data[i][j][idKey] == hovered ? colorHover : $data[i][j][idKey] == selected ? colorSelect : colorHighlight}"
 				stroke-width="{$data[i][j][idKey] == hovered || $data[i][j][idKey] == selected || highlighted.includes($data[i][j][idKey]) ? lineWidth : 0}"
 			  fill="{overlayFill && $data[i][j][idKey] == selected ? colorSelect : overlayFill && highlighted.includes($data[i][j][idKey]) ? colorHighlight : $config.z ? $zGet($data[i][j]) : $zRange[0]}"
-				on:mouseover={e => doHover(e, $data[i][j])}
-				on:mouseleave={e => doHover(e, null)}
-				on:focus={e => doHover(e, $data[i][j])}
-				on:blur={e => doHover(e, null)}
-				on:click={e => doSelect(e, $data[i][j])}
+				on:mouseover={hover ? (e) => doHover(e, $data[i][j]) : null}
+				on:mouseleave={hover ? (e) => doHover(e, null) : null}
+				on:focus={select ? (e) => doHover(e, $data[i][j]) : null}
+				on:blur={select ? (e) => doHover(e, null) : null}
+				on:click={select ? (e)  => doSelect(e, $data[i][j]) : null}
 		  />
 	  {/each}
 	{/each}

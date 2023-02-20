@@ -53,14 +53,15 @@
 {#if $coords}
 <g class="line-group">
 	{#each $coords as group, i}
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<path
 		  class="path-hover"
 			d="{makePath(group)}"
-			on:mouseover={e => doHover(e, $data[i])}
-			on:mouseleave={e => doHover(e, null)}
-			on:focus={e => doHover(e, $data[i])}
-			on:blur={e => doHover(e, null)}
-			on:click={e => doSelect(e, $data[i])}
+			on:mouseover={hover ? (e) => doHover(e, $data[i]) : null}
+			on:mouseleave={hover ? (e) => doHover(e, null) : null}
+			on:focus={select ? (e) => doHover(e, $data[i]) : null}
+			on:blur={select ? (e) => doHover(e, null) : null}
+			on:click={select ? (e) => doSelect(e, $data[i]) : null}
 		/>
 	  <path
 		  class="path-line"

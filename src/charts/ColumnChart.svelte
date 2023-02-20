@@ -36,6 +36,7 @@
 	export let yTicks = 4;
 	export let zDomain = null;
 	export let title = null;
+	export let alt = null;
 	export let footer = null;
 	export let legend = false;
 	export let mode = 'default'; // options: 'default', 'comparison', 'marker', 'stacked', 'grouped'
@@ -117,8 +118,11 @@
 {#if title}
   <Title>{title}</Title>
 {/if}
+{#if alt}
+	<h5 class="visuallyhidden">{alt}</h5>
+{/if}
 <slot name="options"/>
-<div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }">
+<div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }" aria-hidden="true">
 	<LayerCake
 		{padding}
 		{ssr}
@@ -179,5 +183,15 @@
 <style>
 	.chart-container {
 		width: 100%;
+	}
+	.visuallyhidden {
+		position: absolute; 
+		width: 1px; 
+		height: 1px; 
+		margin: -1px; 
+		padding: 0; 
+		overflow: hidden;
+		clip: rect(0,0,0,0);  
+		border: 0;
 	}
 </style>
