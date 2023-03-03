@@ -54,6 +54,7 @@
 	{#each $coords as group, i}
 	  {#each group as d, j}
 		  <!-- svelte-ignore a11y-click-events-have-key-events -->
+		  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 		  <polygon
 			  class='bar-rect'
 			  data-id="{j}"
@@ -67,6 +68,7 @@
 				on:focus={select ? (e) => doHover(e, $data[i][j]) : null}
 				on:blur={select ? (e) => doHover(e, null) : null}
 				on:click={select ? (e)  => doSelect(e, $data[i][j]) : null}
+				tabindex="{hover || select ? 0 : -1}"
 		  />
 	  {/each}
 	{/each}

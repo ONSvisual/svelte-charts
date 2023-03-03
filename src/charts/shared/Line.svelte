@@ -54,6 +54,7 @@
 <g class="line-group">
 	{#each $coords as group, i}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 		<path
 		  class="path-hover"
 			d="{makePath(group)}"
@@ -62,6 +63,7 @@
 			on:focus={select ? (e) => doHover(e, $data[i]) : null}
 			on:blur={select ? (e) => doHover(e, null) : null}
 			on:click={select ? (e) => doSelect(e, $data[i]) : null}
+			tabindex="{hover || select ? 0 : -1}"
 		/>
 	  <path
 		  class="path-line"
