@@ -5,7 +5,7 @@
 	import { scaleOrdinal, scaleLinear, scaleSymlog, scaleTime } from 'd3-scale';
  	import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
-	import { groupData, stackData } from '../js/utils';
+	import { groupData, stackData, commas } from '../js/utils';
 
 	import SetCoords from './shared/SetCoords.svelte';
 	import Line from './shared/Line.svelte';
@@ -19,7 +19,7 @@
 	import Export from './shared/Export.svelte';
 	import Table from './shared/Table.svelte';
 
-  	export let data;
+  export let data;
 	export let height = 200; // number of pixels or valid css height string
 	export let ssr = false;
 	export let ssrWidth = 300; // for SSR only. Must be a number
@@ -34,7 +34,7 @@
 	export let xScale;
 	export let yScale = 'linear';
 	export let yFormatTick = d => d;
-	export let xFormatTick = d => d;
+	export let xFormatTick = commas;
 	export let yMax = null;
 	export let yMin = 0;
 	export let xAxis = true;

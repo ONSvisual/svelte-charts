@@ -5,6 +5,7 @@
 	import { scaleOrdinal, scaleLinear, scaleSymlog } from 'd3-scale';
   import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
+	import { commas } from '../js/utils';
 
 	import SetCoords from './shared/SetCoords.svelte';
 	import Scatter from './shared/Scatter.svg.svelte';
@@ -33,8 +34,8 @@
 	export let labelKey = idKey;
 	export let xScale = 'linear';
 	export let yScale = 'linear';
-	export let xFormatTick = d => d;
-	export let yFormatTick = d => d;
+	export let xFormatTick = commas;
+	export let yFormatTick = commas;
 	export let xMax = null;
 	export let xMin = null;
 	export let yMax = null;

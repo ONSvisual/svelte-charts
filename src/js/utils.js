@@ -57,3 +57,9 @@ function download(content, filename) {
   a.download = filename;
   a.click();
 }
+
+export function commas(num) {
+  const parts = String(num).split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}

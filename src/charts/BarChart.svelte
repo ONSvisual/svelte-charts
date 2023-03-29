@@ -5,7 +5,7 @@
 	import { scaleBand, scaleOrdinal, scaleLinear, scaleSymlog } from 'd3-scale';
   import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
-	import { groupData } from '../js/utils';
+	import { groupData, commas } from '../js/utils';
 
 	import SetCoords from './shared/SetCoords.svelte';
 	import Bar from './shared/Bar.svelte';
@@ -30,7 +30,7 @@
 	export let zKey = null;
 	export let idKey = yKey;
 	export let xScale = 'linear';
-	export let xFormatTick = d => d;
+	export let xFormatTick = commas;
 	export let xMax = null;
 	export let xMin = null;
   export let xAxis = true;
