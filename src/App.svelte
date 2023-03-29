@@ -230,7 +230,7 @@
 	<div class="wrapper">
     <h2>Current features</h2>
     <p>In all use cases, each top-level chart component (eg. bar chart, scatter chart) is able to take a series of parameters (data, colours, title, etc) to  initialise and customise it.</p>
-		<p>As far as possible these parameters are consistent across chart types, and generally there are sensible default values for all parameters (eg. height = 250 pixels) other than "data", which always requires a Tidy Data array.</p>
+		<p>As far as possible these parameters are consistent across chart types, and generally there are sensible default values for all parameters (eg. height = 300 pixels) other than "data", which always requires a Tidy Data array.</p>
 		<h2>Examples of usage</h2>
 		<p>You can see examples of how these charts can be used in a Svelte project in <a href="https://svelte.dev/repl/324b696de5304ceebbe0213511e7ed23?version=3.41.0" target="_blank">this REPL</a>, and how they can be used in a plain/vanilla javascript project in <a href="https://codepen.io/bothness/pen/RwVJvav" target="_blank">this CodePen</a>.</p>
 		<h2>Intended features</h2>

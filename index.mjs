@@ -3,6 +3,7 @@ export { default as LineChart } from './src/charts/LineChart.svelte';
 export { default as BarChart } from './src/charts/BarChart.svelte';
 export { default as ColumnChart } from './src/charts/ColumnChart.svelte';
 export { default as ScatterChart } from './src/charts/ScatterChart.svelte';
+export { default as DotPlotChart } from './src/charts/DotPlotChart.svelte';
 
 // SHARED COMPONENTS
 // export { default as Annotations } from './src/charts/shared/Annotations.svelte';
@@ -23,8 +24,8 @@ export { default as Bar } from './src/charts/shared/Bar.svelte';
 // export { default as CalendarMonth } from './src/charts/shared/CalendarMonth.svelte';
 // export { default as CirclePack_html } from './src/charts/shared/CirclePack.html.svelte';
 // export { default as CirclePackForce } from './src/charts/shared/CirclePackForce.svelte';
-// export { default as ClevelandDotPlot } from './src/charts/shared/ClevelandDotPlot.svelte';
-// export { default as ClevelandDotPlot_html } from './src/charts/shared/ClevelandDotPlot.html.svelte';
+export { default as DotPlot } from './src/charts/shared/DotPlot.svelte';
+// export { default as DotPlot_html } from './src/charts/shared/DotPlot.html.svelte';
 export { default as Column } from './src/charts/shared/Column.svelte';
 // export { default as ColumnLinear } from './src/charts/shared/ColumnLinear.svelte';
 export { default as Footer } from './src/charts/shared/Footer.svelte';

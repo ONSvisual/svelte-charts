@@ -15,12 +15,13 @@
 	import Title from './shared/Title.svelte';
 	import Footer from './shared/Footer.svelte';
 	import Export from './shared/Export.svelte';
+	import Table from './shared/Table.svelte';
 
   export let data;
-	export let height = 300; // number of pixels or valid css height string
+	export let height = 200; // number of pixels or valid css height string
 	export let ssr = false;
 	export let ssrWidth = 300; // for SSR only. Must be a number
-	export let ssrHeight = typeof height == 'number' ? height : 300; // for SSR only. Number, or calculated from 'height'
+	export let ssrHeight = typeof height == 'number' ? height : 200; // for SSR only. Number, or calculated from 'height'
   export let animation = true;
   export let duration = 800;
 	export let xKey = 'x';
@@ -44,7 +45,7 @@
 	export let color = null;
 	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
 	export let markerWidth = 2.5
-	export let spacing = 0.05 // proportion of bar width (1 = 100%)
+	export let spacing = 0.2 // proportion of bar width (1 = 100%)
 	export let interactive = true;
 	export let xPrefix = "";
 	export let xSuffix = "";
@@ -167,6 +168,9 @@
 		</Svg>
 	  <slot name="front"/>
 	</LayerCake>
+</div>
+<div class="visuallyhidden">
+	<Table {data} key1={xKey} key2={yKey}/>
 </div>
 <slot name="legend"/>
 {#if legend && _zDomain}

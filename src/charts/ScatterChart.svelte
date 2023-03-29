@@ -16,12 +16,13 @@
 	import Footer from './shared/Footer.svelte';
 	import Labels from './shared/Labels.svelte';
 	import Export from './shared/Export.svelte';
+	import Table from './shared/Table.svelte';
 
 	export let data;
-	export let height = 300; // number of pixels or valid css height string
+	export let height = 200; // number of pixels or valid css height string
 	export let ssr = false;
 	export let ssrWidth = 300; // for SSR only. Must be a number
-	export let ssrHeight = typeof height == 'number' ? height : 300; // for SSR only. Number, or calculated from 'height'
+	export let ssrHeight = typeof height == 'number' ? height : 200; // for SSR only. Number, or calculated from 'height'
   export let animation = true;
   export let duration = 800;
 	export let xKey = 'x';
@@ -176,6 +177,9 @@
 		</Svg>
 	  <slot name="front"/>
 	</LayerCake>
+</div>
+<div class="visuallyhidden">
+	<Table {data} key1={zKey} key2={xKey} key3={yKey} key4={rKey}/>
 </div>
 <slot name="legend"/>
 {#if legend && _zDomain}
