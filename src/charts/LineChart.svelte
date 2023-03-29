@@ -33,8 +33,8 @@
 	export let labelKey = idKey;
 	export let xScale;
 	export let yScale = 'linear';
-	export let yFormatTick = d => d;
-	export let xFormatTick = commas;
+	export let yFormatTick = commas;
+	export let xFormatTick = d => d;
 	export let yMax = null;
 	export let yMin = 0;
 	export let xAxis = true;
