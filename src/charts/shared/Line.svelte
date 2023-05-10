@@ -17,6 +17,15 @@
 	let colorSelect = $custom.colorSelect ? $custom.colorSelect : '#206095';
 	let colorHighlight = $custom.colorHighlight ? $custom.colorHighlight : '#206095';
 
+  const makeLookup = (data, coords) => {
+    const lkp = {};
+    for (let i = 0; i < data.length; i ++) {
+      lkp[data[i][0][idKey]] = {id: data[i][0][idKey], coords: coords[i]};
+    }
+    return lkp;
+  }
+  $: lookup = idKey ? makeLookup($data, $coords) : null;
+
 	// Function to make SVG path
 	const makePath = (group) => {
 		let path = 'M' + group
@@ -76,24 +85,31 @@
 		/>
 	{/each}
 	
-	{#if idKey && (hover || selected || highlighted[0])}
-	{#each $coords as group, i}
-		{#if [hovered, selected, ...highlighted].includes($data[i][0][idKey]) }
-	  <path
-		  class="path-overlay"
-			d="{makePath(group)}"
-			stroke="{
-				$data[i][0][idKey] == hovered ? colorHover :
-				$data[i][0][idKey] == selected ? colorSelect :
-				colorHighlight
-			}"
-			stroke-width="{
-				lineWidth + 1.5
-			}"
-		/>
-		{/if}
-	{/each}
-	{/if}
+  {#if lookup}
+    {#if highlighted[0]}
+    {#each highlighted.map(d => lookup[d]) as group}
+      <path
+        class="path-overlay"
+        d="{makePath(group.coords)}"
+        stroke="{colorHighlight}"
+        stroke-width="{lineWidth + 1.5}"
+      />
+    {/each}
+    {/if}
+    {#if hovered || selected}
+    {#each [hovered, selected].filter(d => d !== null).map(d => lookup[d]) as group}
+      <path
+        class="path-overlay"
+        d="{makePath(group.coords)}"
+        stroke="{
+          group.id == hovered ? colorHover :
+          colorSelect
+        }"
+        stroke-width="{lineWidth + 1.5}"
+      />
+    {/each}
+    {/if}
+  {/if}
 </g>
 {/if}
 
