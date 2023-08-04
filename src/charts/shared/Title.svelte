@@ -1,7 +1,7 @@
-<div class="title"><slot/></div>
+<div class="chart-title"><slot/></div>
 
 <style>
-	.title {
+	.chart-title {
 		font-size: 1.1em;
 		font-weight: bold;
 		margin-bottom: 10px;

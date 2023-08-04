@@ -1,7 +1,7 @@
-<div class="footer"><slot/></div>
+<div class="chart-footer"><slot/></div>
 
 <style>
-	.footer {
+	.chart-footer {
 		font-size: .8em;
 		color: grey;
 		margin-top: 5px;
