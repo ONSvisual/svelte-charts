@@ -46,5 +46,17 @@ export default [
 		value: 5,
     alt: 30,
     group: 'dates'
+	},
+	{
+		year: 1980,
+		value: 6,
+    alt: 24,
+    group: 'generic trend line'
+	},
+	{
+		year: 2010,
+		value: 8,
+    alt: 30,
+    group: 'generic trend line'
 	}
 ];

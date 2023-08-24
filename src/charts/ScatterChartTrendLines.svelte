@@ -171,6 +171,12 @@
 				yPadding={yKey ? [buffer, buffer] : null}
 				>
 				<Svg>
+					{#if xAxis}
+								<AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
+					{/if}
+					{#if yAxis && yKey}
+							<AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
+					{/if}
 					<MultiLine/>
 				</Svg>
 				<LayerCake
@@ -209,12 +215,7 @@
 						<SetCoords/>
 						<slot name="back"/>
 						<Svg pointerEvents={interactive}>
-						{#if xAxis}
-								<AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
-						{/if}
-						{#if yAxis && yKey}
-								<AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
-						{/if}
+					
 								<Scatter {selected} {hovered} {highlighted} {overlayFill}/>
 								{#if select || hover}
 									<Voronoi {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
