@@ -3,11 +3,13 @@
 	import BarChart from './charts/BarChart.svelte';
 	import ColumnChart from './charts/ColumnChart.svelte';
 	import ScatterChart from './charts/ScatterChart.svelte';
+	import ScatterChartTrendLines from './charts/ScatterChartTrendLines.svelte';
 	import MarkerChart from './charts/MarkerChart.svelte';
 	import DotPlotChart from './charts/DotPlotChart.svelte';
 
 	import data from './data/data';
 	import dataScatter from './data/data-scatter';
+	import dataScatterTrend from './data/data-scatter-trend';
 	import dataTime from './data/data-time';
 
 	import {timeFormat} from 'd3-time-format';
@@ -169,7 +171,6 @@
 				{animation} legend labels
 				{hover} {select}/>
 		</div>
-
 		<div>
 			<LineChart
 			data={dataTime}
@@ -183,13 +184,23 @@
 			{animation} legend labels
 			{hover} {select}/>
 		</div>
-		
 		<div>
 			<ScatterChart
 				data={dataScatter}
 				xKey="year" yKey="value" zKey="group" rKey="alt"
 				r={[3, 6]}
 				title="Scatter chart with radius, colour, hover, select and labels"
+				{hover} hovered={hoveredScatter} on:hover={doHoverScatter}
+				{select} selected={selectedScatter} on:select={doSelectScatter}
+				legend labels/>
+		</div>
+		<div>
+			<ScatterChartTrendLines
+				data={dataScatter}
+				trendData={dataScatterTrend}
+				xKey="year" yKey="value" zKey="group" rKey="alt"
+				r={[3, 6]}
+				title="Scatter chart with radius, colour, hover, select, labels, and trend lines"
 				{hover} hovered={hoveredScatter} on:hover={doHoverScatter}
 				{select} selected={selectedScatter} on:select={doSelectScatter}
 				legend labels/>

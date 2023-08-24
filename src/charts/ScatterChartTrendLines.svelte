@@ -1,7 +1,7 @@
 <svelte:options accessors={true} />
 
 <script>	
-	import { LayerCake, Svg } from 'layercake';
+	import { LayerCake, Svg, groupLonger} from 'layercake';
 	import { scaleOrdinal, scaleLinear, scaleSymlog } from 'd3-scale';
   	import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
@@ -18,6 +18,7 @@
 	import Labels from './shared/Labels.svelte';
 	import Export from './shared/Export.svelte';
 	import Table from './shared/Table.svelte';
+	import MultiLine from './shared/MultiLine.svelte';
 
 	export let data;
 	export let trendData = null; // data for trend line
@@ -76,6 +77,9 @@
 	export let colorHighlight = 'black';
 	export let overlayFill = false;
 	export let output = null;
+	export let mode = 'default';
+	export let lineWidth = 2.5;
+	export let line = true;
 
 	let el; // Chart DOM element
 
@@ -110,11 +114,27 @@
 	let yDom = domGet(data, yKey, yMin, yMax);
 	const yDomain = tweened(yDom, tweenOptions);
 
+
+	// create long data format of grouped data
+	const longData = [];
+	    trendData.forEach(item => {
+			const existingGroup = longData.find(groupItem => groupItem.group === item.group);
+			if (existingGroup) {
+			existingGroup.values.push(item);
+			} else {
+			longData.push({
+			group: item.group,
+			values: [item]
+			});
+		}
+		});
+    
 	$: xDomUpdate(data, xKey, xMin, xMax);
 	$: yDomUpdate(data, yKey, yMin, yMax);
-  $: _zDomain = Array.isArray(zDomain) ? zDomain :
+    $: _zDomain = Array.isArray(zDomain) ? zDomain :
 		zKey && typeof zDomain === "function" ? data.map(d => d[zKey]).filter(distinct).sort(zDomain) : 
 		zKey ? data.map(d => d[zKey]).filter(distinct) : null;
+
 </script>
 
 <div bind:this={el}>
@@ -127,39 +147,39 @@
 <slot name="options"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }" aria-hidden="true">
 	<LayerCake
-    	{padding}
-		{ssr}
-		height={ssr ? ssrHeight : null}
-		width={ssr ? ssrWidth : null}
-		x={xKey}
-		y={yKey}
-		z={zKey}
-		r={rKey}
-		xScale={typeof xScale == 'function' ? xScale() : xScale == 'log' ? scaleSymlog() : scaleLinear()}
-		yScale={typeof yScale == 'function' ? yScale() : yScale == 'log' ? scaleSymlog() : scaleLinear()}
-    	zScale={scaleOrdinal()}
-		xDomain={$xDomain}
-		yDomain={$yDomain}
-		zDomain={_zDomain}
-		zRange={colors}
-    	rRange={Array.isArray(r) ? r : [r, r]}
-		data={data}
-    	xPadding={[buffer, buffer]}
-    	yPadding={yKey ? [buffer, buffer] : null}
-		custom={{
-				type: 'scatter',
-				idKey,
-				labelKey,
-				coords,
-				colorSelect,
-				colorHover,
-				colorHighlight,
-				padding: 1,
-				animation,
-				duration
-			   }}
+	{padding}
+	{ssr}
+	height={ssr ? ssrHeight : null}
+	width={ssr ? ssrWidth : null}
+	x={xKey}
+	y={yKey}
+	z={zKey}
+	r={rKey}
+	xScale={typeof xScale == 'function' ? xScale() : xScale == 'log' ? scaleSymlog() : scaleLinear()}
+	yScale={typeof yScale == 'function' ? yScale() : yScale == 'log' ? scaleSymlog() : scaleLinear()}
+	zScale={scaleOrdinal()}
+	xDomain={$xDomain}
+	yDomain={$yDomain}
+	zDomain={_zDomain}
+	zRange={colors}
+	rRange={Array.isArray(r) ? r : [r, r]}
+	data={data}
+	xPadding={[buffer, buffer]}
+	yPadding={yKey ? [buffer, buffer] : null}
+	custom={{
+			type: 'scatter',
+			idKey,
+			labelKey,
+			coords,
+			colorSelect,
+			colorHover,
+			colorHighlight,
+			padding: 1,
+			animation,
+			duration
+		}}
 	>
-	  <SetCoords/>
+	<SetCoords/>
     <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
@@ -168,7 +188,7 @@
       {#if yAxis && yKey}
 			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
       {/if}
-			<Scatter {selected} {hovered} {highlighted} {overlayFill}/>
+	  		<Scatter {selected} {hovered} {highlighted} {overlayFill}/>
 			{#if select || hover}
 				<Voronoi {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
 			{/if}
@@ -176,9 +196,6 @@
 				<Labels {hovered} {selected} content={labelContent}/>
 			{/if}
 			<slot name="svg"/>
-			{#if trendData}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
-      		{/if}
 		</Svg>
 		{#if trendData}
 			<LayerCake
@@ -189,20 +206,26 @@
 				x={xKey}
 				y={yKey}
 				z={zKey}
+	            r={rKey}
+				xScale={typeof xScale == 'function' ? xScale() : xScale == 'log' ? scaleSymlog() : scaleLinear()}
+				yScale={typeof yScale == 'function' ? yScale() : yScale == 'log' ? scaleSymlog() : scaleLinear()}
+				zScale={scaleOrdinal()}
 				xDomain={$xDomain}
 				yDomain={$yDomain}
 				zDomain={_zDomain}
 				zRange={colors}
-				data={trendData}
+				rRange={Array.isArray(r) ? r : [r, r]}
+				data={longData}
+				flatData={trendData}
 				xPadding={[buffer, buffer]}
-    			yPadding={yKey ? [buffer, buffer] : null}
-			>
+				yPadding={yKey ? [buffer, buffer] : null}
+				>
 				<Svg>
-				<Line/>
+					<MultiLine/>
 				</Svg>
-			</LayerCake>
+		</LayerCake>
 		{/if}	
-		<slot name="front"/>
+	<slot name="front"/>
 	</LayerCake>
 </div>
 <div class="visuallyhidden">
