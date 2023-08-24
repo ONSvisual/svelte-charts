@@ -117,7 +117,7 @@
 
 	// create long data format of grouped data
 	const longData = [];
-	    trendData.forEach(item => {
+		trendData.forEach(item => {
 			const existingGroup = longData.find(groupItem => groupItem.group === item.group);
 			if (existingGroup) {
 			existingGroup.values.push(item);
@@ -128,6 +128,7 @@
 			});
 		}
 		});
+	
     
 	$: xDomUpdate(data, xKey, xMin, xMax);
 	$: yDomUpdate(data, yKey, yMin, yMax);
@@ -146,57 +147,6 @@
 {/if}
 <slot name="options"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }" aria-hidden="true">
-	<LayerCake
-	{padding}
-	{ssr}
-	height={ssr ? ssrHeight : null}
-	width={ssr ? ssrWidth : null}
-	x={xKey}
-	y={yKey}
-	z={zKey}
-	r={rKey}
-	xScale={typeof xScale == 'function' ? xScale() : xScale == 'log' ? scaleSymlog() : scaleLinear()}
-	yScale={typeof yScale == 'function' ? yScale() : yScale == 'log' ? scaleSymlog() : scaleLinear()}
-	zScale={scaleOrdinal()}
-	xDomain={$xDomain}
-	yDomain={$yDomain}
-	zDomain={_zDomain}
-	zRange={colors}
-	rRange={Array.isArray(r) ? r : [r, r]}
-	data={data}
-	xPadding={[buffer, buffer]}
-	yPadding={yKey ? [buffer, buffer] : null}
-	custom={{
-			type: 'scatter',
-			idKey,
-			labelKey,
-			coords,
-			colorSelect,
-			colorHover,
-			colorHighlight,
-			padding: 1,
-			animation,
-			duration
-		}}
-	>
-	<SetCoords/>
-    <slot name="back"/>
-		<Svg pointerEvents={interactive}>
-      {#if xAxis}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
-      {/if}
-      {#if yAxis && yKey}
-			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
-      {/if}
-	  		<Scatter {selected} {hovered} {highlighted} {overlayFill}/>
-			{#if select || hover}
-				<Voronoi {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
-			{/if}
-			{#if labels}
-				<Labels {hovered} {selected} content={labelContent}/>
-			{/if}
-			<slot name="svg"/>
-		</Svg>
 		{#if trendData}
 			<LayerCake
 				{padding}
@@ -223,10 +173,61 @@
 				<Svg>
 					<MultiLine/>
 				</Svg>
-		</LayerCake>
-		{/if}	
+				<LayerCake
+					{padding}
+					{ssr}
+					height={ssr ? ssrHeight : null}
+					width={ssr ? ssrWidth : null}
+					x={xKey}
+					y={yKey}
+					z={zKey}
+					r={rKey}
+					xScale={typeof xScale == 'function' ? xScale() : xScale == 'log' ? scaleSymlog() : scaleLinear()}
+					yScale={typeof yScale == 'function' ? yScale() : yScale == 'log' ? scaleSymlog() : scaleLinear()}
+					zScale={scaleOrdinal()}
+					xDomain={$xDomain}
+					yDomain={$yDomain}
+					zDomain={_zDomain}
+					zRange={colors}
+					rRange={Array.isArray(r) ? r : [r, r]}
+					data={data}
+					xPadding={[buffer, buffer]}
+					yPadding={yKey ? [buffer, buffer] : null}
+					custom={{
+							type: 'scatter',
+							idKey,
+							labelKey,
+							coords,
+							colorSelect,
+							colorHover,
+							colorHighlight,
+							padding: 1,
+							animation,
+							duration
+						}}
+					>
+						<SetCoords/>
+						<slot name="back"/>
+						<Svg pointerEvents={interactive}>
+						{#if xAxis}
+								<AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
+						{/if}
+						{#if yAxis && yKey}
+								<AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
+						{/if}
+								<Scatter {selected} {hovered} {highlighted} {overlayFill}/>
+								{#if select || hover}
+									<Voronoi {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
+								{/if}
+								{#if labels}
+									<Labels {hovered} {selected} content={labelContent}/>
+								{/if}
+								<slot name="svg"/>
+						</Svg>
+			</LayerCake>
 	<slot name="front"/>
 	</LayerCake>
+	{/if}
 </div>
 <div class="visuallyhidden">
 	<Table {data} key1={zKey} key2={xKey} key3={yKey} key4={rKey}/>
