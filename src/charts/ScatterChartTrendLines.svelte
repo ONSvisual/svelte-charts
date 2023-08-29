@@ -117,19 +117,19 @@
 
 	// create long data format of grouped data
 	const longData = [];
-		trendData.forEach(item => {
-			const existingGroup = longData.find(groupItem => groupItem.group === item.group);
-			if (existingGroup) {
-			existingGroup.values.push(item);
-			} else {
-			longData.push({
-			group: item.group,
-			values: [item]
-			});
-		}
+	trendData.forEach(item => {
+			const existingGroup = longData.find(groupItem => groupItem[zKey] === item[zKey]);
+		if (existingGroup) {
+		existingGroup.values.push(item);
+		} else {
+		longData.push({
+		[zKey]: item[zKey],
+		values: [item]
 		});
+	}
+	});
 	
-    
+
 	$: xDomUpdate(data, xKey, xMin, xMax);
 	$: yDomUpdate(data, yKey, yMin, yMax);
     $: _zDomain = Array.isArray(zDomain) ? zDomain :
