@@ -13,6 +13,7 @@
 	import dataTime from './data/data-time';
 
 	import {timeFormat} from 'd3-time-format';
+    import ColumnChartAvgLine from './charts/ColumnChartAvgLine.svelte';
 
 	// Chart options
 	let animation = true;
@@ -134,7 +135,13 @@
 			</ColumnChart>
 		</div>
 		<div>
-			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" title="Coloured column chart with export options" output={{csv: true, png: true}}/>
+			<ColumnChartAvgLine 
+			data={data}
+			xKey="year" yKey="value" zKey="group"
+			mode='grouped'
+			title="Coloured column chart with group averages"
+			output={{csv: true, png: true}}
+			/>
 		</div>
 		<div>
 			<LineChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" areaOpacity={0.3} title="Line chart with area" animation={animation} >
