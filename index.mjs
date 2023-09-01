@@ -3,6 +3,7 @@ export { default as Chart } from './src/charts/Chart.svelte';
 export { default as LineChart } from './src/charts/LineChart.svelte';
 export { default as BarChart } from './src/charts/BarChart.svelte';
 export { default as ColumnChart } from './src/charts/ColumnChart.svelte';
+export { default as ColumnChartAvgLines} from './src/charts/ColumnChartAvgLines.svelte';
 export { default as ScatterChart } from './src/charts/ScatterChart.svelte';
 export { default as ScatterChartTrendLines } from './src/charts/ScatterChartTrendLines.svelte';
 export { default as DotPlotChart } from './src/charts/DotPlotChart.svelte';

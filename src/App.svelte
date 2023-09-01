@@ -13,7 +13,7 @@
 	import dataTime from './data/data-time';
 
 	import {timeFormat} from 'd3-time-format';
-    import ColumnChartAvgLine from './charts/ColumnChartAvgLine.svelte';
+    import ColumnChartAvgLine from './charts/ColumnChartAvgLines.svelte';
 
 	// Chart options
 	let animation = true;
