@@ -137,6 +137,7 @@
 		<div>
 			<ColumnChartAvgLine 
 			data={data}
+			avgData={[200, 300, 800, 1200]}
 			xKey="year" yKey="value" zKey="group"
 			mode='grouped'
 			title="Coloured column chart with group averages"

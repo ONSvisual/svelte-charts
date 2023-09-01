@@ -22,14 +22,12 @@
 {#if $coords}
 <g class="column-group">
 	{#each $coords[0] as d, i}
-	  {#if mode=='grouped'}
 		<path d="{makePath(d.x0, $coords[$coords.length - 1][i].x1, avgData[i])}" 
 				stroke-dasharray="6, 6"
 				stroke="#c3c3c3"
 				fill="none"
 				stroke-width="1.4"
 			/>
-	  {/if}
 	{/each}
 </g>
 {/if}
