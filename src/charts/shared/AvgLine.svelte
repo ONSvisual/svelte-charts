@@ -1,28 +1,32 @@
 <script>
 	import { getContext} from 'svelte';
 
-	const {yScale, custom } = getContext('LayerCake');
+	const {data, xGet, yGet, xScale, yScale, custom} = getContext('LayerCake');
 
 	export let avgData = [];
+	export let spacing = 0.2;
 
 	let coords = $custom.coords;
+	let n_groups = $data.length;
+	let n_bars_per_group = $data[0].length;
 
 	const makePath = (x0, x1, y_avg) => {
+		let width = (x1 - x0) * (n_bars_per_group - (1 - 1 / (1 + spacing)));
 		let overlap = 5;
 		let start = x0 - overlap;
-		let end = x1 + overlap;
+		let end = x0 + width + overlap;
 		let path = 'M' + start + ', ' + $yScale(y_avg) + 'L' + end + ', ' + $yScale(y_avg) 
 		return path;
 	}
-
+	
 	$: mode = $custom.mode ? $custom.mode : 'default';
 
 </script>
 
-{#if $coords}
+
 <g class="column-group">
-	{#each $coords[0] as d, i}
-		<path d="{makePath(d.x0, $coords[$coords.length - 1][i].x1, avgData[i])}" 
+	{#each $data as d, i}
+		<path d="{makePath($xGet(d[0]), $xGet(d[1]), avgData[i])}" 
 				stroke-dasharray="6, 6"
 				stroke="#c3c3c3"
 				fill="none"
@@ -30,4 +34,3 @@
 			/>
 	{/each}
 </g>
-{/if}

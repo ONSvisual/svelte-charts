@@ -166,7 +166,7 @@
 			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix}/>
       {/if}
 			<Column {select} {selected} {hover} {hovered} {highlighted} on:hover on:select {overlayFill}/>
-			<AvgLine {avgData}/>
+			<AvgLine {avgData} {spacing}/>
 			<slot name="svg"/>
 		</Svg>
 	  <slot name="front"/>

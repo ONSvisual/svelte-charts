@@ -135,14 +135,7 @@
 			</ColumnChart>
 		</div>
 		<div>
-			<ColumnChartAvgLine 
-			data={data}
-			avgData={[200, 300, 800, 1200]}
-			xKey="year" yKey="value" zKey="group"
-			mode='grouped'
-			title="Coloured column chart with group averages"
-			output={{csv: true, png: true}}
-			/>
+			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" title="Coloured column chart with export options" output={{csv: true, png: true}}/>
 		</div>
 		<div>
 			<LineChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" areaOpacity={0.3} title="Line chart with area" animation={animation} >
