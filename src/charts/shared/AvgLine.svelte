@@ -27,10 +27,10 @@
 <g class="column-group">
 	{#each $data as d, i}
 		<path d="{makePath($xGet(d[0]), $xGet(d[1]), avgData[i])}" 
-				stroke-dasharray="6, 6"
-				stroke="#c3c3c3"
-				fill="none"
-				stroke-width="1.4"
-			/>
+			stroke-dasharray="6, 6"
+			stroke="#676767"
+			fill="none"
+			stroke-width="4.0"
+		/>
 	{/each}
 </g>
