@@ -16,6 +16,7 @@
 	import Title from './shared/Title.svelte';
 	import Footer from './shared/Footer.svelte';
 	import Labels from './shared/Labels.svelte';
+	import StaticLabels from './shared/StaticLabels.svelte';
 	import Export from './shared/Export.svelte';
 	import Table from './shared/Table.svelte';
 	import MultiLine from './shared/MultiLine.svelte';
@@ -55,6 +56,7 @@
 	export let footer = null;
 	export let legend = false;
 	export let labels = false;
+	export let labelsToDisplay = [];
 	export let labelContent = null;
 	export let snapTicks = false;
 	export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
@@ -222,6 +224,7 @@
 								{/if}
 								{#if labels}
 									<Labels {hovered} {selected} content={labelContent}/>
+									<StaticLabels content={labelContent} {labelsToDisplay}/>
 								{/if}
 								<slot name="svg"/>
 						</Svg>

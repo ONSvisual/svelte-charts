@@ -204,6 +204,7 @@
 				title="Scatter chart with radius, colour, hover, select, labels, and trend lines"
 				{hover} hovered={hoveredScatter} on:hover={doHoverScatter}
 				{select} selected={selectedScatter} on:select={doSelectScatter}
+				labelsToDisplay={[1980, 1996, 1987]}
 				legend labels/>
 		</div>
 		<div>
