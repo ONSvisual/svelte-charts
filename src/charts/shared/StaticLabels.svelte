@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 
 	const { data, xScale, yScale, custom } = getContext('LayerCake');
-	
+
 	export let content = null;
 	export let labelsToDisplay = [];
 	
@@ -11,7 +11,6 @@
 	let labelKey = $custom.labelKey;
 	// let colorHover = $custom.colorHover ? $custom.colorHover : 'orange';
 	// let colorSelect = $custom.colorSelect ? $custom.colorSelect : '#206095';
-	console.log("script")
 </script>
 
 {#if $coords}
@@ -28,7 +27,6 @@
 	{#if $coords[0] && $coords[0].x}
 	{#each $coords as d, i}
 		{#if labelsToDisplay.includes($data[i][labelKey])}
-			{console.log($data[i][labelKey])}
 		<text
 			class="label"
 			transform="translate(5,-5)"
