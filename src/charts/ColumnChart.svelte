@@ -40,6 +40,7 @@
 	export let alt = null;
 	export let footer = null;
 	export let legend = false;
+	export let table = false;
 	export let mode = 'default'; // options: 'default', 'comparison', 'marker', 'stacked', 'grouped', 'confidence'
 	export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
 	export let color = null;
@@ -169,9 +170,11 @@
 	  <slot name="front"/>
 	</LayerCake>
 </div>
+{#if table}
 <div class="visuallyhidden">
 	<Table {data} key1={xKey} key2={yKey}/>
 </div>
+{/if}
 <slot name="legend"/>
 {#if legend && _zDomain}
   <Legend domain={_zDomain} {colors} {markerWidth} line={mode == 'barcode'} comparison={mode == 'comparison'} confidence={mode == 'confidence'}/>

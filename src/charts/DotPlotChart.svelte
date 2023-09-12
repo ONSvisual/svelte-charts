@@ -44,6 +44,7 @@
 	export let alt = null;
 	export let footer = null;
 	export let legend = false;
+	export let table = false;
 	export let snapTicks = false;
 	export let mode = 'default'; // No other options at present
 	export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
@@ -162,9 +163,11 @@
 	  <slot name="front"/>
 	</LayerCake>
 </div>
+{#if table}
 <div class="visuallyhidden">
 	<Table {data} key1={yKey} key2={xKey}/>
 </div>
+{/if}
 <slot name="legend"/>
 {#if false && legend && _zDomain}
   <Legend domain={_zDomain} {colors} horizontal={false} line={mode == 'barcode'} comparison={mode == 'comparison'}/>

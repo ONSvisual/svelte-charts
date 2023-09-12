@@ -52,6 +52,7 @@
 	export let alt = null;
 	export let footer = null;
 	export let legend = false;
+	export let table = false;
 	export let labels = false;
 	export let labelContent = null;
 	export let snapTicks = false;
@@ -179,9 +180,11 @@
 	  <slot name="front"/>
 	</LayerCake>
 </div>
+{#if table}
 <div class="visuallyhidden">
 	<Table {data} key1={zKey} key2={xKey} key3={yKey} key4={rKey}/>
 </div>
+{/if}
 <slot name="legend"/>
 {#if legend && _zDomain}
   <Legend domain={_zDomain} {colors} markerLength={Array.isArray(r) ? r[0] * 2 : r * 2} round={true}/>
