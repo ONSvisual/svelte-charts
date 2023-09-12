@@ -136,7 +136,7 @@
 		{xDomain}
 		yDomain={$yDomain}
 		zDomain={_zDomain}
-		xScale={scaleBand().paddingInner([spacing]).round(true)}
+		xScale={scaleBand().paddingInner(spacing).paddingOuter(spacing).round(true)}
 		yScale={typeof yScale == 'function' ? yScale() : yScale == 'log' ? scaleSymlog() : scaleLinear()}
 		zScale={scaleOrdinal()}
 		zRange={colors}

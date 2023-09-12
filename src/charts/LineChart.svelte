@@ -41,6 +41,8 @@
 	export let yAxis = true;
 	export let xTicks = 4;
 	export let yTicks = 4;
+	export let xTickMarks = true;
+	export let xGridlines = false;
 	export let zDomain = null;
 	export let title = null;
 	export let alt = null;
@@ -53,7 +55,7 @@
 	export let area = true;
 	export let mode = 'default';
 	export let areaOpacity = 1;
-	export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
+	export let padding = { top: 0, bottom: 28, left: 35, right: 0 };
 	export let color = null;
 	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
 	export let lineWidth = 2.5;
@@ -162,7 +164,7 @@
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} gridlines={xGridlines} tickMarks={xTickMarks}/>
       {/if}
       {#if yAxis}
 			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix}/>

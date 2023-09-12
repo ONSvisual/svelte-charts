@@ -34,7 +34,7 @@
 	export let labelKey = idKey;
 	export let xScale = 'linear';
 	export let yScale = 'linear';
-	export let xFormatTick = commas;
+	export let xFormatTick = (d) => d;
 	export let yFormatTick = commas;
 	export let xMax = null;
 	export let xMin = null;
@@ -44,6 +44,8 @@
   export let yAxis = true;
 	export let xTicks = 4;
   export let yTicks = 4;
+	export let xTickMarks = true;
+	export let xGridlines = true;
 	export let zDomain = null;
 	export let textColor = '#666';
 	export let tickColor = '#ccc';
@@ -56,7 +58,7 @@
 	export let labels = false;
 	export let labelContent = null;
 	export let snapTicks = false;
-  export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
+  export let padding = { top: 0, bottom: 28, left: 35, right: 0 };
   export let buffer = 5;
 	export let color = null;
 	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
@@ -163,7 +165,7 @@
     <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed} gridlines={xGridlines} tickMarks={xTickMarks}/>
       {/if}
       {#if yAxis && yKey}
 			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>

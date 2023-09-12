@@ -8,7 +8,6 @@
 
 	import data from './data/data';
 	import dataScatter from './data/data-scatter';
-	import dataTime from './data/data-time';
 
 	import {timeFormat} from 'd3-time-format';
 
@@ -165,23 +164,29 @@
 				color="grey" lineWidth={1}
 				area={false}
 				title="Line chart with hover, select and labels"
-				padding={{ top: 0, bottom: 20, left: 35, right: 60 }}
+				padding={{ top: 0, bottom: 28, left: 35, right: 60 }}
 				{animation} legend labels
-				{hover} {select}/>
+				{hover} {select}
+				snapTicks={false}/>
 		</div>
 
 		<div>
 			<LineChart
-			data={dataTime}
+			data={data.map(d => ({
+				year: new Date(`${d.year}`),
+				value: d.value,
+				group: d.group
+			}))}
 			xKey="year" yKey="value" zKey="group"
 			color="grey" lineWidth={1}
 			area={false}
 			xScale="time"
 			xFormatTick={d=>timeFormat('%b %y')(d)}
 			title="Line chart with time data"
-			padding={{ top: 0, bottom: 20, left: 35, right: 60 }}
+			padding={{ top: 0, bottom: 28, left: 35, right: 60 }}
 			{animation} legend labels
-			{hover} {select}/>
+			{hover} {select}
+			snapTicks={false}/>
 		</div>
 		
 		<div>

@@ -29,11 +29,16 @@
     text-underline-position: under;
     background: none;
     border: none;
-    padding: 0;
+    padding: 0 0 1px;
   }
   button:hover {
     cursor: pointer;
     color: #003c57;
     text-decoration-thickness: 2px;
+  }
+  button:focus {
+    color: #222;
+    background-color: #fbc900;
+    text-decoration-thickness: 3px;
   }
 </style>

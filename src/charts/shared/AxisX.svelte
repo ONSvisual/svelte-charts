@@ -6,15 +6,15 @@
 	export let gridlines = true;
 	export let tickDashed = false;
 	export let tickMarks = false;
-	export let tickColor = '#bbb';
-	export let textColor = '#666';
+	export let tickColor = '#b3b3b3';
+	export let textColor = '#707070';
 	export let formatTick = d => d;
 	export let snapTicks = false;
 	export let ticks = undefined;
 	export let xTick = undefined;
 	export let yTick = 16;
 	export let dxTick = 0;
-	export let dyTick = 0;
+	export let dyTick = tickMarks ? 8 : 0;
 	export let prefix = '';
 	export let suffix = '';
 
@@ -44,10 +44,10 @@
 	{#each tickVals as tick, i}
 		<g class='tick tick-{tick}' transform='translate({$xScale(tick)},{Math.max(...$yRange)})'>
 			{#if gridlines !== false}
-				<line class="gridline" class:dashed={tickDashed} y1='{$height * -1}' y2='0' x1='0' x2='0' style='stroke: {tickColor}'></line>
+				<line class="gridline" class:dashed={tickDashed} y1='{$height * -1}' y2='0' x1='0' x2='0' style:stroke='{tickColor}' style:stroke-width='{tick === 0 ? 1.5 : 1}' style:filter={tick !== 0 ? `contrast(calc(1/3)) brightness(1.5)` : null}></line>
 			{/if}
 			{#if tickMarks === true}
-				<line class="tick-mark" y1='{0}' y2='{6}' x1='{xTick || isBandwidth ? $xScale.bandwidth() / 2 : 0}' x2='{xTick || isBandwidth ? $xScale.bandwidth() / 2 : 0}' style='stroke: {tickColor}'></line>
+				<line class="tick-mark" y1='{0}' y2='{dyTick}' x1='{xTick || isBandwidth ? $xScale.bandwidth() / 2 : 0}' x2='{xTick || isBandwidth ? $xScale.bandwidth() / 2 : 0}' style:stroke='{tickColor}' style:stroke-width='{tick === 0 ? 1.5 : 1}' style:filter={tick !== 0 ? `contrast(calc(1/3)) brightness(1.5)` : null}></line>
 			{/if}
 			<text
 				x="{xTick || isBandwidth ? $xScale.bandwidth() / 2 : 0}"
@@ -55,7 +55,7 @@
 				dx='{dxTick}'
 				dy='{dyTick}'
 				text-anchor='{textAnchor(i)}'
-				style='fill: {textColor}'>
+				style:fill='{textColor}'>
 					{i == tickVals.length - 1 ? prefix + formatTick(tick) + suffix : formatTick(tick)}
 				</text>
 		</g>
