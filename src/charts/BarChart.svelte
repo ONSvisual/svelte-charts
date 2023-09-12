@@ -179,7 +179,7 @@
 </div>
 <slot name="legend"/>
 {#if legend && _zDomain}
-  <Legend domain={_zDomain} {colors} {markerWidth} horizontal={false} line={mode == 'barcode'} comparison={mode == 'comparison'}/>
+  <Legend domain={_zDomain} {colors} {markerWidth} horizontal={false} line={mode == 'barcode'} comparison={mode == 'comparison'} confidence={mode == 'confidence'}/>
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>

@@ -25,6 +25,15 @@
 		y0 = Math.abs(y1 - y0) < markerWidth ? y1 + markerWidth : y0;
 		return `${x0},${y0} ${x0},${y1} ${x1},${y1} ${x1},${y0}`;
 	};
+	$: mapData = (coords) => {
+		const arr = [];
+		for (let i = 0; i < coords[0].length; i ++) {
+			const y0 = Math.min(...coords.map(d => d[i].y1));
+			const y1 = Math.max(...coords.map(d => d[i].y1));
+			arr.push({x0: coords[0][i].x0, x1: coords[0][i].x1, y0, y1});
+		}
+		return arr;
+	}
 
 	function doHover(e, d) {
 		if (hover) {
@@ -50,9 +59,23 @@
 </script>
 
 {#if $coords}
+{#if mode === "confidence"}
+<g class="line-group">
+	{#each mapData($coords) as d, i}
+		<polygon
+			class='line-confidence'
+			data-id="{i}"
+			points="{makePoints(d.x0, d.x1, $yScale(d.y0), $yScale(d.y1))}"
+			fill="{overlayFill && $data[0][i][idKey] == selected ? colorSelect : overlayFill && highlighted.includes($data[0][i][idKey]) ? colorHighlight : $config.z ? $zGet($data[0][i]) : $zRange[0]}"
+			opacity={0.3}
+		/>
+	{/each}
+</g>
+{/if}
 <g class="column-group">
 	{#each $coords as group, i}
 	  {#each group as d, j}
+			{#if !(mode === 'confidence' && i > 0)}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->
 			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 			<polygon
@@ -70,6 +93,7 @@
 				on:click={select ? (e) => doSelect(e, $data[i][j]) : null}
 				tabindex="{hover || select ? 0 : -1}"
 			/>
+			{/if}
 	  {/each}
 	{/each}
 </g>

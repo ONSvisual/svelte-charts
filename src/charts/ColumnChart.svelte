@@ -40,7 +40,7 @@
 	export let alt = null;
 	export let footer = null;
 	export let legend = false;
-	export let mode = 'default'; // options: 'default', 'comparison', 'marker', 'stacked', 'grouped'
+	export let mode = 'default'; // options: 'default', 'comparison', 'marker', 'stacked', 'grouped', 'confidence'
 	export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
 	export let color = null;
 	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
@@ -174,7 +174,7 @@
 </div>
 <slot name="legend"/>
 {#if legend && _zDomain}
-  <Legend domain={_zDomain} {colors} {markerWidth} line={mode == 'barcode'} comparison={mode == 'comparison'}/>
+  <Legend domain={_zDomain} {colors} {markerWidth} line={mode == 'barcode'} comparison={mode == 'comparison'} confidence={mode == 'confidence'}/>
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>

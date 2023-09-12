@@ -1,4 +1,6 @@
-<div class="chart-title"><slot/></div>
+<h3 class="chart-title">
+	<slot/>
+</h3>
 
 <style>
 	.chart-title {

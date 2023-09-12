@@ -8,29 +8,32 @@
   export let output = {};
 </script>
 
-<div class="export">
-  Export: 
+<div class="chart-export">
   {#if output.csv}
-  <button on:click={() => getCSV(data, keys, title ? title : 'chart')}>CSV</button>
+  <button on:click={() => getCSV(data, keys, title ? title : 'chart')}>Download data (CSV)</button>
   {/if}
+  {#if output.csv && output.png}|{/if}
   {#if output.png}
-  <button on:click={() => getPNG(el, title ? title : 'chart')}>PNG</button>
+  <button on:click={() => getPNG(el, title ? title : 'chart')}>Download image (PNG)</button>
   {/if}
 </div>
 
 <style>
-  .export {
+  .chart-export {
     margin-top: 10px;
 		font-size: .8em;
 	}
   button {
-    color: white;
-    background-color: #0f8243;
+    color: #206095;
+    text-decoration: underline;
+    text-underline-position: under;
+    background: none;
     border: none;
-    padding: 5px 10px;
+    padding: 0;
   }
   button:hover {
     cursor: pointer;
-    background-color:#295b34;
+    color: #003c57;
+    text-decoration-thickness: 2px;
   }
 </style>

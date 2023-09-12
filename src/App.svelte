@@ -25,7 +25,7 @@
 		selected: 'apples'
 	};
 	let barchart2 = {
-		options: ['stacked', 'comparison', 'barcode', 'grouped'],
+		options: ['stacked', 'comparison', 'barcode', 'grouped', 'confidence'],
 		selected: 'stacked'
 	};
 	let linechart = {
@@ -287,7 +287,8 @@
 		font-weight: bold;
 	}
 	.controls > label {
-		display: inline;
+		display: inline-block;
+		white-space: nowrap;
 		margin-right: 8px;
 	}
 	.small {

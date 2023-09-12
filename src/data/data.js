@@ -1,12 +1,12 @@
 export default [
   {
     year: 2017,
-    value: 320,
+    value: 480,
     group: 'apples'
   },
   {
     year: 2017,
-    value: 480,
+    value: 320,
     group: 'bananas'
   },
   {
@@ -18,15 +18,15 @@ export default [
     year: 2017,
     value: 400,
     group: 'dates'
-  },
-  {
-    year: 2018,
-    value: 640,
-    group: 'apples'
   },
   {
     year: 2018,
     value: 960,
+    group: 'apples'
+  },
+  {
+    year: 2018,
+    value: 640,
     group: 'bananas'
   },
   {
@@ -38,15 +38,15 @@ export default [
     year: 2018,
     value: 400,
     group: 'dates'
-  },
-  {
-    year: 2019,
-    value: 1600,
-    group: 'apples'
   },
   {
     year: 2019,
     value: 1440,
+    group: 'apples'
+  },
+  {
+    year: 2019,
+    value: 1600,
     group: 'bananas'
   },
   {
@@ -61,12 +61,12 @@ export default [
   },
   {
     year: 2020,
-    value: 3840,
+    value: 1920,
     group: 'apples'
   },
   {
     year: 2020,
-    value: 1920,
+    value: 3840,
     group: 'bananas'
   },
   {

@@ -3,20 +3,26 @@
   export let colors = null;
   export let line = false; // true if line chart
   export let comparison = false; // true if chart uses bars + markers for comparison
+  export let confidence = false; // true if chart uses confidence intervals
   export let horizontal = true; // true if marker lines should be horizontal, false if vertical
   export let markerWidth = 2.5;
   export let markerLength = 13;
   export let round = false; // to represent round markers
+
+  $: _domain = confidence ? ["Estimate", "Confidence interval"] : domain;
 </script>
 
-{#if Array.isArray(domain) && Array.isArray(colors)}
+{#if Array.isArray(_domain) && Array.isArray(colors)}
   <ul class="legend" aria-hidden="true">
-    {#each domain as label, i}
+    {#each _domain as label, i}
       <li>
         <div
           class="bullet"
           class:round
-          style="background-color: {colors[i]}; width: {!horizontal && (line || (comparison && i != 0)) ? markerWidth : markerLength}px; height: {horizontal && (line || (comparison && i != 0)) ? markerWidth : markerLength}px"
+          style:background-color="{confidence ? colors[0] : colors[i]}"
+          style:width="{!horizontal && (line || (comparison && i != 0) || (confidence && i == 0)) ? markerWidth : markerLength}px"
+          style:height="{horizontal && (line || (comparison && i != 0) || (confidence && i == 0)) ? markerWidth : markerLength}px"
+          style:opacity="{confidence && i == 1 ? '0.3' : null}"
         />
         {label}
       </li>
