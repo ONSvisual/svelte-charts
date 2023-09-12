@@ -45,6 +45,7 @@
   .bullet {
 		display: inline-block;
     vertical-align: middle;
+    transform: translateY(-1px);
 	}
   .round {
     border-radius: 50%;

@@ -165,7 +165,7 @@
 				area={false}
 				title="Line chart with hover, select and labels"
 				padding={{ top: 0, bottom: 28, left: 35, right: 60 }}
-				{animation} legend labels
+				{animation} labels
 				{hover} {select}
 				snapTicks={false}/>
 		</div>
@@ -184,7 +184,7 @@
 			xFormatTick={d=>timeFormat('%b %y')(d)}
 			title="Line chart with time data"
 			padding={{ top: 0, bottom: 28, left: 35, right: 60 }}
-			{animation} legend labels
+			{animation} labels
 			{hover} {select}
 			snapTicks={false}/>
 		</div>
