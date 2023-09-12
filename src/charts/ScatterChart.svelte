@@ -58,7 +58,7 @@
 	export let labels = false;
 	export let labelContent = null;
 	export let snapTicks = false;
-  export let padding = { top: 0, bottom: 28, left: 35, right: 0 };
+  export let padding = { top: 18, bottom: 28, left: 35, right: 0 };
   export let buffer = 5;
 	export let color = null;
 	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];

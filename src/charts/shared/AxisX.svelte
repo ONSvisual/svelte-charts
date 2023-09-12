@@ -72,6 +72,10 @@
 		stroke-dasharray: 0;
 	}
 
+	.tick line {
+		shape-rendering: crispEdges;
+	}
+
 	.dashed {
 		stroke-dasharray: 2;
 	}

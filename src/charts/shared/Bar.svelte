@@ -98,3 +98,9 @@
 	{/each}
 </g>
 {/if}
+
+<style>
+	.bar-group polygon, .line-group polygon {
+		shape-rendering: crispEdges;
+	}
+</style>
