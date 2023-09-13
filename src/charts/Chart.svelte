@@ -36,19 +36,19 @@
   {#if section.chartType.toLowerCase() === "bar" && props.xKey && props.yKey}
   <BarChart {...props}/>
   {:else if section.chartType.toLowerCase() === "bar-highlight" && props.xKey && props.yKey}
-  <BarChart {...props} color="lightgrey" colorSelect="#206095" colorHighlight="grey" overlayFill={true}/>
+  <BarChart {...props} color="#bbb" colorSelect="#206095" colorHighlight="grey" overlayFill={true}/>
   {:else if section.chartType.toLowerCase() === "column" && props.xKey && props.yKey}
   <ColumnChart {...props}/>
   {:else if section.chartType.toLowerCase() === "column-highlight" && props.xKey && props.yKey}
-  <ColumnChart {...props} color="lightgrey" colorSelect="#206095" colorHighlight="grey" overlayFill={true}/>
+  <ColumnChart {...props} color="#bbb" colorSelect="#206095" colorHighlight="grey" overlayFill={true}/>
   {:else if section.chartType.toLowerCase() === "line" && props.xKey && props.yKey}
   <LineChart {...props} area={false}/>
   {:else if section.chartType.toLowerCase() === "line-highlight" && props.xKey && props.yKey}
-  <LineChart {...props} area={false} color="lightgrey" lineWidth={1} legend={false} snapTicks={false} hover labels/>
+  <LineChart {...props} area={false} color="#bbb" lineWidth={1} legend={false} snapTicks={false} hover labels/>
   {:else if section.chartType.toLowerCase() === "scatter" && props.xKey}
   <ScatterChart {...props}/>
   {:else if section.chartType.toLowerCase() === "scatter-highlight" && props.xKey}
-  <ScatterChart {...props} color="lightgrey" colorSelect="#206095" colorHighlight="grey" overlayFill={true} hover labels/>
+  <ScatterChart {...props} color="#bbb" colorSelect="#206095" colorHighlight="grey" overlayFill={true} hover labels/>
   {:else if section.chartType.toLowerCase() === "dotplot" && props.xKey && props.yKey}
   <DotPlotChart {...props}/>
   {/if}
