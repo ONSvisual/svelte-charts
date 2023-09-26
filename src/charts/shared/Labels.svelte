@@ -10,8 +10,8 @@
 	let coords = $custom.coords;
 	let idKey = $custom.idKey;
 	let labelKey = $custom.labelKey;
-	// let colorHover = $custom.colorHover ? $custom.colorHover : 'orange';
-	// let colorSelect = $custom.colorSelect ? $custom.colorSelect : '#206095';
+	let colorHover = $custom.colorHover ? $custom.colorHover : 'orange';
+	let colorSelect = $custom.colorSelect ? $custom.colorSelect : '#206095';
 </script>
 
 {#if $coords}
@@ -24,15 +24,15 @@
 		</feMerge>
 	</filter>
 </defs>
-<g class="label-group">
+<g class="chart-label-group">
 	{#if $coords[0] && $coords[0].x}
 	{#each $coords as d, i}
 		{#if [hovered, selected].includes($data[i][idKey])}
 		<text
-			class="label"
+			class="chart-label"
 			transform="translate(5,-5)"
 			filter="url(#bgfill)"
-			fill="#333"
+			fill="{$data[i][idKey] === hovered ? colorHover : colorSelect}"
 		  x={$xScale(d.x)}
 			y={$yScale(d.y)}>
 			{content ? content : $data[i][labelKey]}
@@ -43,10 +43,10 @@
 	{#each $coords as d, i}
 		{#if [hovered, selected].includes($data[i][0][idKey])}
 		<text
-			class="label"
-			transform="translate(2,3)"
+			class="chart-label"
+			transform="translate(4,3)"
 			filter="url(#bgfill)"
-			fill="#333"
+			fill="{$data[i][0][idKey] === hovered ? colorHover : colorSelect}"
 		  x={$xScale(d[d.length - 1].x)}
 			y={$yScale(d[d.length - 1].y)}>
 			{content ? content : $data[i][0][labelKey]}
@@ -58,7 +58,7 @@
 {/if}
 
 <style>
-	.label {
+	.chart-label {
 		font-size: 0.8em;
 	}
 </style>

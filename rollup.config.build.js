@@ -3,7 +3,6 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import dsv from '@rollup/plugin-dsv';
 import { terser } from 'rollup-plugin-terser';
-import execute from "rollup-plugin-execute";
 import json from "@rollup/plugin-json";
 import css from 'rollup-plugin-css-only';
 
