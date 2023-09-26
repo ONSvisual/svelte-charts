@@ -49,6 +49,7 @@
 	export let footer = null;
 	export let legend = false;
 	export let labels = false;
+	export let labelMarker = true;
 	export let table = false;
 	export let snapTicks = true;
 	export let line = true;
@@ -176,7 +177,7 @@
 			  <Line {lineWidth} {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
       {/if}
 			{#if labels}
-				<Labels {hovered} {selected}/>
+				<Labels {hovered} {selected} marker={labelMarker}/>
 			{/if}
 			<slot name="svg"/>
 		</Svg>

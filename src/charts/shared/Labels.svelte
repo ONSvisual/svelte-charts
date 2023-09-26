@@ -6,6 +6,7 @@
 	export let hovered = null;
 	export let selected = null;
 	export let content = null;
+	export let marker = false;
 	
 	let coords = $custom.coords;
 	let idKey = $custom.idKey;
@@ -42,9 +43,16 @@
 	{:else if $coords[0] && $coords[0][0] && $coords[0][0].x}
 	{#each $coords as d, i}
 		{#if [hovered, selected].includes($data[i][0][idKey])}
+		{#if marker}
+		<circle
+			cx={$xScale(d[d.length - 1].x)}
+			cy={$yScale(d[d.length - 1].y)}
+			r="5"
+			fill="{$data[i][0][idKey] === hovered ? colorHover : colorSelect}"/>
+		{/if}
 		<text
 			class="chart-label"
-			transform="translate(4,3)"
+			transform="translate({marker ? 7 : 4},3)"
 			filter="url(#bgfill)"
 			fill="{$data[i][0][idKey] === hovered ? colorHover : colorSelect}"
 		  x={$xScale(d[d.length - 1].x)}
