@@ -13,6 +13,7 @@
 	import AxisY from './shared/AxisY.svelte';
 	import Legend from './shared/Legend.svelte';
 	import Title from './shared/Title.svelte';
+	import Subtitle from './shared/Subtitle.svelte';
 	import Footer from './shared/Footer.svelte';
 	import Export from './shared/Export.svelte';
 	import Table from './shared/Table.svelte';
@@ -41,6 +42,7 @@
 	export let tickColor = '#ccc';
 	export let tickDashed = false;
 	export let title = null;
+	export let subtitle = null;
 	export let alt = null;
 	export let footer = null;
 	export let legend = false;
@@ -124,6 +126,9 @@
 <div bind:this={el}>
 {#if title}
   <Title>{title}</Title>
+{/if}
+{#if subtitle}
+  <Subtitle>{subtitle}</Subtitle>
 {/if}
 {#if alt}
 	<h5 class="visuallyhidden">{alt}</h5>

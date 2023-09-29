@@ -10,6 +10,7 @@
   import Stack from './shared/Stack.svelte';
 	import AxisX from './shared/AxisX.svelte';
 	import Title from './shared/Title.svelte';
+	import Subtitle from './shared/Subtitle.svelte';
 	import Footer from './shared/Footer.svelte';
 
   export let data;
@@ -22,6 +23,7 @@
   export let xAxis = true;
 	export let zDomain = null;
 	export let title = null;
+	export let subtitle = null;
 	export let alt = null;
 	export let footer = null;
 	export let snapTicks = false;
@@ -48,6 +50,9 @@
 
 {#if title}
   <Title>{title}</Title>
+{/if}
+{#if subtitle}
+  <Subtitle>{subtitle}</Subtitle>
 {/if}
 {#if alt}
 	<h5 class="visuallyhidden">{alt}</h5>
