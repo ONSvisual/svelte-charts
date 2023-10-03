@@ -1,15 +1,18 @@
 <script>
 	import { getContext } from 'svelte';
+	import wrap from '../../js/wrap';
 
-	const { padding, xRange, yScale } = getContext('LayerCake');
+	const { containerWidth, padding, xRange, yScale } = getContext('LayerCake');
 
 	export let ticks = 4;
 	export let tickMarks = false;
 	export let gridlines = true;
+	export let trimGridlines = false;
 	export let tickDashed = false;
 	export let tickColor = '#b3b3b3';
 	export let textColor = '#707070';
 	export let formatTick = d => d;
+	export let wrapTicks = false;
 	export let xTick = 0;
 	export let yTick = 0;
 	export let dxTick = tickMarks ? 8 : 0;
@@ -34,7 +37,8 @@
 			{#if gridlines !== false}
 				<line
 					class="gridline"
-					x2='100%'
+					x1='0'
+					x2='{!trimGridlines ? $containerWidth : $containerWidth - $padding.right}'
 					y1={yTick + (isBandwidth ? ($yScale.bandwidth() / 2) : 0)}
 					y2={yTick + (isBandwidth ? ($yScale.bandwidth() / 2) : 0)}
 					class:dashed={tickDashed}
@@ -56,12 +60,11 @@
 				></line>
 			{/if}
 			<text
-				x='{xTick}'
-				y='{yTick + (isBandwidth ? $yScale.bandwidth() / 2 : 0)}'
-				dx='{isBandwidth ? -4 : dxTick}'
-				dy='{isBandwidth ? 4 : dyTick}'
+				x='{xTick + (isBandwidth ? -4 : dxTick)}'
+				y='{yTick + (isBandwidth ? $yScale.bandwidth() / 2 : 0) + (isBandwidth ? 4 : dyTick)}'
 				style:text-anchor='{isBandwidth ? 'end' : textAnchor}'
-				style:fill='{textColor}'>
+				style:fill='{textColor}'
+				use:wrap={{disable: !wrapTicks, width: $padding.left, dyAdjust: 0.5}}>
 					{i == tickVals.length - 1 ? prefix + formatTick(tick) + suffix : formatTick(tick)}
 				</text>
 		</g>

@@ -32,7 +32,7 @@
 	export let zKey = null;
 	export let idKey = zKey;
 	export let labelKey = idKey;
-	export let xScale;
+	export let xScale = 'linear';
 	export let yScale = 'linear';
 	export let yFormatTick = commas;
 	export let xFormatTick = d => d;
@@ -43,8 +43,10 @@
 	export let xTicks = 4;
 	export let yTicks = 4;
 	export let xTickMarks = true;
+	export let xForceTicks = typeof xTicks === "number" && xScale === 'linear';
 	export let xGridlines = false;
 	export let zDomain = null;
+	export let labelWrap = true;
 	export let title = null;
 	export let subtitle = null;
 	export let alt = null;
@@ -52,6 +54,7 @@
 	export let legend = false;
 	export let labels = false;
 	export let labelMarker = true;
+	export let yTrimGridlines = labels;
 	export let table = false;
 	export let snapTicks = true;
 	export let line = true;
@@ -170,10 +173,10 @@
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} gridlines={xGridlines} tickMarks={xTickMarks}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} gridlines={xGridlines} tickMarks={xTickMarks} forceTicks={xForceTicks}/>
       {/if}
       {#if yAxis}
-			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix}/>
+			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} trimGridlines={yTrimGridlines}/>
       {/if}
       {#if area}
 			  <Area {mode} opacity={areaOpacity}/>
@@ -182,7 +185,7 @@
 			  <Line {lineWidth} {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
       {/if}
 			{#if labels}
-				<Labels {hovered} {selected} marker={labelMarker}/>
+				<Labels {hovered} {selected} marker={labelMarker} textWrap={labelWrap}/>
 			{/if}
 			<slot name="svg"/>
 		</Svg>

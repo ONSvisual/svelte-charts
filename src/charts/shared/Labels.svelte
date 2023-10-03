@@ -1,18 +1,23 @@
 <script>
 	import { getContext } from 'svelte';
+	import { raise } from 'layercake';
+	import wrap from '../../js/wrap';
 
-	const { data, xScale, yScale, custom } = getContext('LayerCake');
+	const { data, xScale, yScale, padding, custom } = getContext('LayerCake');
 
 	export let hovered = null;
 	export let selected = null;
 	export let content = null;
 	export let marker = false;
+	export let textWrap = false;
 	
 	let coords = $custom.coords;
 	let idKey = $custom.idKey;
 	let labelKey = $custom.labelKey;
 	let colorHover = $custom.colorHover ? $custom.colorHover : 'orange';
 	let colorSelect = $custom.colorSelect ? $custom.colorSelect : '#206095';
+
+	const raiseMe = (e, options = {}) => { if (!options.disable) raise(e) };
 </script>
 
 {#if $coords}
@@ -48,7 +53,8 @@
 			cx={$xScale(d[d.length - 1].x)}
 			cy={$yScale(d[d.length - 1].y)}
 			r="5"
-			fill="{$data[i][0][idKey] === hovered ? colorHover : colorSelect}"/>
+			fill="{$data[i][0][idKey] === hovered ? colorHover : colorSelect}"
+			use:raiseMe={{disable: $data[i][0][idKey] !== hovered}}/>
 		{/if}
 		<text
 			class="chart-label"
@@ -56,7 +62,9 @@
 			filter="url(#bgfill)"
 			fill="{$data[i][0][idKey] === hovered ? colorHover : colorSelect}"
 		  x={$xScale(d[d.length - 1].x)}
-			y={$yScale(d[d.length - 1].y)}>
+			y={$yScale(d[d.length - 1].y)}
+			use:wrap={{disable: !textWrap, width: $padding.right}}
+			use:raiseMe={{disable: $data[i][0][idKey] !== hovered}}>
 			{content ? content : $data[i][0][labelKey]}
 		</text>
 		{/if}

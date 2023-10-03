@@ -32,6 +32,7 @@
 	export let idKey = yKey;
 	export let xScale = 'linear';
 	export let xFormatTick = commas;
+	export let yWrapTicks = true;
 	export let xMax = null;
 	export let xMin = null;
   export let xAxis = true;
@@ -172,7 +173,7 @@
 			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
       {/if}
       {#if yAxis}
-			  <AxisY gridlines={false} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
+			  <AxisY gridlines={false} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed} wrapTicks={yWrapTicks}/>
       {/if}
 			<Bar {select} {selected} {hover} {hovered} {highlighted} on:hover on:select {overlayFill}/>
 			<slot name="svg"/>

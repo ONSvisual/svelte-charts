@@ -1,5 +1,6 @@
 <script>
 	import { getContext, createEventDispatcher } from 'svelte';
+	import { raise } from 'layercake';
 
 	const { data, xScale, yScale, zGet, config, custom } = getContext('LayerCake');
 	const dispatch = createEventDispatcher();
@@ -48,6 +49,8 @@
 			});
 		}
 	}
+
+	const raiseMe = (e, options = {}) => { if (!options.disable) raise(e) };
 </script>
 
 {#if $coords}
@@ -90,6 +93,7 @@
 			stroke-width="{
 				lineWidth + 1.5
 			}"
+			use:raiseMe={{disable: hovered !== $data[i][0][idKey]}}
 		/>
 		{/if}
 	{/each}

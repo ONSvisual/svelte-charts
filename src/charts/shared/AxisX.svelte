@@ -1,7 +1,7 @@
 <script>
 	import { getContext } from 'svelte';
 
-	const { width, height, xScale, yRange } = getContext('LayerCake');
+	const { height, xScale, xDomain, yRange } = getContext('LayerCake');
 
 	export let gridlines = true;
 	export let tickDashed = false;
@@ -13,19 +13,34 @@
 	export let ticks = undefined;
 	export let xTick = undefined;
 	export let yTick = 16;
+	export let forceTicks = false;
 	export let dxTick = 0;
 	export let dyTick = tickMarks ? 8 : 0;
 	export let prefix = '';
 	export let suffix = '';
+
+	function fixTicks(domain, ticks) {
+		if (ticks[ticks.length - 1] !== domain[domain.length - 1]) {
+			const interval = domain.indexOf(ticks[1]) - domain.indexOf(ticks[0]);
+			let newticks = [];
+			let i = domain.length - 1 - ((ticks.length - 1) * interval);
+			while (newticks.length < ticks.length) {
+				ticks.push(domain[i]);
+				i += interval;
+			}
+			return newticks;
+		}
+		return ticks;
+	}
 
 	$: isBandwidth = typeof $xScale.bandwidth === 'function';
 
 	$: tickVals = Array.isArray(ticks) ? ticks :
 		isBandwidth ?
 			$xScale.domain() :
-			typeof ticks === 'function' ?
-				ticks($xScale.ticks()) :
-					$xScale.ticks(ticks);
+			typeof ticks === 'function' ? ticks($xScale.ticks()) :
+			forceTicks ? fixTicks($xDomain, $xScale.ticks(ticks)): 
+			$xScale.ticks(ticks);
 
 	function textAnchor(i) {
 		if (snapTicks === true) {

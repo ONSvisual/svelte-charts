@@ -1,3 +1,4 @@
+// Based on https://github.com/jtrim-ons/accurate-beeswarm-plot
 const seed = 1;
 const randomness1 = 5;
 const randomness2 = 2;
