@@ -7,7 +7,7 @@ export default [
   {
     year: 2017,
     value: 320,
-    group: 'bananas'
+    group: 'bananas bananas bananas'
   },
   {
     year: 2017,
@@ -27,7 +27,7 @@ export default [
   {
     year: 2018,
     value: 640,
-    group: 'bananas'
+    group: 'bananas bananas bananas'
   },
   {
     year: 2018,
@@ -47,7 +47,7 @@ export default [
   {
     year: 2019,
     value: 1600,
-    group: 'bananas'
+    group: 'bananas bananas bananas'
   },
   {
     year: 2019,
@@ -67,7 +67,7 @@ export default [
   {
     year: 2020,
     value: 3840,
-    group: 'bananas'
+    group: 'bananas bananas bananas'
   },
   {
     year: 2020,

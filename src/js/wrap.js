@@ -66,14 +66,16 @@ export default function (node, options = {}) {
     if (tspans.length > 2)
       for (let i = 0; i < tspans.length; i++) h *= lineHeightSquishFactor;
 
+    let dx = 0;
     tspans.forEach((d, i) => {
       // Calculate the y offset (dy) for each tspan so that the vertical centre
       // of the tspans roughly aligns with the text element's y position.
-      let dy = i * h + dyAdjust;
-      if (centreVertically) dy -= ((tspans.length - 1) * h) / 2;
+      let dy = i === 0 ? dyAdjust : 1;
+      if (centreVertically && i === 0) dy -= ((tspans.length - 1) * h) / 2;
 
-      d.setAttribute("dx", 0);
+      d.setAttribute("dx", dx);
       d.setAttribute("dy", dy + "em");
+      dx = -d.getComputedTextLength();
     });
   }
 }

@@ -168,7 +168,7 @@
 				{animation} labels
 				{hover} {select}
 				snapTicks={false}
-				selected="apples"/>
+				selected="bananas bananas bananas"/>
 		</div>
 
 		<div>
