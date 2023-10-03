@@ -20,11 +20,15 @@
 	export let suffix = '';
 
 	function fixTicks(domain, ticks) {
-		if (ticks[ticks.length - 1] !== domain[domain.length - 1]) {
+		if (
+			ticks.length > 1 &&
+			ticks.length < domain.length &&
+			ticks[ticks.length - 1] !== domain[domain.length - 1]
+		) {
 			const interval = domain.indexOf(ticks[1]) - domain.indexOf(ticks[0]);
 			let newticks = [];
 			let i = domain.length - 1 - ((ticks.length - 1) * interval);
-			while (newticks.length < ticks.length) {
+			while (i < domain.length) {
 				ticks.push(domain[i]);
 				i += interval;
 			}
@@ -39,7 +43,7 @@
 		isBandwidth ?
 			$xScale.domain() :
 			typeof ticks === 'function' ? ticks($xScale.ticks()) :
-			forceTicks ? fixTicks($xDomain, $xScale.ticks(ticks)): 
+			typeof ticks === 'number' && forceTicks ? fixTicks($xDomain, $xScale.ticks(ticks)): 
 			$xScale.ticks(ticks);
 
 	function textAnchor(i) {
