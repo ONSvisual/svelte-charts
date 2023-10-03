@@ -167,7 +167,8 @@
 				padding={{ top: 0, bottom: 28, left: 35, right: 60 }}
 				{animation} labels
 				{hover} {select}
-				snapTicks={false}/>
+				snapTicks={false}
+				selected="apples"/>
 		</div>
 
 		<div>

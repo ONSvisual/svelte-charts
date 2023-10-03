@@ -29,7 +29,7 @@
 			let newticks = [];
 			let i = domain.length - 1 - ((ticks.length - 1) * interval);
 			while (i < domain.length) {
-				ticks.push(domain[i]);
+				newticks.push(domain[i]);
 				i += interval;
 			}
 			return newticks;

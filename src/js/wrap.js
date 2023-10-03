@@ -48,7 +48,6 @@ export default function (node, options = {}) {
       line = line + word;
       ++nWordsInLine;
       tspan.textContent = line.trim();
-      console.log("length", tspan.getComputedTextLength());
       if (tspan.getComputedTextLength() > width && nWordsInLine > 1) {
         // The tspan is too long, and it contains more than one word.
         // Remove the last word and add it to a new tspan.
@@ -73,8 +72,7 @@ export default function (node, options = {}) {
       let dy = i * h + dyAdjust;
       if (centreVertically) dy -= ((tspans.length - 1) * h) / 2;
 
-      d.setAttribute("x", x);
-      d.setAttribute("y", y);
+      d.setAttribute("dx", 0);
       d.setAttribute("dy", dy + "em");
     });
   }
