@@ -4,7 +4,7 @@ export default function (node, options = {}) {
   if (!options.disable) {
     const getVal = (val, fallback) => typeof val === "number" ? val : fallback;
     const width = getVal(options.width, 100);
-    const dyAdjust = getVal(options.dyAdjust, 0);
+    const dyAdjust = getVal(options.dyAdjust, 0.05);
     const lineHeightEms = getVal(options.lineHeightEms, 1);
     const lineHeightSquishFactor = getVal(options.lineHeightSquishFactor, 1);
     const splitOnHyphen = options.splitOnHyphen || true;
@@ -12,6 +12,7 @@ export default function (node, options = {}) {
 
     const x = +node.getAttribute("x");
     const y = +node.getAttribute("y");
+    const anchor = node.getAttribute("text-anchor");
 
     const svgNode = (parent, type, content = null) => {
       const node = document.createElementNS("http://www.w3.org/2000/svg", type);
@@ -70,12 +71,13 @@ export default function (node, options = {}) {
     tspans.forEach((d, i) => {
       // Calculate the y offset (dy) for each tspan so that the vertical centre
       // of the tspans roughly aligns with the text element's y position.
+      if (anchor === "end" && i !== 0) dx = -d.getComputedTextLength();
       let dy = i === 0 ? dyAdjust : 1;
       if (centreVertically && i === 0) dy -= ((tspans.length - 1) * h) / 2;
 
       d.setAttribute("dx", dx);
       d.setAttribute("dy", dy + "em");
-      dx = -d.getComputedTextLength();
+      if (anchor !== "end") dx = -d.getComputedTextLength();
     });
   }
 }

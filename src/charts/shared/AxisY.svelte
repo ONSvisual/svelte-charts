@@ -62,9 +62,9 @@
 			<text
 				x='{xTick + (isBandwidth ? -4 : dxTick)}'
 				y='{yTick + (isBandwidth ? $yScale.bandwidth() / 2 : 0) + (isBandwidth ? 4 : dyTick)}'
-				style:text-anchor='{isBandwidth ? 'end' : textAnchor}'
-				style:fill='{textColor}'
-				use:wrap={{disable: !wrapTicks, width: $padding.left, dyAdjust: 0.5}}>
+				text-anchor='{isBandwidth ? 'end' : textAnchor}'
+				fill='{textColor}'
+				use:wrap={{disable: !wrapTicks, width: $padding.left}}>
 					{i == tickVals.length - 1 ? prefix + formatTick(tick) + suffix : formatTick(tick)}
 				</text>
 		</g>

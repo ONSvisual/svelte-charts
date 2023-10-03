@@ -43,7 +43,7 @@
 		isBandwidth ?
 			$xScale.domain() :
 			typeof ticks === 'function' ? ticks($xScale.ticks()) :
-			typeof ticks === 'number' && forceTicks ? fixTicks($xDomain, $xScale.ticks(ticks)): 
+			typeof ticks === 'number' && forceTicks ? fixTicks($xScale.ticks(), $xScale.ticks(ticks)): 
 			$xScale.ticks(ticks);
 
 	function textAnchor(i) {
@@ -74,7 +74,7 @@
 				dx='{dxTick}'
 				dy='{dyTick}'
 				text-anchor='{textAnchor(i)}'
-				style:fill='{textColor}'>
+				fill='{textColor}'>
 					{i == tickVals.length - 1 ? prefix + formatTick(tick) + suffix : formatTick(tick)}
 				</text>
 		</g>
