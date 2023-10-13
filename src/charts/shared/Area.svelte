@@ -36,7 +36,9 @@
 {#if $coords}
 <g class="area-group">
 	{#each $coords as group, i}
+		{#key i}
 	<path class='path-area' d='{makeArea(group, i)}' fill={$config.z ? $zGet($data[i][0]) : $zRange[0]} {opacity}></path>
+		{/key}
 	{/each}
 </g>
 {/if}

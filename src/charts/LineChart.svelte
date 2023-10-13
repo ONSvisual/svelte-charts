@@ -19,8 +19,9 @@
 	import Labels from './shared/Labels.svelte';
 	import Export from './shared/Export.svelte';
 	import Table from './shared/Table.svelte';
+    import { compute_rest_props } from 'svelte/internal';
 
-  export let data;
+  	export let data;
 	export let height = 200; // number of pixels or valid css height string
 	export let ssr = false;
 	export let ssrWidth = 300; // for SSR only. Must be a number
@@ -65,6 +66,7 @@
 	export let color = null;
 	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
 	export let lineWidth = 2.5;
+	export let lineOpacity = 1;
 	export let interactive = true;
 	export let xPrefix = "";
 	export let xSuffix = "";
@@ -81,6 +83,8 @@
 	export let output = null;
 
 	let el; // Chart DOM element
+
+	$:console.log('lineOpacity', lineOpacity)
 
 	const tweenOptions = {
 		duration: duration,
@@ -100,7 +104,6 @@
 		});
 		return arr;
 	}
-
 	// Functions to animate yDomain
 	const yDomSet = (data, mode, yKey, yMax) => yMax ? [yMin, yMax] : mode == 'stacked' && yKey ? [yMin, Math.max(...getTotals(data, data.map(d => d[xKey]).filter(distinct)))] : [yMin, Math.max(...data.map(d => d[yKey]))];
 	function yDomUpdate(data, mode, yKey, yMax) {
@@ -165,9 +168,9 @@
 			colorSelect,
 			colorHover,
 			colorHighlight,
-      animation,
-      duration
-    }}
+			animation,
+			duration
+   		}}
 	>
 		<SetCoords/>
 	  <slot name="back"/>
@@ -182,7 +185,7 @@
 			  <Area {mode} opacity={areaOpacity}/>
       {/if}
       {#if line}
-			  <Line {lineWidth} {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
+			  <Line {lineWidth} {select} bind:selected {hover} bind:hovered {highlighted} {lineOpacity} on:hover on:select/>
       {/if}
 			{#if labels}
 				<Labels {hovered} {selected} marker={labelMarker} textWrap={labelWrap}/>

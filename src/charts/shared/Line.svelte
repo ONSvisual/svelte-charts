@@ -11,6 +11,7 @@
 	export let select = false;
 	export let selected = null;
 	export let highlighted = [];
+	export let lineOpacity; 
 	
 	let coords = $custom.coords;
 	let idKey = $custom.idKey;
@@ -75,6 +76,9 @@
 				$config.z ? $zGet($data[i][0]) : $config.zRange[0]}"
 			stroke-width="{
 				lineWidth
+			}"
+			stroke-opacity="{
+				lineOpacity[i]
 			}"
 		/>
 	{/each}

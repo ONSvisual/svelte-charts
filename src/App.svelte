@@ -12,7 +12,7 @@
 	import {timeFormat} from 'd3-time-format';
 
 	// Chart options
-	let animation = true;
+	let animation = false;
 	let hover = true;
 	let hovered = null;
 	let hoveredScatter = null;
@@ -21,7 +21,8 @@
 	let selectedScatter = null;
 	let barchart1 = {
 		options: ['apples', 'bananas', 'cherries', 'dates'],
-		selected: 'apples'
+		selected: 'apples',
+		checkbox:['apples']
 	};
 	let barchart2 = {
 		options: ['stacked', 'comparison', 'barcode', 'grouped', 'confidence'],
@@ -38,6 +39,7 @@
 		zKey: false,
 		rKey: true
 	};
+	let colours = ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey']
 
 	const doHover = (e) => hovered = e.detail.id;
 	const doSelect = (e) => selected = e.detail.id;
@@ -64,7 +66,7 @@
 
 <section>
 	<div class="grid">
-		<div>
+		<!-- <div>
 			<BarChart
 			  data={data.filter(d => d.group == barchart1.selected)}
 				xKey="value" yKey="year"
@@ -79,23 +81,21 @@
 					{/each}
 				</div>
 			</BarChart>
-		</div>
-		<div>
+		</div> -->
+		<!-- <div>
 			<BarChart
-				data={data}
+				data={data.filter(d => barchart1.checkbox.includes(d.group))}
 				xKey="value" yKey="year" zKey="group"
 				title="Stacked / comparative bar chart"
-				mode="{barchart2.selected}"
+				mode="stacked"
 				{hover} {hovered} on:hover={doHover}
 				{select} {selected} on:select={doSelect}
 				{animation} legend>
-				<div slot="options" class="controls small">
-					{#each barchart2.options as option}
-					  <label><input type="radio" bind:group={barchart2.selected} value={option}/> {option}</label>
-					{/each}
-				</div>
+				
 			</BarChart>
-		</div>
+		</div> -->
+		<!--
+
 		<div>
 			<BarChart data={data.filter(d => d.year == 2020)} xKey="value" yKey="group" zKey="group" title="Coloured bar chart with export options" output={{csv: true, png: true}}/>
 		</div>
@@ -132,17 +132,21 @@
 		</div>
 		<div>
 			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" title="Coloured column chart with export options" output={{csv: true, png: true}}/>
-		</div>
+		</div> -->
 		<div>
-			<LineChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" areaOpacity={0.3} title="Line chart with area" animation={animation} >
+			<LineChart data={data.map(d=>{if(barchart1.checkbox.includes(d.group)){return d}else{return {year:d.year, value:0,group:d.group}}})} 
+				xKey="year" yKey="value" zKey="group" mode='stacked' 
+				areaOpacity={0.3} title="Line chart with area" animation={animation} 
+				color=""
+				lineOpacity={colours.map((d,i)=>{if(i<barchart1.checkbox.length){return 1}else{return '0'}})}>
 				<div slot="options" class="controls small">
 					{#each barchart1.options as option}
-					  <label><input type="radio" bind:group={barchart1.selected} value={option}/> {option}</label>
+					  <label><input type="checkbox" bind:group={barchart1.checkbox} value={option}/> {option}</label>
 					{/each}
 				</div>
 			</LineChart>
 		</div>
-		<div>
+		<!-- <div>
 			<LineChart
 				data={data}
 				xKey="year" yKey="value" zKey="group"
@@ -223,7 +227,7 @@
 				{select} {selected} on:select={doSelect}
 				{animation} legend>
 			</DotPlotChart>
-		</div>
+		</div> -->
 		{#if false}
 		<div>
 			<MarkerChart data={dataScatter} xTicks={[3,4,5,6,7,8]} xKey="value" animation={animation} title="Breaks chart with markers" legend/>
