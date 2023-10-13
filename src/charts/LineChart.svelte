@@ -83,9 +83,7 @@
 	export let output = null;
 
 	let el; // Chart DOM element
-
-	$:console.log('lineOpacity', lineOpacity)
-
+	
 	const tweenOptions = {
 		duration: duration,
 		easing: cubicInOut
