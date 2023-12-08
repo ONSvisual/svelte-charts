@@ -47,11 +47,11 @@
 	{#if idKey && (hovered || selected || highlighted[0])}
 	{#each $coords as group, i}
 		{#each group as d, j}
-			{#if [...highlighted, selected, hovered].includes($data[i][idKey])}
+			{#if [...highlighted, selected, hovered].includes($data[i][j][idKey])}
 			<circle
 				class
 				cx={$xScale(d.x)}
-				cy={$yScale(d.y)}
+				cy={$yScale(d.y)+ ($yScale.bandwidth() / 2)}
 				r={radius}
 				fill="{overlayFill && $data[i][j][idKey] == selected ? colorSelect : overlayFill & highlighted.includes($data[i][j][idKey]) ? colorHighlight : 'none'}"
 				stroke="{$data[i][j][idKey] == hovered ? colorHover : $data[i][j][idKey] == selected ? colorSelect : colorHighlight}"
