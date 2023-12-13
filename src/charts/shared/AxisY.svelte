@@ -38,7 +38,7 @@
 				<line
 					class="gridline"
 					x1='0'
-					x2='{!trimGridlines ? $containerWidth : $containerWidth - $padding.right}'
+					x2='{!trimGridlines ? $containerWidth : $containerWidth - $padding.right -$padding.left}'
 					y1={yTick + (isBandwidth ? ($yScale.bandwidth() / 2) : 0)}
 					y2={yTick + (isBandwidth ? ($yScale.bandwidth() / 2) : 0)}
 					class:dashed={tickDashed}
