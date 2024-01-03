@@ -58,8 +58,8 @@
 	export let table = false;
 	export let snapTicks = true;
 	export let line = true;
-	export let area = true;
 	export let mode = 'default';
+	export let area = mode === 'stacked';
 	export let areaOpacity = 1;
 	export let padding = { top: 0, bottom: 28, left: 35, right: 0 };
 	export let color = null;
