@@ -180,7 +180,7 @@
 				<Voronoi {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
 			{/if}
 			{#if labels}
-				<Labels {hovered} {selected} content={labelContent}/>
+				<Labels {hovered} {selected} labelAll={labels === "all"} content={labelContent}/>
 			{/if}
 			<slot name="svg"/>
 		</Svg>

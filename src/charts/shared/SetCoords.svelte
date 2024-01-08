@@ -92,7 +92,7 @@
 				}
 			}));
 		}
-		if (type == 'dotplot') {console.log(newcoords), "dot plot"};
+		// if (type == 'dotplot') {console.log(newcoords), "dot plot"};
     coords.set(newcoords, {duration});
   }
 </script>

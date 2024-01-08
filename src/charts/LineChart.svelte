@@ -53,8 +53,9 @@
 	export let footer = null;
 	export let legend = false;
 	export let labels = false;
+	export let spreadLabels = labels === "all";
 	export let labelMarker = true;
-	export let yTrimGridlines = labels;
+	export let yTrimGridlines = labels !== false;
 	export let table = false;
 	export let snapTicks = true;
 	export let line = true;
@@ -185,7 +186,7 @@
 			  <Line {lineWidth} {select} bind:selected {hover} bind:hovered {highlighted} on:hover on:select/>
       {/if}
 			{#if labels}
-				<Labels {hovered} {selected} marker={labelMarker} textWrap={labelWrap}/>
+				<Labels {hovered} {selected} labelAll={labels === "all"} {spreadLabels} marker={labelMarker} textWrap={labelWrap}/>
 			{/if}
 			<slot name="svg"/>
 		</Svg>

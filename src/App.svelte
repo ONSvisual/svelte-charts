@@ -148,7 +148,8 @@
 				xKey="year" yKey="value" zKey="group"
 				line={linechart.line} area={linechart.area} areaOpacity={linechart.transparent ? 0.3 : 1}
 				title="Line/area chart with options" mode={linechart.stacked ? 'stacked' : 'default'}
-				{animation} legend={linechart.line || linechart.area}>
+				{animation} legend={linechart.line || linechart.area}
+				labels="all">
 				<div slot="options" class="controls small">
 					<label><input type="checkbox" bind:checked={linechart.line}/> Show line</label>
 					<label><input type="checkbox" bind:checked={linechart.area}/> Show area</label>
