@@ -8,6 +8,7 @@
   export let section;
 
   const directions = ["left", "right", "top", "bottom"];
+  const regex = /^\[([^,\]]+,)*[^,\]]+\]$/;//this regex looks for an array
 
   function makeProps(section) {
     let props = {};
@@ -15,10 +16,23 @@
     let keys = Object.keys(section).filter(key => ![
       "type", "chartType", ...directions.map(dir => `padding-${dir}`)
     ].includes(key));
-    keys.forEach(key => props[key] = section[key]);
+    keys.forEach(key => {
+      if(regex.test(section[key])){//this test if the string looks like an array
+        props[key]=JSON.parse(section[key])//if it's an array, parse as an array
+      }else{
+        props[key]= section[key]
+      }
+    }
+    );
     if (Array.isArray(section.data)) {
       let dims = Object.keys(section.data[0]);
-      dims.forEach(dim => props[`${dim}Key`] = dim);
+      dims.forEach(dim => {
+        if(["x","y","z","r"].includes(dim)){//if the key is either, x,y,z or r, add the string 'key' to it for the props object
+          props[`${dim}Key`] = dim
+        }else{
+          props[dim] = dim
+        }
+      });
     }
     directions.forEach(dir => {
       if (section[`padding-${dir}`]) padding[dir] = section[`padding-${dir}`];
@@ -29,6 +43,7 @@
   }
 
   $: props = makeProps(section);
+  $: console.log(props)
 </script>
 
 {#if props}
