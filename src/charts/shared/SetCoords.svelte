@@ -25,7 +25,7 @@
 				return d.map((e, j) => {
 					if (!xpos[j]) xpos[j] = 0;
 					if (!xneg[j]) xneg[j] = 0;
-					let x0 = mode == 'default' || mode =='grouped' || (mode == 'comparison' && i == 0) ? $xDomain[0] :
+					let x0 = mode == 'default' || mode =='grouped' || (mode == 'comparison' && i == 0) ? 0 :
 							mode == 'stacked' && x(e) >= 0 ? xpos[j] :
 							mode == 'stacked' ? xneg[j] :
 							x(e);
@@ -57,7 +57,7 @@
 							mode == 'grouped' ? x0 + (Math.max(0, ($xGet(e)[1] - $xGet(e)[0])) / data.length) :
 							$xScale.bandwidth ? x0 + $xScale.bandwidth() :
 							x0 + Math.max(0, ($xGet(e)[1] - $xGet(e)[0]));
-					let y0 = mode == 'default' || mode =='grouped' || (mode == 'comparison' && i == 0) ? $yDomain[0] :
+					let y0 = mode == 'default' || mode =='grouped' || (mode == 'comparison' && i == 0) ? 0 :
 							mode == 'stacked' && y(e) >= 0 ? ypos[j] :
 							mode == 'stacked' ? yneg[j] :
 							y(e);
