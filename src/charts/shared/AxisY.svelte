@@ -22,6 +22,12 @@
 	export let suffix = '';
 
 	$: isBandwidth = typeof $yScale.bandwidth === 'function';
+	$: gridlineWidth = (() => {
+		let width = $containerWidth;
+		if (isBandwidth) width -= $padding.left;
+		if (trimGridlines) width -= $padding.right;
+		return width;
+	})();
 
 	$: tickVals = Array.isArray(ticks) ? ticks :
 		isBandwidth ?
@@ -38,7 +44,7 @@
 				<line
 					class="gridline"
 					x1='0'
-					x2='{!trimGridlines ? $containerWidth : $containerWidth - $padding.right}'
+					x2='{gridlineWidth}'
 					y1={yTick + (isBandwidth ? ($yScale.bandwidth() / 2) : 0)}
 					y2={yTick + (isBandwidth ? ($yScale.bandwidth() / 2) : 0)}
 					class:dashed={tickDashed}
