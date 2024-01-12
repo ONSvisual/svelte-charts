@@ -134,7 +134,7 @@
 			<ColumnChart data={data.filter(d => d.year == 2020)} xKey="group" yKey="value" zKey="group" title="Coloured column chart with export options" output={{csv: true, png: true}}/>
 		</div>
 		<div>
-			<LineChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" areaOpacity={0.3} title="Line chart with area" animation={animation} >
+			<LineChart data={data.filter(d => d.group == barchart1.selected)} xKey="year" yKey="value" area={true} areaOpacity={0.3} title="Line chart with area" animation={animation} >
 				<div slot="options" class="controls small">
 					{#each barchart1.options as option}
 					  <label><input type="radio" bind:group={barchart1.selected} value={option}/> {option}</label>
@@ -148,8 +148,7 @@
 				xKey="year" yKey="value" zKey="group"
 				line={linechart.line} area={linechart.area} areaOpacity={linechart.transparent ? 0.3 : 1}
 				title="Line/area chart with options" mode={linechart.stacked ? 'stacked' : 'default'}
-				{animation} legend={linechart.line || linechart.area}
-				labels="all">
+				{animation} legend={linechart.line || linechart.area}>
 				<div slot="options" class="controls small">
 					<label><input type="checkbox" bind:checked={linechart.line}/> Show line</label>
 					<label><input type="checkbox" bind:checked={linechart.area}/> Show area</label>
