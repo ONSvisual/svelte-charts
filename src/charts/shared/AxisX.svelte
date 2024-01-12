@@ -23,16 +23,10 @@
 		if (
 			ticks.length > 1 &&
 			ticks.length < domain.length &&
-			ticks[ticks.length - 1] !== domain[domain.length - 1]
+			ticks[ticks.length - 1] < domain[domain.length - 1]
 		) {
-			const interval = domain.indexOf(ticks[1]) - domain.indexOf(ticks[0]);
-			let newticks = [];
-			let i = domain.length - 1 - ((ticks.length - 1) * interval);
-			while (i < domain.length) {
-				newticks.push(domain[i]);
-				i += interval;
-			}
-			return newticks;
+			const diff = domain[domain.length - 1] - ticks[ticks.length - 1];
+			return ticks.map(tick => tick + diff);
 		}
 		return ticks;
 	}
@@ -46,12 +40,12 @@
 			typeof ticks === 'number' && forceTicks ? fixTicks($xScale.ticks(), $xScale.ticks(ticks)): 
 			$xScale.ticks(ticks);
 
-	function textAnchor(i) {
+	function textAnchor(tick) {
 		if (snapTicks === true) {
-			if (i === 0) {
+			if (tick === $xDomain[0]) {
 				return 'start';
 			}
-			if (i === tickVals.length - 1) {
+			if (tick === $xDomain[1]) {
 				return 'end';
 			}
 		}
@@ -73,7 +67,7 @@
 				y='{yTick}'
 				dx='{dxTick}'
 				dy='{dyTick}'
-				text-anchor='{textAnchor(i)}'
+				text-anchor='{textAnchor(tick)}'
 				fill='{textColor}'>
 					{i == tickVals.length - 1 ? prefix + formatTick(tick) + suffix : formatTick(tick)}
 				</text>
