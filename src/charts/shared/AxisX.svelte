@@ -21,6 +21,7 @@
 
 	function fixTicks(domain, ticks) {
 		if (
+			typeof ticks[0] === "number" &&
 			ticks.length > 1 &&
 			ticks.length < domain.length &&
 			ticks[ticks.length - 1] < domain[domain.length - 1]
