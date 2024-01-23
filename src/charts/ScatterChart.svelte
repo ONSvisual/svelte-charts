@@ -48,6 +48,7 @@
 	export let xTickMarks = true;
 	export let xGridlines = true;
 	export let zDomain = null;
+	export let yFitBeeswarm = false;
 	export let textColor = '#666';
 	export let tickColor = '#ccc';
 	export let tickDashed = false;
@@ -163,7 +164,8 @@
 			colorHighlight,
 			padding: 1,
       animation,
-      duration
+      duration,
+			yFitBeeswarm
     }}
 	>
 	  <SetCoords/>

@@ -10,6 +10,11 @@
 
 	$: setCoords($data, $custom, $x, $y, $r, $width);
 
+	function setYTransform(coords, yLimit) {
+		const yMax = Math.max(...coords.map(c => Math.abs(c.y)));
+		return yMax && yMax > yLimit ? yLimit / yMax : 1;
+	}
+
   function setCoords(data, custom, x, y, r, width) {
     let mode = custom.mode;
     let padding = custom.padding;
@@ -84,6 +89,11 @@
 		    padding,
 		    $yRange[0] / 2
 		  ).calculateYPositions().map(d => ({x: $xScale.invert(d.x), y: $yScale.invert(d.y), r: d.r}));
+			if (!y && custom.yFitBeeswarm) {
+				const yMax = Math.max(...newcoords.map(c => Math.abs(c.y)));
+				const transform = yMax && yMax > $yDomain[1] ? $yDomain[1] / yMax : null;
+				if (transform) newcoords = newcoords.map(d => ({x: d.x, y: d.y * transform, r: d.r}));
+			}
     } else {
 			newcoords = data.map((d) => d.map((e) => {
 				return {
