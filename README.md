@@ -1,6 +1,6 @@
 # @onsvisual/svelte-charts
 
-[![npm version](https://badge.fury.io/js/@onsvisual%2Fsvelte-components.svg)](https://www.npmjs.com/package/@onsvisual/svelte-charts)
+[![npm version](https://badge.fury.io/js/@onsvisual%2Fsvelte-charts.svg)](https://www.npmjs.com/package/@onsvisual/svelte-charts)
 
 Reusable chart templates for Svelte projects.
 
