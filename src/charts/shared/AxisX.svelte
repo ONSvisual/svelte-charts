@@ -1,5 +1,6 @@
 <script>
 	import { getContext } from 'svelte';
+	import { timeFormat } from 'd3-time-format'
 
 	const { height, xScale, xDomain, yRange } = getContext('LayerCake');
 
@@ -19,6 +20,8 @@
 	export let prefix = '';
 	export let suffix = '';
 
+	const regex = /%(?:[YyBbMmdeHwWSzZNaAgGcpPZcrRUoOFDL]+)/;// this looks for strings that looks like time e.g. %b %Y
+	if(regex.test(formatTick)){formatTick = d => timeFormat(formatTick)(d)} //if the regex test passes, make it a timeFormat function
 	function fixTicks(domain, ticks) {
 		if (
 			typeof ticks[0] === "number" &&
