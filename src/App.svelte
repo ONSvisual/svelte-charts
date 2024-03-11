@@ -182,7 +182,7 @@
 			color="grey" lineWidth={1}
 			area={false}
 			xScale="time"
-			xFormatTick={d=>timeFormat('%b %y')(d)}
+			xFormatTickString='%b %y'
 			title="Line chart with time data"
 			padding={{ top: 0, bottom: 28, left: 35, right: 60 }}
 			{animation} labels
