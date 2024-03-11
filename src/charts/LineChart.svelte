@@ -36,6 +36,7 @@
 	export let yScale = 'linear';
 	export let yFormatTick = commas;
 	export let xFormatTick = d => d;
+	export let xFormatTickString = null;
 	export let yMax = null;
 	export let yMin = 0;
 	export let xAxis = true;
@@ -103,7 +104,7 @@
 	}
 
 	// Functions to animate yDomain
-	const yDomSet = (data, mode, yKey, yMax) => yMax ? [yMin, yMax] : mode == 'stacked' && yKey ? [yMin, Math.max(...getTotals(data, data.map(d => d[xKey]).filter(distinct)))] : [yMin, Math.max(...data.map(d => d[yKey]))];
+	const yDomSet = (data, mode, yKey, yMax) => yMax ? [yMin, yMax] : mode == 'stacked' && yKey ? [yMin, Math.max(...getTotals(data, data.map(d => d[xKey]).filter(distinct)))] : [Math.min(...data.map(d => d[yKey])), Math.max(...data.map(d => d[yKey]))];
 	function yDomUpdate(data, mode, yKey, yMax) {
 		let newYDom = yDomSet(data, mode, yKey, yMax);
 		if (newYDom[0] != yDom[0] || newYDom[1] != yDom[1]) {
@@ -174,7 +175,7 @@
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} gridlines={xGridlines} tickMarks={xTickMarks} forceTicks={xForceTicks}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} gridlines={xGridlines} tickMarks={xTickMarks} forceTicks={xForceTicks} formatTickString={xFormatTickString}/>
       {/if}
       {#if yAxis}
 			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} trimGridlines={yTrimGridlines}/>
