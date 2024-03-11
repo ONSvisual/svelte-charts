@@ -6,8 +6,6 @@
 
 	const { data, xScale, yScale, zGet, padding, config, custom } = getContext('LayerCake');
 
-	console.log($xScale)
-	
 	export let hovered = null;
 	export let selected = null;
 	export let labelAll = false;
@@ -46,14 +44,12 @@
 			clone[clone.length - 1].ly = labelYs[i];
 			return clone;
 		});
-		console.log(sortedCoords)
 		return reverseIndex.map(i => sortedCoords[i]);
 	};
 
 
 
 	$: coordsWithLabels = $coords?.[0]?.[0]?.y && spreadLabels ? addLabelCoords($coords, radius) : $coords;
-	$: console.log($coords,coordsWithLabels)
 </script>
 
 {#if coordsWithLabels}
