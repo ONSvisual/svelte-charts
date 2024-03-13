@@ -43,7 +43,6 @@
   }
 
   $: props = makeProps(section);
-  $: console.log(props)
 </script>
 
 {#if props}
