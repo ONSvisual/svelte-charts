@@ -8,7 +8,7 @@
   export let section;
 
   const directions = ["left", "right", "top", "bottom"];
-  const regex = /^\[([^,\]]+,)*[^,\]]+\]$/;//this regex looks for an array
+  const regex = /^\[(?:'[^']*'|"[^"]*"|\d+(?:\.\d+)?)(,?)*]$/;//this regex looks for an array
 
   function makeProps(section) {
     let props = {};
