@@ -5,12 +5,15 @@
   import ScatterChart from "./ScatterChart.svelte";
   import DotPlotChart from "./DotPlotChart.svelte";
 
-  export let section;
+  export let data = null;
+  export let options = null;
+  export let section = null;
 
   const directions = ["left", "right", "top", "bottom"];
   const regex = /^\[(?:'[^']*'|"[^"]*"|\d+(?:\.\d+)?)(,?)*]$/;//this regex looks for an array
 
-  function makeProps(section) {
+  function makeProps(data, options, section) {
+    if (!section) section = {data, ...options};
     let props = {};
     let padding = {left: 50, right: 0, top: 0, bottom: 20};
     let keys = Object.keys(section).filter(key => ![
@@ -42,7 +45,7 @@
     return props;
   }
 
-  $: props = makeProps(section);
+  $: props = makeProps(data, options, section);
 </script>
 
 {#if props}
