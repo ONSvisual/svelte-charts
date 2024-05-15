@@ -5,15 +5,32 @@
   import ScatterChart from "./ScatterChart.svelte";
   import DotPlotChart from "./DotPlotChart.svelte";
 
+  /**
+   * Type of chart
+   * @type {"bar"|"column"|"line"|"scatter"|"dotplot"|"bar-highlight"|"column-highlight"|"line-highlight"|"scatter-highlight"}
+   */
+  export let type = null;
+  /**
+   * The data array for the chart (equivalent to parsed rows of a CSV)
+   * @type {array}
+   */
   export let data = null;
+  /**
+   * Options for the chart as key:value pairs
+   * @type {object}
+   */
   export let options = null;
+  /**
+   * An alternative way to pass in all of the chart props as a single object {chartType, data, ...options}
+   * @type {object}
+   */
   export let section = null;
 
   const directions = ["left", "right", "top", "bottom"];
   const regex = /^\[(?:'[^']*'|"[^"]*"|\d+(?:\.\d+)?)(,?)*]$/;//this regex looks for an array
 
-  function makeProps(data, options, section) {
-    if (!section) section = {data, ...options};
+  function makeProps(type, data, options, section) {
+    if (!section) section = {chartType: type, data, ...options};
     let props = {};
     let padding = {left: 50, right: 0, top: 0, bottom: 20};
     let keys = Object.keys(section).filter(key => ![
@@ -45,7 +62,7 @@
     return props;
   }
 
-  $: props = makeProps(data, options, section);
+  $: props = makeProps(type, data, options, section);
 </script>
 
 {#if props}
