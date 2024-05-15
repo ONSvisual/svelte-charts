@@ -6,25 +6,25 @@
   import DotPlotChart from "./DotPlotChart.svelte";
 
   /**
+   * An alternative way to pass in all of the chart props as a single object {chartType, data, ...options}
+   * @type {object|null}
+   */
+   export let section = null;
+  /**
    * Type of chart
    * @type {"bar"|"column"|"line"|"scatter"|"dotplot"|"bar-highlight"|"column-highlight"|"line-highlight"|"scatter-highlight"}
    */
-  export let type = null;
+  export let type = section?.chartType;
   /**
    * The data array for the chart (equivalent to parsed rows of a CSV)
-   * @type {array}
+   * @type {array|null}
    */
   export let data = null;
   /**
    * Options for the chart as key:value pairs
-   * @type {object}
+   * @type {object|null}
    */
   export let options = null;
-  /**
-   * An alternative way to pass in all of the chart props as a single object {chartType, data, ...options}
-   * @type {object}
-   */
-  export let section = null;
 
   const directions = ["left", "right", "top", "bottom"];
   const regex = /^\[(?:'[^']*'|"[^"]*"|\d+(?:\.\d+)?)(,?)*]$/;//this regex looks for an array
@@ -67,23 +67,23 @@
 
 {#if props}
 {#key props.data}
-  {#if section.chartType.toLowerCase() === "bar" && props.xKey && props.yKey}
+  {#if type.toLowerCase() === "bar" && props.xKey && props.yKey}
   <BarChart {...props}/>
-  {:else if section.chartType.toLowerCase() === "bar-highlight" && props.xKey && props.yKey}
+  {:else if type.toLowerCase() === "bar-highlight" && props.xKey && props.yKey}
   <BarChart {...props} color="#bbb" colorSelect="#206095" colorHighlight="grey" overlayFill={true}/>
-  {:else if section.chartType.toLowerCase() === "column" && props.xKey && props.yKey}
+  {:else if type.toLowerCase() === "column" && props.xKey && props.yKey}
   <ColumnChart {...props}/>
-  {:else if section.chartType.toLowerCase() === "column-highlight" && props.xKey && props.yKey}
+  {:else if type.toLowerCase() === "column-highlight" && props.xKey && props.yKey}
   <ColumnChart {...props} color="#bbb" colorSelect="#206095" colorHighlight="grey" overlayFill={true}/>
-  {:else if section.chartType.toLowerCase() === "line" && props.xKey && props.yKey}
+  {:else if type.toLowerCase() === "line" && props.xKey && props.yKey}
   <LineChart {...props} area={false}/>
-  {:else if section.chartType.toLowerCase() === "line-highlight" && props.xKey && props.yKey}
+  {:else if type.toLowerCase() === "line-highlight" && props.xKey && props.yKey}
   <LineChart {...props} area={false} color="#bbb" lineWidth={1} legend={false} snapTicks={false} hover labels/>
-  {:else if section.chartType.toLowerCase() === "scatter" && props.xKey}
+  {:else if type.toLowerCase() === "scatter" && props.xKey}
   <ScatterChart {...props}/>
-  {:else if section.chartType.toLowerCase() === "scatter-highlight" && props.xKey}
+  {:else if type.toLowerCase() === "scatter-highlight" && props.xKey}
   <ScatterChart {...props} color="#bbb" colorSelect="#206095" colorHighlight="grey" overlayFill={true} hover labels/>
-  {:else if section.chartType.toLowerCase() === "dotplot" && props.xKey && props.yKey}
+  {:else if type.toLowerCase() === "dotplot" && props.xKey && props.yKey}
   <DotPlotChart {...props}/>
   {/if}
 {/key}
