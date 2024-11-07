@@ -7,7 +7,7 @@ import json from "@rollup/plugin-json";
 import css from 'rollup-plugin-css-only';
 
 // List of modules to compile (must match .js filenames in src, eg. LineChart.js => LineChart)
-const modules = ['LineChart', 'BarChart', 'ColumnChart', 'ScatterChart', 'DotPlotChart'];
+const modules = ['Chart', 'LineChart', 'BarChart', 'ColumnChart', 'ScatterChart', 'DotPlotChart'];
 
 export default [
 	...modules.map(module => {
