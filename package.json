@@ -39,8 +39,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "debounce": "^1.2.1",
-    "gh-pages": "^3.2.3",
-    "html-minifier": "^4.0.0",
+    "gh-pages": "^6.2.0",
     "rollup": "^2.38.5",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-execute": "^1.1.1",
@@ -50,7 +49,6 @@
     "sirv-cli": "^1.0.0"
   },
   "peerDependencies": {
-    "clean-css": "^4.2.3",
     "d3-delaunay": "^6.0.2",
     "d3-dsv": "latest",
     "d3-quadtree": "latest",
@@ -60,7 +58,7 @@
     "layercake": "^7.2.2",
     "regl": "latest",
     "regl-tween": "latest",
-    "svelte": "3 - 4"
+    "svelte": "3 - 5"
   },
   "main": "index.mjs",
   "directories": {
