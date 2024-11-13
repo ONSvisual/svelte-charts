@@ -55,7 +55,7 @@
     "d3-scale": "^4.0.2",
     "d3-time-format": "^4.1.0",
     "html2canvas": "^1.3.3",
-    "layercake": "^7.2.2",
+    "layercake": "^8.4.2",
     "regl": "latest",
     "regl-tween": "latest",
     "svelte": "3 - 5"
