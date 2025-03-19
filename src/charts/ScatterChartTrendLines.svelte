@@ -82,6 +82,7 @@
 	export let mode = 'default';
 	export let lineWidth = 2.5;
 	export let line = true;
+	export let xGridlines = true;
 
 	let el; // Chart DOM element
 
@@ -174,7 +175,7 @@
 				>
 				<Svg>
 					{#if xAxis}
-								<AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
+								<AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed} gridlines={xGridlines}/>
 					{/if}
 					{#if yAxis && yKey}
 							<AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
