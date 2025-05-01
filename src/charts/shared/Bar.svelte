@@ -1,5 +1,6 @@
 <script>
 	import { getContext, createEventDispatcher } from 'svelte';
+	import { format } from 'd3-format'
 	
 	const { data, xScale, zGet, xDomain, zRange, config, custom } = getContext('LayerCake');
 	const dispatch = createEventDispatcher()
@@ -10,6 +11,8 @@
 	export let selected = null;
 	export let highlighted = [];
 	export let overlayFill = false;
+	export let directLabel;
+	export let xFormatTickString;
 
 	let coords = $custom.coords;
 	let idKey = $custom.idKey;
@@ -79,20 +82,23 @@
 		  <!-- svelte-ignore a11y-click-events-have-key-events -->
 		  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 		  <polygon
-			  class='bar-rect'
-			  data-id="{j}"
-				transform="translate({mode == 'barcode' || (mode == 'comparison' && i > 0) ? -markerWidth / 2 : 0} 0)"
-			  points="{makePoints($xScale(d.x0), $xScale(d.x1), d.y0, d.y1)}"
-				stroke="{$data[i][j][idKey] == hovered ? colorHover : $data[i][j][idKey] == selected ? colorSelect : colorHighlight}"
-				stroke-width="{$data[i][j][idKey] == hovered || $data[i][j][idKey] == selected || highlighted.includes($data[i][j][idKey]) ? lineWidth : 0}"
-			  fill="{overlayFill && $data[i][j][idKey] == selected ? colorSelect : overlayFill && highlighted.includes($data[i][j][idKey]) ? colorHighlight : $config.z ? $zGet($data[i][j]) : $zRange[0]}"
-				on:mouseover={hover ? (e) => doHover(e, $data[i][j]) : null}
-				on:mouseleave={hover ? (e) => doHover(e, null) : null}
-				on:focus={select ? (e) => doHover(e, $data[i][j]) : null}
-				on:blur={select ? (e) => doHover(e, null) : null}
-				on:click={select ? (e)  => doSelect(e, $data[i][j]) : null}
-				tabindex="{hover || select ? 0 : -1}"
+			class='bar-rect'
+			data-id="{j}"
+			transform="translate({mode == 'barcode' || (mode == 'comparison' && i > 0) ? -markerWidth / 2 : 0} 0)"
+			points="{makePoints($xScale(d.x0), $xScale(d.x1), d.y0, d.y1)}"
+			stroke="{$data[i][j][idKey] == hovered ? colorHover : $data[i][j][idKey] == selected ? colorSelect : colorHighlight}"
+			stroke-width="{$data[i][j][idKey] == hovered || $data[i][j][idKey] == selected || highlighted.includes($data[i][j][idKey]) ? lineWidth : 0}"
+			fill="{overlayFill && $data[i][j][idKey] == selected ? colorSelect : overlayFill && highlighted.includes($data[i][j][idKey]) ? colorHighlight : $config.z ? $zGet($data[i][j]) : $zRange[0]}"
+			on:mouseover={hover ? (e) => doHover(e, $data[i][j]) : null}
+			on:mouseleave={hover ? (e) => doHover(e, null) : null}
+			on:focus={select ? (e) => doHover(e, $data[i][j]) : null}
+			on:blur={select ? (e) => doHover(e, null) : null}
+			on:click={select ? (e)  => doSelect(e, $data[i][j]) : null}
+			tabindex="{hover || select ? 0 : -1}"
 		  />
+		  {#if directLabel === "true"}
+		  <text x={$xScale(d.x1)-5} y={d.y1-10} fill="#fff" class="bar-label">{format(xFormatTickString)(d.x1)}</text>
+		  {/if}
 			{/if}
 	  {/each}
 	{/each}
@@ -102,5 +108,12 @@
 <style>
 	.bar-group polygon, .line-group polygon {
 		shape-rendering: crispEdges;
+	}
+
+	.bar-label {
+		text-anchor: end;
+		font-weight: 600;
+		font-size: 14px;
+		fill:"#fff";
 	}
 </style>

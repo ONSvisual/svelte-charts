@@ -50,7 +50,7 @@
 	export let zDomain = null;
 	export let yFitBeeswarm = false;
 	export let textColor = '#666';
-	export let tickColor = '#ccc';
+	export let tickColor = '#d9d9d9';
 	export let tickDashed = false;
 	export let title = null;
 	export let subtitle = null;
@@ -81,6 +81,13 @@
 	export let colorHighlight = 'black';
 	export let overlayFill = false;
 	export let output = null;
+	export let xAxisLabel = "";
+	export let yAxisLabel = "";
+	export let xTicksEmpty = null; //null var that we can push the xTicksArray into
+	export let xTicksArray = [parseInt(xTicksEmpty)];
+	export let xFormatTickArray;
+
+	let xTicksArrayNum = xTicksArray.map(number => parseFloat(number))
 
 	let el; // Chart DOM element
 
@@ -132,6 +139,10 @@
 {#if alt}
 	<h5 class="visuallyhidden">{alt}</h5>
 {/if}
+<slot name="legend"/>
+{#if legend && _zDomain}
+  <Legend domain={_zDomain} {colors} markerLength={12} round={true} {yAxisLabel}/>
+{/if}
 <slot name="options"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }" aria-hidden="true">
 	<LayerCake
@@ -172,10 +183,10 @@
     <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed} gridlines={xGridlines} tickMarks={xTickMarks}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed} gridlines={xGridlines} tickMarks={xTickMarks} {xAxisLabel} xTicksArray={xTicksArrayNum} {xFormatTickArray}/>
       {/if}
       {#if yAxis && yKey}
-			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
+			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed} {yAxisLabel}/>
       {/if}
 			<Scatter {selected} {hovered} {highlighted} {overlayFill}/>
 			{#if select || hover}
@@ -193,10 +204,6 @@
 <div class="visuallyhidden">
 	<Table {data} key1={zKey} key2={xKey} key3={yKey} key4={rKey}/>
 </div>
-{/if}
-<slot name="legend"/>
-{#if legend && _zDomain}
-  <Legend domain={_zDomain} {colors} markerLength={Array.isArray(r) ? r[0] * 2 : r * 2} round={true}/>
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>

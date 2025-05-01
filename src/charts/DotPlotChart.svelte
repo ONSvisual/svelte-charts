@@ -39,7 +39,7 @@
 	export let xTicks = 4; // Number of ticks or array of tick values, eg [0, 10, 100, 1000]
 	export let zDomain = null;
 	export let textColor = '#666';
-	export let tickColor = '#ccc';
+	export let tickColor = '#d9d9d9';
 	export let tickDashed = false;
 	export let title = null;
 	export let subtitle = null;
@@ -70,6 +70,12 @@
 	export let colorHighlight = 'black';
 	export let overlayFill = false;
 	export let output = null;
+	export let xAxisLabel = "";
+	export let yAxisLabel = "";
+	export let xTicksEmpty = null; //null var that we can push the xTicksArray into
+	export let xTicksArray = [parseInt(xTicksEmpty)];
+
+	let xTicksArrayNum = xTicksArray.map(number => parseFloat(number))
 
 	let el; // Chart DOM element
 
@@ -119,6 +125,10 @@
 {#if alt}
 	<h5 class="visuallyhidden">{alt}</h5>
 {/if}
+<slot name="legend"/>
+{#if false && legend && _zDomain}
+  <Legend domain={_zDomain} {colors} horizontal={false} line={mode == 'barcode'} comparison={mode == 'comparison'} {yAxisLabel}/>
+{/if}
 <slot name="options"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? `${height}px` : height ?  height : yDomain ? `${padding.top + padding.bottom + (barHeight * yDomain.length)}px` : "300px" }" aria-hidden="true">
 	<LayerCake
@@ -157,10 +167,10 @@
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed} {xAxisLabel} xTicksArray={xTicksArrayNum}/>
       {/if}
       {#if yAxis}
-			  <AxisY gridlines={false} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed}/>
+			  <AxisY gridlines={false} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed} {yAxisLabel}/>
       {/if}
 			<DotPlot {select} {selected} {hover} {hovered} {highlighted} on:hover on:select {overlayFill}/>
 			<slot name="svg"/>
@@ -172,10 +182,6 @@
 <div class="visuallyhidden">
 	<Table {data} key1={yKey} key2={xKey}/>
 </div>
-{/if}
-<slot name="legend"/>
-{#if false && legend && _zDomain}
-  <Legend domain={_zDomain} {colors} horizontal={false} line={mode == 'barcode'} comparison={mode == 'comparison'}/>
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>

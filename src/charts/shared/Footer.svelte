@@ -4,6 +4,6 @@
 	.chart-footer {
 		font-size: .8em;
 		color: grey;
-		margin-top: 5px;
+		margin-top: 30px;
 	}
 </style>

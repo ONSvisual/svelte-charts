@@ -55,14 +55,16 @@
       });
     }
     directions.forEach(dir => {
-      if (section[`padding-${dir}`]) padding[dir] = section[`padding-${dir}`];
+      if (section[`padding-${dir}`]) padding[dir] = +(section[`padding-${dir}`]);
     });
     props.padding = padding;
+    
     if (!props.legend && props.legend !== false) props.legend = props.zKey ? true : false;
     return props;
   }
 
   $: props = makeProps(type, data, options, section);
+  // $: console.log(props)
 </script>
 
 {#if props}

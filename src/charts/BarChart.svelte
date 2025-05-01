@@ -3,7 +3,7 @@
 <script>
 	import { LayerCake, Svg } from 'layercake';
 	import { scaleBand, scaleOrdinal, scaleLinear, scaleSymlog } from 'd3-scale';
-  import { tweened } from 'svelte/motion';
+  	import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
 	import { groupData, commas } from '../js/utils';
 
@@ -18,14 +18,14 @@
 	import Export from './shared/Export.svelte';
 	import Table from './shared/Table.svelte';
 
-  export let data;
+  	export let data;
 	export let barHeight = 40; // height of individual bar (overridden if height is set)
 	export let height = null; // number of pixels or valid css height string
 	export let ssr = false;
 	export let ssrWidth = 300; // for SSR only. Must be a number
 	export let ssrHeight = typeof height == 'number' ? height : 300; // for SSR only. Number, or calculated from 'height'
-  export let animation = true;
-  export let duration = 800;
+	export let animation = true;
+	export let duration = 800;
 	export let xKey = 'x';
 	export let yKey = 'y';
 	export let zKey = null;
@@ -35,12 +35,12 @@
 	export let yWrapTicks = true;
 	export let xMax = null;
 	export let xMin = null;
-  export let xAxis = true;
-  export let yAxis = true;
+	export let xAxis = true;
+	export let yAxis = true;
 	export let xTicks = 4;
 	export let zDomain = null;
 	export let textColor = '#666';
-	export let tickColor = '#ccc';
+	export let tickColor = '#d9d9d9';
 	export let tickDashed = false;
 	export let title = null;
 	export let subtitle = null;
@@ -70,6 +70,17 @@
 	export let colorHighlight = 'black';
 	export let overlayFill = false;
 	export let output = null;
+	export let xAxisLabel = "";
+	export let yAxisLabel = "";
+	export let directLabel;
+	export let xFormatTickString;
+	export let xTicksEmpty = null; //null var that we can push the xTicksArray into
+	export let xTicksArray = [parseInt(xTicksEmpty)];
+	export let xFormatTickArray;
+
+
+
+	let xTicksArrayNum = xTicksArray.map(number => parseFloat(number))
 
 	let el; // Chart DOM element
 
@@ -134,6 +145,10 @@
 {#if alt}
 	<h5 class="visuallyhidden">{alt}</h5>
 {/if}
+<slot name="legend"/>
+{#if legend && _zDomain}
+  <Legend domain={_zDomain} {colors} {markerWidth} horizontal={false} line={mode == 'barcode'} comparison={mode == 'comparison'} confidence={mode == 'confidence'} {yAxisLabel}/>
+{/if}
 <slot name="options"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? `${height}px` : height ?  height : yDomain ? `${padding.top + padding.bottom + (barHeight * yDomain.length)}px` : "300px" }" aria-hidden="true">
 	<LayerCake
@@ -157,25 +172,26 @@
 			type: 'bar',
 			mode,
 			idKey,
-      coords,
+      		coords,
 			markerWidth,
 			colorSelect,
 			colorHover,
 			colorHighlight,
-      animation,
-      duration
+      		animation,
+      		duration
     }}
 	>
+
 	  <SetCoords/>
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed} {xAxisLabel} xTicksArray={xTicksArrayNum} {xFormatTickArray}/>
       {/if}
       {#if yAxis}
-			  <AxisY gridlines={false} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed} wrapTicks={yWrapTicks}/>
+			  <AxisY gridlines={false} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed} wrapTicks={yWrapTicks} {yAxisLabel}/>
       {/if}
-			<Bar {select} {selected} {hover} {hovered} {highlighted} on:hover on:select {overlayFill}/>
+			<Bar {select} {selected} {hover} {hovered} {highlighted} {directLabel} {xFormatTickString} on:hover on:select {overlayFill}/>
 			<slot name="svg"/>
 		</Svg>
 	  <slot name="front"/>
@@ -185,10 +201,6 @@
 <div class="visuallyhidden">
 	<Table {data} key1={yKey} key2={xKey}/>
 </div>
-{/if}
-<slot name="legend"/>
-{#if legend && _zDomain}
-  <Legend domain={_zDomain} {colors} {markerWidth} horizontal={false} line={mode == 'barcode'} comparison={mode == 'comparison'} confidence={mode == 'confidence'}/>
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>

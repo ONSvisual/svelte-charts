@@ -64,6 +64,8 @@
 	export let colorHighlight = 'black';
 	export let overlayFill = false;
 	export let output = null;
+	export let xAxisLabel = "";
+	export let yAxisLabel = "";
 
 	let el; // Chart DOM element
 
@@ -116,6 +118,7 @@
 	
 	// Create a data series for each zKey (group)
 	$: groupedData = groupData(data, _zDomain, zKey);
+	// $: console.log(groupedData)
 </script>
 
 <div bind:this={el}>
@@ -127,6 +130,10 @@
 {/if}
 {#if alt}
 	<h5 class="visuallyhidden">{alt}</h5>
+{/if}
+<slot name="legend"/>
+{#if legend && _zDomain}
+  <Legend domain={_zDomain} {colors} {markerWidth} line={mode == 'barcode'} comparison={mode == 'comparison'} confidence={mode == 'confidence'} {yAxisLabel}/>
 {/if}
 <slot name="options"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }" aria-hidden="true">
@@ -164,10 +171,10 @@
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX gridlines={false} prefix={xPrefix} suffix={xSuffix}/>
+			  <AxisX gridlines={false} prefix={xPrefix} suffix={xSuffix} {xAxisLabel}/>
       {/if}
       {#if yAxis}
-			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix}/>
+			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {yAxisLabel}/>
       {/if}
 			<Column {select} {selected} {hover} {hovered} {highlighted} on:hover on:select {overlayFill}/>
 			<slot name="svg"/>
@@ -179,10 +186,6 @@
 <div class="visuallyhidden">
 	<Table {data} key1={xKey} key2={yKey}/>
 </div>
-{/if}
-<slot name="legend"/>
-{#if legend && _zDomain}
-  <Legend domain={_zDomain} {colors} {markerWidth} line={mode == 'barcode'} comparison={mode == 'comparison'} confidence={mode == 'confidence'}/>
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>
