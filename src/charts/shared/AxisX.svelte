@@ -33,8 +33,7 @@
 	if (xTicksArray)
 		{await tick();
 		
-		{if ($width < mobileThreshold) {ticks = xTicksArray[0]} else {ticks = xTicksArray[1]}};
-		console.log('newticks',ticks);}
+		{if ($width < mobileThreshold) {ticks = xTicksArray[0]} else {ticks = xTicksArray[1]}};}
 
 	}; //async function that waits until the page has rendered before it calculates the newticks
 

@@ -78,8 +78,6 @@
 	export let xTicksArray = [parseInt(xTicksEmpty)];
 	export let xFormatTickArray;
 
-
-
 	let xTicksArrayNum = xTicksArray.map(number => parseFloat(number))
 
 	let el; // Chart DOM element
@@ -133,6 +131,7 @@
 
 	// Create a data series for each zKey (group)
 	$: groupedData = groupData(data, _zDomain, zKey);
+
 </script>
 
 <div bind:this={el}>
@@ -148,7 +147,11 @@
 <slot name="legend"/>
 {#if legend && _zDomain}
   <Legend domain={_zDomain} {colors} {markerWidth} horizontal={false} line={mode == 'barcode'} comparison={mode == 'comparison'} confidence={mode == 'confidence'} {yAxisLabel}/>
-{/if}
+  {/if}
+  {#if yAxisLabel}
+  <div style="margin-top: 40px"></div>
+  {/if} 
+  <!-- if there is no legend, then the yaxislabel gets cut off by the subtitle so this adds a bit of padding for the yaxislabel to show properly -->
 <slot name="options"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? `${height}px` : height ?  height : yDomain ? `${padding.top + padding.bottom + (barHeight * yDomain.length)}px` : "300px" }" aria-hidden="true">
 	<LayerCake
@@ -191,7 +194,7 @@
       {#if yAxis}
 			  <AxisY gridlines={false} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed} wrapTicks={yWrapTicks} {yAxisLabel}/>
       {/if}
-			<Bar {select} {selected} {hover} {hovered} {highlighted} {directLabel} {xFormatTickString} on:hover on:select {overlayFill}/>
+			<Bar {select} {selected} {hover} {hovered} {highlighted} {directLabel} {xFormatTickString} on:hover on:select {overlayFill} bind:suffix={xSuffix} bind:prefix={xPrefix} bind:barHeight/>
 			<slot name="svg"/>
 		</Svg>
 	  <slot name="front"/>

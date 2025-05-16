@@ -4,8 +4,10 @@
 
 <style>
 	.chart-title {
-		font-size: 1.1em;
-		font-weight: bold;
-		margin-bottom: 10px;
+	font-size: 1.1em;
+	margin-bottom: 10px;
+	color: #222222;
+	font-weight: 700;
+	font-size: 22px;
 	}
 </style>

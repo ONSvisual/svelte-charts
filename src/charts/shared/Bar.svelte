@@ -1,8 +1,8 @@
 <script>
 	import { getContext, createEventDispatcher } from 'svelte';
-	import { format } from 'd3-format'
+	import { format } from 'd3-format';
 	
-	const { data, xScale, zGet, xDomain, zRange, config, custom } = getContext('LayerCake');
+	const { data, xScale, zGet, xDomain, zRange, config, custom, width } = getContext('LayerCake');
 	const dispatch = createEventDispatcher()
 
 	export let hover = false;
@@ -13,6 +13,11 @@
 	export let overlayFill = false;
 	export let directLabel;
 	export let xFormatTickString;
+	export let barHeight;
+	export let suffix;
+	export let prefix;
+
+	let labelPositionFactor = 7;
 
 	let coords = $custom.coords;
 	let idKey = $custom.idKey;
@@ -22,7 +27,10 @@
 	let colorHighlight = $custom.colorHighlight ? $custom.colorHighlight : 'black';
 	let lineWidth = $custom.lineWidth ? $custom.lineWidth : 2;
 	let markerWidth = $custom.markerWidth ? $custom.markerWidth : 2.5;
+
 	$: mode = $custom.mode ? $custom.mode : 'default';
+
+	$: barLabelAdjust = barHeight < 45 ? 19/2 : (barHeight < 65 && barHeight > 45) ? 19/2+1 : 19/2+4;
 
 	$: makePoints = (x0, x1, y0, y1) => {
 		x1 = Math.abs(x1 - x0) < markerWidth ? x0 + markerWidth : x1;
@@ -33,7 +41,7 @@
 		for (let i = 0; i < coords[0].length; i ++) {
 			const x0 = Math.min(...coords.map(d => d[i].x1));
 			const x1 = Math.max(...coords.map(d => d[i].x1));
-			arr.push({x0, x1, y0: coords[0][i].y0, y1: coords[0][i].y1});
+			arr.push({x0, x1, y0: coords[0][i].y0, y1: coords[0][i].y1}, label);
 		}
 		return arr;
 	}
@@ -59,6 +67,7 @@
 			});
 		}
 	}
+
 </script>
 
 {#if $coords}
@@ -97,7 +106,14 @@
 			tabindex="{hover || select ? 0 : -1}"
 		  />
 		  {#if directLabel === "true"}
-		  <text x={$xScale(d.x1)-5} y={d.y1-10} fill="#fff" class="bar-label">{format(xFormatTickString)(d.x1)}</text>
+			<text x={$xScale(d.x1) > 0? $xScale(d.x1)-5 : Math.abs($xScale(d.x1) - $xScale(0)) < $width / labelPositionFactor ? $xScale(0) : $xScale(d.x1)} 
+				y={d.y1-((barHeight/2)-barLabelAdjust)} 
+				dx={$xScale(d.x1) > 0 ?(Math.abs($xScale(d.x1) - $xScale(0)) < $width / labelPositionFactor ? 8 : 0) :
+				3}
+				dy={console.log($xScale(d.x1) > 0 ?(Math.abs($xScale(d.x1) - $xScale(0)) < $width / labelPositionFactor ? 3 : 0) :
+					3)}
+				class={$xScale(d.x1) > 0 ?(Math.abs($xScale(d.x1) - $xScale(0)) < $width / labelPositionFactor ? "bar-label-small" : "bar-label") :
+					"bar-label"}>{prefix}{format(xFormatTickString)(d.x1)}{suffix}</text>
 		  {/if}
 			{/if}
 	  {/each}
@@ -114,6 +130,12 @@
 		text-anchor: end;
 		font-weight: 600;
 		font-size: 14px;
-		fill:"#fff";
+		fill:#fff;
+	}
+	.bar-label-small {
+		text-anchor: start;
+		font-weight: 600;
+		font-size: 14px;
+		fill:#222;
 	}
 </style>

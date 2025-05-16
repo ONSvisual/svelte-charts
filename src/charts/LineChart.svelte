@@ -152,6 +152,10 @@
 {#if legend && _zDomain}
   <Legend domain={_zDomain} {colors} {line} markerWidth={lineWidth} {yAxisLabel}/>
 {/if}
+{#if yAxisLabel}
+<div style="margin-top: 40px"></div>
+{/if} 
+<!-- if there is no legend, then the yaxislabel gets cut off by the subtitle so this adds a bit of padding for the yaxislabel to show properly -->
 <slot name="options"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }" aria-hidden="true">
 	<LayerCake
