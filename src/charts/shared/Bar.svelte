@@ -41,7 +41,7 @@
 		for (let i = 0; i < coords[0].length; i ++) {
 			const x0 = Math.min(...coords.map(d => d[i].x1));
 			const x1 = Math.max(...coords.map(d => d[i].x1));
-			arr.push({x0, x1, y0: coords[0][i].y0, y1: coords[0][i].y1}, label);
+			arr.push({x0, x1, y0: coords[0][i].y0, y1: coords[0][i].y1});
 		}
 		return arr;
 	}

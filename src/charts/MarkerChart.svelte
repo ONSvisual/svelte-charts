@@ -34,10 +34,6 @@
 	export let xPrefix = "";
 	export let xSuffix = "";
 	export let xAxisLabel = "";
-	export let xTicksEmpty = null; //null var that we can push the xTicksArray into
-	export let xTicksArray = [parseInt(xTicksEmpty)];
-
-	let xTicksArrayNum = xTicksArray.map(number => parseFloat(number))
 
 	const tweenOptions = {
 		duration: duration,
@@ -62,11 +58,8 @@
 {#if alt}
 	<h5 class="visuallyhidden">{alt}</h5>
 {/if}
-<slot name="legend"/>
-{#if footer}
-  <Footer>{footer}</Footer>
-{/if}
 <slot name="options"/>
+<slot name="legend"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }" aria-hidden="true">
 	<LayerCake
 		{padding}
@@ -92,7 +85,7 @@
 		<Svg pointerEvents={interactive}>
       <Stack ticks={xTicks}/>
       {#if xAxis}
-			  <AxisX ticks={xTicks} {snapTicks} prefix={xPrefix} suffix={xSuffix} {xAxisLabel} xTicksArray={xTicksArrayNum}/>
+			  <AxisX ticks={xTicks} {snapTicks} prefix={xPrefix} suffix={xSuffix} {xAxisLabel}/>
       {/if}
 			<Bar mode="marker" {markerWidth}/>
 		</Svg>
@@ -100,7 +93,9 @@
 		{/if}
 	</LayerCake>
 </div>
-
+{#if footer}
+  <Footer>{footer}</Footer>
+{/if}
 
 <style>
 	.chart-container {

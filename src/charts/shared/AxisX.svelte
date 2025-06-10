@@ -24,25 +24,6 @@
 	export let prefix = '';
 	export let suffix = '';
 	export let xAxisLabel = "x axis label";
-	export let xTicksArray;
-
-	let mobileThreshold = 400; //set the mobile threshold width
-
-	async function calculateTicks() {
-				
-	if (xTicksArray)
-		{await tick();
-		
-		{if ($width < mobileThreshold) {ticks = xTicksArray[0]} else {ticks = xTicksArray[1]}};}
-
-	}; //async function that waits until the page has rendered before it calculates the newticks
-
-	$: if ($width) {calculateTicks()} //everytime width changes/screen resizes then it recalculates the number of ticks
-
-	// $: console.log('width check',$width < mobileThreshold)
-	// $: console.log('xTicksArray',xTicksArray)
-	// $: console.log('newticks',newticks)
-
 
 	if(formatTickString && formatTickString.match(regex)){formatTick = d => timeFormat(formatTickString)(d)} //if the regex test passes, make it a timeFormat function
 

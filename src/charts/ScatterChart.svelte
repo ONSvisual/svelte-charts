@@ -83,11 +83,6 @@
 	export let output = null;
 	export let xAxisLabel = "";
 	export let yAxisLabel = "";
-	export let xTicksEmpty = null; //null var that we can push the xTicksArray into
-	export let xTicksArray = [parseInt(xTicksEmpty)];
-	export let xFormatTickArray;
-
-	let xTicksArrayNum = xTicksArray.map(number => parseFloat(number))
 
 	let el; // Chart DOM element
 
@@ -139,15 +134,15 @@
 {#if alt}
 	<h5 class="visuallyhidden">{alt}</h5>
 {/if}
-<slot name="legend"/>
+<slot name="options"/>
 {#if legend && _zDomain}
   <Legend domain={_zDomain} {colors} markerLength={12} round={true} {yAxisLabel}/>
 {/if}
+<slot name="legend"/>
 {#if yAxisLabel}
 <div style="margin-top: 40px"></div>
-{/if} 
+{/if}
 <!-- if there is no legend, then the yaxislabel gets cut off by the subtitle so this adds a bit of padding for the yaxislabel to show properly -->
-<slot name="options"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }" aria-hidden="true">
 	<LayerCake
     {padding}
@@ -187,7 +182,7 @@
     <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed} gridlines={xGridlines} tickMarks={xTickMarks} {xAxisLabel} xTicksArray={xTicksArrayNum} {xFormatTickArray}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed} gridlines={xGridlines} tickMarks={xTickMarks} {xAxisLabel}/>
       {/if}
       {#if yAxis && yKey}
 			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed} {yAxisLabel}/>
