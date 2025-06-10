@@ -1,16 +1,17 @@
 <script>
-	import { getContext } from 'svelte';
+	import { getContext, tick } from 'svelte';
 	import { timeFormat } from 'd3-time-format'
 
-	const { height, xScale, xDomain, yRange } = getContext('LayerCake');
+	const { height, xScale, xDomain, yRange, width } = getContext('LayerCake');
 
 	const regex = /%(?:[YyBbMmdeHwWSzZNaAgGcpPZcrRUoOFDL]+)/;// this looks for strings that looks like time e.g. %b %Y
 
 	export let gridlines = true;
 	export let tickDashed = false;
 	export let tickMarks = false;
-	export let tickColor = '#b3b3b3';
-	export let textColor = '#707070';
+	export let tickColor = '#d9d9d9';
+	export let zeroColor = '#B3B3B3';
+	export let textColor = '#707071';
 	export let formatTick = d => d;
 	export let formatTickString = null;
 	export let snapTicks = false;
@@ -22,6 +23,26 @@
 	export let dyTick = tickMarks ? 8 : 0;
 	export let prefix = '';
 	export let suffix = '';
+	export let xAxisLabel = "x axis label";
+	export let xTicksArray;
+
+	let mobileThreshold = 400; //set the mobile threshold width
+
+	async function calculateTicks() {
+				
+	if (xTicksArray)
+		{await tick();
+		
+		{if ($width < mobileThreshold) {ticks = xTicksArray[0]} else {ticks = xTicksArray[1]}};}
+
+	}; //async function that waits until the page has rendered before it calculates the newticks
+
+	$: if ($width) {calculateTicks()} //everytime width changes/screen resizes then it recalculates the number of ticks
+
+	// $: console.log('width check',$width < mobileThreshold)
+	// $: console.log('xTicksArray',xTicksArray)
+	// $: console.log('newticks',newticks)
+
 
 	if(formatTickString && formatTickString.match(regex)){formatTick = d => timeFormat(formatTickString)(d)} //if the regex test passes, make it a timeFormat function
 
@@ -64,10 +85,10 @@
 	{#each tickVals as tick, i}
 		<g class='tick tick-{tick}' transform='translate({$xScale(tick)},{Math.max(...$yRange)})'>
 			{#if gridlines !== false}
-				<line class="gridline" class:dashed={tickDashed} y1='{$height * -1}' y2='0' x1='0' x2='0' style:stroke='{tickColor}' style:stroke-width='{tick === 0 ? 1.5 : 1}' style:filter={tick !== 0 ? `contrast(calc(1/3)) brightness(1.5)` : null}></line>
+				<line class="gridline" class:dashed={tickDashed} y1='{$height * -1}' y2='0' x1='0' x2='0' style:stroke='{tick === 0 ? zeroColor : tickColor}'  style:stroke-width='{tick === 0 ? 1.5 : 1}' style:filter={tick !== 0 ? `contrast(calc(1/3)) brightness(1.5)` : null}></line>
 			{/if}
 			{#if tickMarks === true}
-				<line class="tick-mark" y1='{0}' y2='{dyTick}' x1='{xTick || isBandwidth ? $xScale.bandwidth() / 2 : 0}' x2='{xTick || isBandwidth ? $xScale.bandwidth() / 2 : 0}' style:stroke='{tickColor}' style:stroke-width='{tick === 0 ? 1.5 : 1}' style:filter={tick !== 0 ? `contrast(calc(1/3)) brightness(1.5)` : null}></line>
+				<line class="tick-mark" y1='{0}' y2='{dyTick}' x1='{xTick || isBandwidth ? $xScale.bandwidth() / 2 : 0}' x2='{xTick || isBandwidth ? $xScale.bandwidth() / 2 : 0}' style:stroke='{tick === 0 ? zeroColor : tickColor}'  style:stroke-width='{tick === 0 ? 1.5 : 1}' style:filter={tick !== 0 ? `contrast(calc(1/3)) brightness(1.5)` : null}></line>
 			{/if}
 			<text
 				x="{xTick || isBandwidth ? $xScale.bandwidth() / 2 : 0}"
@@ -80,6 +101,7 @@
 				</text>
 		</g>
 	{/each}
+	<text x={$width} y={$height +40} text-anchor="end" class="axisLabel">{xAxisLabel}</text>
 </g>
 
 <style>
@@ -92,9 +114,9 @@
 		stroke-dasharray: 0;
 	}
 
-	.tick line {
-		shape-rendering: crispEdges;
-	}
+	/* .tick line {
+		stroke: #d9d9d9;
+	} */
 
 	.dashed {
 		stroke-dasharray: 2;
@@ -105,5 +127,9 @@
 	}
 	.axis.snapTicks .tick.tick-0 text {
 		transform: translateX(-3px);
+	}
+	.axisLabel {
+		font-size: 14px;
+		fill: #707071;
 	}
 </style>

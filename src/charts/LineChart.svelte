@@ -20,7 +20,7 @@
 	import Export from './shared/Export.svelte';
 	import Table from './shared/Table.svelte';
 
-  export let data;
+  	export let data;
 	export let height = 200; // number of pixels or valid css height string
 	export let ssr = false;
 	export let ssrWidth = 300; // for SSR only. Must be a number
@@ -66,7 +66,7 @@
 	export let padding = { top: 0, bottom: 28, left: 35, right: 0 };
 	export let color = null;
 	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
-	export let lineWidth = 2.5;
+	export let lineWidth = 3;
 	export let interactive = true;
 	export let xPrefix = "";
 	export let xSuffix = "";
@@ -81,6 +81,14 @@
 	export let highlighted = [];
 	export let colorHighlight = '#206095';
 	export let output = null;
+	export let xAxisLabel = "";
+	export let yAxisLabel = "";
+	export let xTicksEmpty = null; //null var that we can push the xTicksArray into
+	export let xTicksArray = [parseInt(xTicksEmpty)];
+	export let xFormatTickArray;
+
+	let xTicksArrayNum = xTicksArray.map(number => parseFloat(number))
+
 
 	let el; // Chart DOM element
 
@@ -104,7 +112,7 @@
 	}
 
 	// Functions to animate yDomain
-	const yDomSet = (data, mode, yKey, yMax) => yMax ? [yMin, yMax] : mode == 'stacked' && yKey ? [yMin, Math.max(...getTotals(data, data.map(d => d[xKey]).filter(distinct)))] : [Math.min(...data.map(d => d[yKey])), Math.max(...data.map(d => d[yKey]))];
+	const yDomSet = (data, mode, yKey, yMax) => yMax ? [yMin, yMax] : mode == 'stacked' && yKey ? [yMin, Math.max(...getTotals(data, data.map(d => d[xKey]).filter(distinct)))] : yMin == 'auto' ? [Math.min(...data.map(d => d[yKey])), Math.max(...data.map(d => d[yKey]))] : [yMin, Math.max(...data.map(d => d[yKey]))];
 	function yDomUpdate(data, mode, yKey, yMax) {
 		let newYDom = yDomSet(data, mode, yKey, yMax);
 		if (newYDom[0] != yDom[0] || newYDom[1] != yDom[1]) {
@@ -140,6 +148,14 @@
 {#if alt}
 	<h5 class="visuallyhidden">{alt}</h5>
 {/if}
+<slot name="legend"/>
+{#if legend && _zDomain}
+  <Legend domain={_zDomain} {colors} {line} markerWidth={lineWidth} {yAxisLabel}/>
+{/if}
+{#if yAxisLabel}
+<div style="margin-top: 40px"></div>
+{/if} 
+<!-- if there is no legend, then the yaxislabel gets cut off by the subtitle so this adds a bit of padding for the yaxislabel to show properly -->
 <slot name="options"/>
 <div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }" aria-hidden="true">
 	<LayerCake
@@ -175,10 +191,10 @@
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} gridlines={xGridlines} tickMarks={xTickMarks} forceTicks={xForceTicks} formatTickString={xFormatTickString}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} gridlines={xGridlines} tickMarks={xTickMarks} forceTicks={xForceTicks} formatTickString={xFormatTickString} {xAxisLabel} xTicksArray={xTicksArrayNum} {xFormatTickArray}/>
       {/if}
       {#if yAxis}
-			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} trimGridlines={yTrimGridlines}/>
+			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} trimGridlines={yTrimGridlines} {yAxisLabel}/>
       {/if}
       {#if area}
 			  <Area {mode} opacity={areaOpacity}/>
@@ -198,10 +214,6 @@
 <div class="visuallyhidden">
 	<Table {data} key1={zKey} key2={xKey} key3={yKey}/>
 </div>
-{/if}
-<slot name="legend"/>
-{#if legend && _zDomain}
-  <Legend domain={_zDomain} {colors} {line} markerWidth={lineWidth}/>
 {/if}
 {#if footer}
   <Footer>{footer}</Footer>

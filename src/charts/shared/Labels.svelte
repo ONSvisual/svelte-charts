@@ -20,6 +20,7 @@
 	let colorHover = $custom.colorHover ? $custom.colorHover : 'orange';
 	let colorSelect = $custom.colorSelect ? $custom.colorSelect : '#206095';
 	let radius = 8; // For spreading labels
+	let rCircle = 4;
 
 	const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/; //regex test for something that looks like a date 2017-01-01T00:00:00.000Z
 
@@ -48,7 +49,7 @@
 	};
 
 
-
+	// $: console.log($padding)
 	$: coordsWithLabels = $coords?.[0]?.[0]?.y && spreadLabels ? addLabelCoords($coords, radius) : $coords;
 </script>
 
@@ -89,7 +90,7 @@
 						<circle
 							cx={$xScale(d[d.length - 1].x)}
 							cy={$yScale(d[d.length - 1].y)}
-							r="5"
+							r={rCircle}
 							fill={labelAll && $config.z
 								? $zGet($data[i][0])
 								: $data[i][0][idKey] === hovered
@@ -113,7 +114,7 @@
 						y={spreadLabels && d[d.length - 1].ly
 							? d[d.length - 1].ly
 							: $yScale(d[d.length - 1].y)}
-						use:wrap={{ disable: !textWrap, width: $padding.right }}
+						use:wrap={{ disable: !textWrap, width: (+$padding.left) }}
 						use:raiseMe={{
 							disable: $data[i][0][idKey] !== hovered,
 						}}
