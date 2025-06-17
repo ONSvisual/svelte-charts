@@ -63,9 +63,8 @@
   "svelte": "index.mjs",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"svelte": "./dist/index.js",
-			"default": "./dist/index.js"
+			"svelte": "./dist/index.mjs",
+			"default": "./dist/index.mjs"
 		}
 	},
   "directories": {
