@@ -1,6 +1,6 @@
 {
   "name": "@onsvisual/svelte-charts",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Reusable chart templates for Svelte projects.",
   "homepage": "http://onsvisual.github.io/svelte-charts",
   "files": [
@@ -58,13 +58,13 @@
     "regl-tween": "latest",
     "svelte": "3 - 5"
   },
-  "main": "index.mjs",
-  "module": "index.mjs",
-  "svelte": "index.mjs",
+  "main": "./index.mjs",
+  "module": "./index.mjs",
+  "svelte": "./index.mjs",
 	"exports": {
 		".": {
-			"svelte": "./dist/index.mjs",
-			"default": "./dist/index.mjs"
+			"svelte": "./index.mjs",
+			"default": "./index.mjs"
 		}
 	},
   "directories": {
