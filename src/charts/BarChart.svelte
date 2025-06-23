@@ -72,8 +72,8 @@
 	export let output = null;
 	export let xAxisLabel = "";
 	export let yAxisLabel = "";
-	export let directLabel;
-	export let xFormatTickString;
+	export let directLabel = false;
+	export let xFormatTickString = "";
 
 	let el; // Chart DOM element
 
@@ -189,7 +189,7 @@
       {#if yAxis}
 			  <AxisY gridlines={false} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed} wrapTicks={yWrapTicks} {yAxisLabel}/>
       {/if}
-			<Bar {select} {selected} {hover} {hovered} {highlighted} {directLabel} {xFormatTickString} on:hover on:select {overlayFill} bind:suffix={xSuffix} bind:prefix={xPrefix} bind:barHeight/>
+			<Bar {select} {selected} {hover} {hovered} {highlighted} {directLabel} {xFormatTickString} on:hover on:select {overlayFill} bind:suffix={xSuffix} bind:prefix={xPrefix} {barHeight}/>
 			<slot name="svg"/>
 		</Svg>
 	  <slot name="front"/>

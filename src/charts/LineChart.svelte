@@ -36,7 +36,7 @@
 	export let yScale = 'linear';
 	export let yFormatTick = commas;
 	export let xFormatTick = d => d;
-	export let xFormatTickString = null;
+	export let xFormatTickString = "";
 	export let yMax = null;
 	export let yMin = 0;
 	export let xAxis = true;
@@ -56,7 +56,8 @@
 	export let labels = false;
 	export let spreadLabels = labels === "all";
 	export let labelMarker = true;
-	export let yTrimGridlines = labels !== false;
+	export let yTrimGridlinesLeft = true;
+	export let yTrimGridlinesRight = labels !== false;
 	export let table = false;
 	export let snapTicks = true;
 	export let line = true;
@@ -188,7 +189,7 @@
 			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} gridlines={xGridlines} tickMarks={xTickMarks} forceTicks={xForceTicks} formatTickString={xFormatTickString} {xAxisLabel}/>
       {/if}
       {#if yAxis}
-			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} trimGridlines={yTrimGridlines} {yAxisLabel}/>
+			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} trimGridlinesLeft={yTrimGridlinesLeft} trimGridlinesRight={yTrimGridlinesRight} {yAxisLabel}/>
       {/if}
       {#if area}
 			  <Area {mode} opacity={areaOpacity}/>

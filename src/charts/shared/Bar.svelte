@@ -11,11 +11,11 @@
 	export let selected = null;
 	export let highlighted = [];
 	export let overlayFill = false;
-	export let directLabel;
-	export let xFormatTickString;
-	export let barHeight;
-	export let suffix;
-	export let prefix;
+	export let directLabel = false;
+	export let xFormatTickString = "";
+	export let barHeight = 40;
+	export let suffix = "";
+	export let prefix = "";
 
 	let labelPositionFactor = 7;
 

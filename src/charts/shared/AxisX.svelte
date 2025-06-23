@@ -1,5 +1,5 @@
 <script>
-	import { getContext, tick } from 'svelte';
+	import { getContext } from 'svelte';
 	import { timeFormat } from 'd3-time-format'
 
 	const { height, xScale, xDomain, yRange, width } = getContext('LayerCake');
@@ -82,7 +82,7 @@
 				</text>
 		</g>
 	{/each}
-	<text x={$width} y={$height +40} text-anchor="end" class="axisLabel">{xAxisLabel}</text>
+	{#if xAxisLabel}<text x={$width} y={$height +40} text-anchor="end" class="axisLabel">{xAxisLabel}</text>{/if}
 </g>
 
 <style>

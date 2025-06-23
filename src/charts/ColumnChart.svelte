@@ -54,6 +54,7 @@
 	export let xSuffix = "";
 	export let yPrefix = "";
 	export let ySuffix = "";
+	export let yTrimGridlines = true;
 	export let hover = false;
 	export let hovered = null;
 	export let colorHover = 'orange';
@@ -178,7 +179,7 @@
 			  <AxisX gridlines={false} prefix={xPrefix} suffix={xSuffix} {xAxisLabel}/>
       {/if}
       {#if yAxis}
-			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {yAxisLabel}/>
+			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {yAxisLabel} trimGridlinesLeft={yTrimGridlines}/>
       {/if}
 			<Column {select} {selected} {hover} {hovered} {highlighted} on:hover on:select {overlayFill}/>
 			<slot name="svg"/>
