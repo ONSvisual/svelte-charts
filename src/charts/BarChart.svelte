@@ -22,8 +22,6 @@
 	export let barHeight = 40; // height of individual bar (overridden if height is set)
 	export let height = null; // number of pixels or valid css height string
 	export let ssr = false;
-	export let ssrWidth = 300; // for SSR only. Must be a number
-	export let ssrHeight = typeof height == 'number' ? height : 300; // for SSR only. Number, or calculated from 'height'
 	export let animation = true;
 	export let duration = 800;
 	export let xKey = 'x';
@@ -152,8 +150,6 @@
 	<LayerCake
 		{padding}
 		{ssr}
-		height={ssr ? ssrHeight : null}
-		width={ssr ? ssrWidth : null}
 		x={xKey}
 		y={yKey}
 		z={zKey}
