@@ -45,6 +45,7 @@
   export let yTicks = 4;
 	export let xTickMarks = true;
 	export let xGridlines = true;
+	export let yTrimGridlines = true;
 	export let zDomain = null;
 	export let yFitBeeswarm = false;
 	export let textColor = '#666';
@@ -181,7 +182,7 @@
 			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} {textColor} {tickColor} {tickDashed} gridlines={xGridlines} tickMarks={xTickMarks} {xAxisLabel}/>
       {/if}
       {#if yAxis && yKey}
-			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed} {yAxisLabel}/>
+			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed} {yAxisLabel} trimGridlinesLeft={yTrimGridlines}/>
       {/if}
 			<Scatter {selected} {hovered} {highlighted} {overlayFill}/>
 			{#if select || hover}

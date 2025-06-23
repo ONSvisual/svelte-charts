@@ -193,6 +193,7 @@
 		<div>
 			<ScatterChart
 				data={dataScatter}
+				padding={{ top: 18, bottom: 28, left: 15, right: 0 }}
 				xKey="year" yKey="value" zKey="group" rKey="alt"
 				r={[3, 6]}
 				title="Scatter chart with radius, colour, hover, select and labels"
@@ -203,6 +204,7 @@
 		<div>
 			<ScatterChart
 				data={dataScatter}
+				padding={{ top: 18, bottom: 28, left: 15, right: 0 }}
 				xKey="year" yKey={beeswarm.yKey ? "value" : null} zKey={beeswarm.zKey ? "group": null} rKey={beeswarm.rKey ? "alt" : null}
 				r={[3, 6]} animation={animation}
 				title="Beeswarm/scatter plot with animation"
