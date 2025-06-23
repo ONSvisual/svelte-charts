@@ -2,20 +2,21 @@
   import { getContext } from 'svelte';
 	import AccurateBeeswarm from '../../js/accurate-beeswarm';
 
-	const { data, x, y, r, xGet, yGet, rGet, xScale, yScale, yRange, rRange, xDomain, yDomain, custom, width } = getContext('LayerCake');
+	const { data, x, y, r, xGet, yGet, rGet, xScale, yScale, yRange, rRange, xDomain, yDomain, custom, width, height } = getContext('LayerCake');
 
 	let coords = $custom.coords;
   let type = $custom.type;
 	let prevWidth = $width;
 
-	$: setCoords($data, $custom, $x, $y, $r, $width);
+	$: setCoords($data, $custom, $x, $y, $r, $width, $height);
 
 	function setYTransform(coords, yLimit) {
 		const yMax = Math.max(...coords.map(c => Math.abs(c.y)));
 		return yMax && yMax > yLimit ? yLimit / yMax : 1;
 	}
 
-  function setCoords(data, custom, x, y, r, width) {
+	// Note: The "height" prop is not used in the function but forces a recalc when the container height changes
+  function setCoords(data, custom, x, y, r, width, height) {
     let mode = custom.mode;
     let padding = custom.padding;
 		let duration = custom.animation && width == prevWidth ? custom.duration : 0;
@@ -102,7 +103,6 @@
 				}
 			}));
 		}
-		// if (type == 'dotplot') {console.log(newcoords), "dot plot"};
     coords.set(newcoords, {duration});
   }
 </script>
