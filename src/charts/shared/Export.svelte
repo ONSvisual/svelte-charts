@@ -25,7 +25,7 @@
 <style>
   .chart-export {
     margin-top: 10px;
-		font-size: .8em;
+		font-size: 14px;
 	}
   button {
     color: #206095;

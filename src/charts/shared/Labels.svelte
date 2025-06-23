@@ -130,6 +130,6 @@
 
 <style>
 	.chart-label {
-		font-size: 0.8em;
+		font-size: 14px;
 	}
 </style>

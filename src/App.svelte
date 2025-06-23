@@ -300,6 +300,6 @@
 		margin-right: 8px;
 	}
 	.small {
-		font-size: .8em;
+		font-size: 14px;
 	}
 </style>
