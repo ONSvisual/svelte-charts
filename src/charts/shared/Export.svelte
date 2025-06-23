@@ -8,13 +8,17 @@
   export let output = {};
 </script>
 
+<svelte:head>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</svelte:head>
+
 <div class="chart-export">
   {#if output.csv}
   <button on:click={() => getCSV(data, keys, title ? title : 'chart')}>Download data (CSV)</button>
   {/if}
   {#if output.csv && output.png}|{/if}
   {#if output.png}
-  <button on:click={() => getPNG(el, title ? title : 'chart')}>Download image (PNG)</button>
+  <button on:click={() => getPNG(el, title ? title : 'chart', window.html2canvas)}>Download image (PNG)</button>
   {/if}
 </div>
 

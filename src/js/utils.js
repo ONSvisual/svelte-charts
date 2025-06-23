@@ -1,5 +1,3 @@
-import html2canvas from 'html2canvas';
-
 export function groupData(data, domain, key) {
   let groups = [];
   if (key) {
@@ -43,12 +41,17 @@ export function getCSV(data, keys = [], filename) {
   download(content, filename + '.csv');
 }
 
-export function getPNG(target, filename) {
-  html2canvas(target)
-  .then(canvas => {
-    let content = canvas.toDataURL();
-    download(content, filename + '.png');
-  });
+export function getPNG(target, filename, html2canvas) {
+  try {
+    html2canvas(target)
+      .then(canvas => {
+        let content = canvas.toDataURL();
+        download(content, filename + '.png');
+      });
+  }
+  catch(err) {
+    console.log(err);
+  }
 }
 
 function download(content, filename) {
