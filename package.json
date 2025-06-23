@@ -1,6 +1,6 @@
 {
   "name": "@onsvisual/svelte-charts",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "Reusable chart templates for Svelte projects.",
   "homepage": "http://onsvisual.github.io/svelte-charts",
   "files": [
