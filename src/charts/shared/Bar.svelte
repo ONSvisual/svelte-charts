@@ -11,6 +11,7 @@
 	export let highlighted = [];
 	export let overlayFill = false;
 	export let directLabel = false;
+	export let directLabelUnits = false;
 	export let formatTick = (d) => d;
 	export let barHeight = 40;
 	export let suffix = "";
@@ -112,7 +113,13 @@
 				dy={console.log($xScale(d.x1) > 0 ?(Math.abs($xScale(d.x1) - $xScale(0)) < $width / labelPositionFactor ? 3 : 0) :
 					3)}
 				class={$xScale(d.x1) > 0 ?(Math.abs($xScale(d.x1) - $xScale(0)) < $width / labelPositionFactor ? "bar-label-small" : "bar-label") :
-					"bar-label"}>{prefix}{formatTick(d.x1)}{suffix}</text>
+					"bar-label"}>
+						{#if directLabelUnits}
+							{prefix}{formatTick(d.x1)}{suffix}
+						{:else}
+							{formatTick(d.x1)}
+						{/if}
+					</text>
 		  {/if}
 			{/if}
 	  {/each}

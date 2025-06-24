@@ -77,6 +77,7 @@
 	export let xAxisLabel = "";
 	export let yAxisLabel = "";
 	export let directLabel = false;
+	export let directLabelUnits = false;
 
 	let el; // Chart DOM element
 
@@ -190,7 +191,7 @@
       {#if yAxis}
 			  <AxisY gridlines={false} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed} wrapTicks={yWrapTicks} {yAxisLabel}/>
       {/if}
-			<Bar {select} {selected} {hover} {hovered} {highlighted} {directLabel} {xFormatTick} on:hover on:select {overlayFill} prefix={xPrefix} suffix={xSuffix} {barHeight} formatTick={xFormatTick} />
+			<Bar {select} {selected} {hover} {hovered} {highlighted} {directLabel} {directLabelUnits} {xFormatTick} on:hover on:select {overlayFill} prefix={xPrefix} suffix={xSuffix} {barHeight} formatTick={xFormatTick} />
 			<slot name="svg"/>
 		</Svg>
 	  <slot name="front"/>
