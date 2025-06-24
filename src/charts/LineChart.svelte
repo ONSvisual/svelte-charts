@@ -3,6 +3,8 @@
 <script>
 	import { LayerCake, Svg } from 'layercake';
 	import { scaleOrdinal, scaleLinear, scaleSymlog, scaleTime } from 'd3-scale';
+	import { format } from 'd3-format';
+	import { timeFormat } from 'd3-time-format';
  	import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
 	import { groupData, stackData, commas } from '../js/utils';
@@ -20,7 +22,9 @@
 	import Export from './shared/Export.svelte';
 	import Table from './shared/Table.svelte';
 
-  	export let data;
+	const regex = /^%[a-zA-Z]/;// this looks for strings that looks like time e.g. %b %Y
+
+	export let data;
 	export let height = 200; // number of pixels or valid css height string
 	export let ssr = false;
 	export let animation = true;
@@ -33,8 +37,9 @@
 	export let xScale = 'linear';
 	export let yScale = 'linear';
 	export let yFormatTick = commas;
-	export let xFormatTick = d => d;
 	export let xFormatTickString = "";
+	export let xFormatTick = xFormatTickString.match(regex) ? timeFormat(xFormatTickString) :
+		xFormatTickString ? format(xFormatTickString) : commas;
 	export let yMax = null;
 	export let yMin = 0;
 	export let xAxis = true;
@@ -182,7 +187,7 @@
 	  <slot name="back"/>
 		<Svg pointerEvents={interactive}>
       {#if xAxis}
-			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} gridlines={xGridlines} tickMarks={xTickMarks} forceTicks={xForceTicks} formatTickString={xFormatTickString} {xAxisLabel}/>
+			  <AxisX ticks={xTicks} formatTick={xFormatTick} {snapTicks} prefix={xPrefix} suffix={xSuffix} gridlines={xGridlines} tickMarks={xTickMarks} forceTicks={xForceTicks} {xAxisLabel}/>
       {/if}
       {#if yAxis}
 			  <AxisY ticks={yTicks} formatTick={yFormatTick} prefix={yPrefix} suffix={ySuffix} trimGridlinesLeft={yTrimGridlinesLeft} trimGridlinesRight={yTrimGridlinesRight} {yAxisLabel}/>

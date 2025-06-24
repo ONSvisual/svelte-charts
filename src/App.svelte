@@ -9,8 +9,6 @@
 	import data from './data/data';
 	import dataScatter from './data/data-scatter';
 
-	import {timeFormat} from 'd3-time-format';
-
 	// Chart options
 	let animation = true;
 	let hover = true;
@@ -68,11 +66,12 @@
 			<BarChart
 			  data={data.filter(d => d.group == barchart1.selected)}
 				xKey="value" yKey="year"
-				title="Single variable bar chart"
+				title="Bar chart with direct labels"
 				footer="Source: Fictitious data about fruit, 2020."
+				xFormatTickString=",.0f"
 				{hover} {hovered} on:hover={doHover}
 				{select} {selected} on:select={doSelect}
-				{animation}>
+				{animation} directLabel>
 				<div slot="options" class="controls small">
 					{#each barchart1.options as option}
 					  <label><input type="radio" bind:group={barchart1.selected} value={option}/> {option}</label>

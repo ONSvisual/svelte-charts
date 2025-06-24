@@ -3,6 +3,8 @@
 <script>
 	import { LayerCake, Svg } from 'layercake';
 	import { scaleBand, scaleOrdinal, scaleLinear, scaleSymlog } from 'd3-scale';
+	import { format } from 'd3-format';
+	import { timeFormat } from 'd3-time-format';
   	import { tweened } from 'svelte/motion';
 	import { cubicInOut } from 'svelte/easing';
 	import { groupData, commas } from '../js/utils';
@@ -18,7 +20,9 @@
 	import Export from './shared/Export.svelte';
 	import Table from './shared/Table.svelte';
 
-  	export let data;
+	const regex = /^%[a-zA-Z]/;// this looks for strings that looks like time e.g. %b %Y
+
+  export let data;
 	export let barHeight = 40; // height of individual bar (overridden if height is set)
 	export let height = null; // number of pixels or valid css height string
 	export let ssr = false;
@@ -29,7 +33,9 @@
 	export let zKey = null;
 	export let idKey = yKey;
 	export let xScale = 'linear';
-	export let xFormatTick = commas;
+	export let xFormatTickString = "";
+	export let xFormatTick = xFormatTickString.match(regex) ? timeFormat(xFormatTickString) :
+		xFormatTickString ? format(xFormatTickString) : commas;
 	export let yWrapTicks = true;
 	export let xMax = null;
 	export let xMin = null;
@@ -71,7 +77,6 @@
 	export let xAxisLabel = "";
 	export let yAxisLabel = "";
 	export let directLabel = false;
-	export let xFormatTickString = "";
 
 	let el; // Chart DOM element
 
@@ -185,7 +190,7 @@
       {#if yAxis}
 			  <AxisY gridlines={false} prefix={yPrefix} suffix={ySuffix} {textColor} {tickColor} {tickDashed} wrapTicks={yWrapTicks} {yAxisLabel}/>
       {/if}
-			<Bar {select} {selected} {hover} {hovered} {highlighted} {directLabel} {xFormatTickString} on:hover on:select {overlayFill} bind:suffix={xSuffix} bind:prefix={xPrefix} {barHeight}/>
+			<Bar {select} {selected} {hover} {hovered} {highlighted} {directLabel} {xFormatTick} on:hover on:select {overlayFill} prefix={xPrefix} suffix={xSuffix} {barHeight} formatTick={xFormatTick} />
 			<slot name="svg"/>
 		</Svg>
 	  <slot name="front"/>

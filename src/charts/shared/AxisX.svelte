@@ -4,8 +4,6 @@
 
 	const { height, xScale, xDomain, yRange, width } = getContext('LayerCake');
 
-	const regex = /%(?:[YyBbMmdeHwWSzZNaAgGcpPZcrRUoOFDL]+)/;// this looks for strings that looks like time e.g. %b %Y
-
 	export let gridlines = true;
 	export let tickDashed = false;
 	export let tickMarks = false;
@@ -13,7 +11,6 @@
 	export let zeroColor = '#B3B3B3';
 	export let textColor = '#707071';
 	export let formatTick = d => d;
-	export let formatTickString = null;
 	export let snapTicks = false;
 	export let ticks = undefined;
 	export let xTick = undefined;
@@ -24,8 +21,6 @@
 	export let prefix = '';
 	export let suffix = '';
 	export let xAxisLabel = "x axis label";
-
-	if(formatTickString && formatTickString.match(regex)){formatTick = d => timeFormat(formatTickString)(d)} //if the regex test passes, make it a timeFormat function
 
 	function fixTicks(domain, ticks) {
 		if (

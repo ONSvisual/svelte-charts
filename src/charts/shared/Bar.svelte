@@ -1,6 +1,5 @@
 <script>
 	import { getContext, createEventDispatcher } from 'svelte';
-	import { format } from 'd3-format';
 	
 	const { data, xScale, zGet, xDomain, zRange, config, custom, width } = getContext('LayerCake');
 	const dispatch = createEventDispatcher()
@@ -12,7 +11,7 @@
 	export let highlighted = [];
 	export let overlayFill = false;
 	export let directLabel = false;
-	export let xFormatTickString = "";
+	export let formatTick = (d) => d;
 	export let barHeight = 40;
 	export let suffix = "";
 	export let prefix = "";
@@ -105,7 +104,7 @@
 			on:click={select ? (e)  => doSelect(e, $data[i][j]) : null}
 			tabindex="{hover || select ? 0 : -1}"
 		  />
-		  {#if directLabel === "true"}
+		  {#if directLabel}
 			<text x={$xScale(d.x1) > 0? $xScale(d.x1)-5 : Math.abs($xScale(d.x1) - $xScale(0)) < $width / labelPositionFactor ? $xScale(0) : $xScale(d.x1)} 
 				y={d.y1-((barHeight/2)-barLabelAdjust)} 
 				dx={$xScale(d.x1) > 0 ?(Math.abs($xScale(d.x1) - $xScale(0)) < $width / labelPositionFactor ? 8 : 0) :
@@ -113,7 +112,7 @@
 				dy={console.log($xScale(d.x1) > 0 ?(Math.abs($xScale(d.x1) - $xScale(0)) < $width / labelPositionFactor ? 3 : 0) :
 					3)}
 				class={$xScale(d.x1) > 0 ?(Math.abs($xScale(d.x1) - $xScale(0)) < $width / labelPositionFactor ? "bar-label-small" : "bar-label") :
-					"bar-label"}>{prefix}{format(xFormatTickString)(d.x1)}{suffix}</text>
+					"bar-label"}>{prefix}{formatTick(d.x1)}{suffix}</text>
 		  {/if}
 			{/if}
 	  {/each}
