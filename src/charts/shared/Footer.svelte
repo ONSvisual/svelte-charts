@@ -5,6 +5,6 @@
 		font-size: 16px;
 		font-weight: 400;
 		color: #707071 ;
-		margin-top: 30px;
+		margin: 16px 0 8px 0;
 	}
 </style>

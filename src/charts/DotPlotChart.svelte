@@ -44,10 +44,12 @@
 	export let alt = null;
 	export let footer = null;
 	export let legend = false;
+	export let xAxisLabel = "";
+	export let yAxisLabel = "";
 	export let table = false;
 	export let snapTicks = false;
 	export let mode = 'default'; // No other options at present
-	export let padding = { top: 0, bottom: 20, left: 35, right: 0 };
+	export let padding = { top: yAxisLabel ? 24: 0, bottom: xAxisLabel ? 55 : 20, left: 35, right: 0 };
 	export let color = null; // Option to set a single colour
 	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
   export let radius = 6;
@@ -68,8 +70,6 @@
 	export let colorHighlight = 'black';
 	export let overlayFill = false;
 	export let output = null;
-	export let xAxisLabel = "";
-	export let yAxisLabel = "";
 
 	let el; // Chart DOM element
 
@@ -124,10 +124,6 @@
   <Legend domain={_zDomain} {colors} horizontal={false} line={mode == 'barcode'} comparison={mode == 'comparison'} {yAxisLabel}/>
 {/if}
 <slot name="legend"/>
-{#if yAxisLabel}
-<div style="margin-top: 40px"></div>
-{/if} 
-<!-- if there is no legend, then the yaxislabel gets cut off by the subtitle so this adds a bit of padding for the yaxislabel to show properly -->
 <div class="chart-container" style="height: {typeof height == 'number' ? `${height}px` : height ?  height : yDomain ? `${padding.top + padding.bottom + (barHeight * yDomain.length)}px` : "300px" }" aria-hidden="true">
 	<LayerCake
 		{padding}

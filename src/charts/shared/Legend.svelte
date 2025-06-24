@@ -34,7 +34,7 @@
 <!-- replaced the bullet approach with flex div approach so the legend items run better across multiple lines -->
 
 {#if Array.isArray(_domain) && Array.isArray(colors)}
-  <div id="legend" aria-hidden="true" style:margin-bottom={yAxisLabel === "" ? "15px":"35px"}>
+  <div class="legend" aria-hidden="true">
     {#each _domain as label, i}
     <div class='legend--item'>
       <div class="legend--marker"
@@ -55,11 +55,12 @@
     border-radius: 50%;
   }
 
-  #legend {
+  .legend {
   display: flex;
   flex-wrap: wrap;
   padding-top: 10px;
   margin-left: 1px;
+  margin-bottom: 15px;
   }
 
   .legend--item {

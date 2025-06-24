@@ -66,6 +66,7 @@
 			<BarChart
 			  data={data.filter(d => d.group == barchart1.selected)}
 				xKey="value" yKey="year"
+				xAxisLabel="number" yAxisLabel="number"
 				title="Bar chart with direct labels"
 				footer="Source: Fictitious data about fruit, 2020."
 				xFormatTickString=",.0f"
@@ -194,6 +195,7 @@
 				data={dataScatter}
 				padding={{ top: 18, bottom: 28, left: 15, right: 0 }}
 				xKey="year" yKey="value" zKey="group" rKey="alt"
+				xAxisLabel="number" yAxisLabel="number"
 				r={[3, 6]}
 				title="Scatter chart with radius, colour, hover, select and labels"
 				{hover} hovered={hoveredScatter} on:hover={doHoverScatter}

@@ -34,6 +34,7 @@
 </script>
 
 <g class='axis y-axis' transform='translate({-$padding.left}, 0)'>
+	{#if yAxisLabel}<text x={0} y={isBandwidth ? -6 : -16} text-anchor="start" class="axisLabel">{yAxisLabel}</text>{/if}	
 	{#each tickVals as tick, i}
 		<g class='tick tick-{tick}' transform='translate({$xRange[0] + (isBandwidth ? $padding.left : 0)}, {$yScale(tick)})'>
 			{#if gridlines !== false}
@@ -72,8 +73,6 @@
 				</text>
 		</g>
 	{/each}
-	<!-- add in the y axis label -->
-	{#if yAxisLabel}<text x={2} y={-15} text-anchor="start" class="axisLabel">{yAxisLabel}</text>{/if}
 </g>
 
 <style>

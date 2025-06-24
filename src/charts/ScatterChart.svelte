@@ -56,11 +56,13 @@
 	export let alt = null;
 	export let footer = null;
 	export let legend = false;
+	export let xAxisLabel = "";
+	export let yAxisLabel = "";
 	export let table = false;
 	export let labels = false;
 	export let labelContent = null;
 	export let snapTicks = false;
-  export let padding = { top: 18, bottom: 28, left: 35, right: 0 };
+  export let padding = { top: yAxisLabel ? 45: 10, bottom: xAxisLabel ? 63 : 28, left: 35, right: 0 };
   export let buffer = 5;
 	export let color = null;
 	export let colors = color ? [color] : ['#206095', '#A8BD3A', '#003C57', '#27A0CC', '#118C7B', '#F66068', '#746CB1', '#22D0B6', 'lightgrey'];
@@ -80,8 +82,6 @@
 	export let colorHighlight = 'black';
 	export let overlayFill = false;
 	export let output = null;
-	export let xAxisLabel = "";
-	export let yAxisLabel = "";
 
 	let el; // Chart DOM element
 
@@ -138,10 +138,6 @@
   <Legend domain={_zDomain} {colors} markerLength={12} round={true} {yAxisLabel}/>
 {/if}
 <slot name="legend"/>
-{#if yAxisLabel}
-<div style="margin-top: 40px"></div>
-{/if}
-<!-- if there is no legend, then the yaxislabel gets cut off by the subtitle so this adds a bit of padding for the yaxislabel to show properly -->
 <div class="chart-container" style="height: {typeof height == 'number' ? height + 'px' : height }" aria-hidden="true">
 	<LayerCake
     {padding}
